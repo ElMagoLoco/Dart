@@ -22,6 +22,7 @@ public:
 // Implementation
 protected:
 	HICON m_hIcon;
+	RenderWindow rw;
 
 	// Generated message map functions
 	virtual BOOL OnInitDialog();

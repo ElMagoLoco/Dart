@@ -11,21 +11,20 @@
 #define new DEBUG_NEW
 #endif
 
-
+//////////////////////////////////////////////////////////////////////////
 // CAboutDlg dialog used for App About
+//////////////////////////////////////////////////////////////////////////
 
 class CAboutDlg : public CDialogEx
 {
 public:
 	CAboutDlg();
 
-// Dialog Data
 	enum { IDD = IDD_ABOUTBOX };
 
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 
-// Implementation
 protected:
 	DECLARE_MESSAGE_MAP()
 };
@@ -42,10 +41,9 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
 END_MESSAGE_MAP()
 
-
+//////////////////////////////////////////////////////////////////////////
 // CDartLevelEditorDlg dialog
-
-
+//////////////////////////////////////////////////////////////////////////
 
 CDartLevelEditorDlg::CDartLevelEditorDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(CDartLevelEditorDlg::IDD, pParent)
@@ -66,6 +64,7 @@ END_MESSAGE_MAP()
 
 
 // CDartLevelEditorDlg message handlers
+//////////////////////////////////////////////////////////////////////////
 
 BOOL CDartLevelEditorDlg::OnInitDialog()
 {
@@ -96,7 +95,7 @@ BOOL CDartLevelEditorDlg::OnInitDialog()
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 
-	// TODO: Add extra initialization here
+	rw.initDirect3D();
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
@@ -140,6 +139,7 @@ void CDartLevelEditorDlg::OnPaint()
 	else
 	{
 		CDialogEx::OnPaint();
+		rw.drawScene();
 	}
 }
 

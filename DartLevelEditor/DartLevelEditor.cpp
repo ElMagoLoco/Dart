@@ -71,6 +71,7 @@ BOOL CDartLevelEditorApp::InitInstance()
 	CDartLevelEditorDlg dlg;
 	m_pMainWnd = &dlg;
 	INT_PTR nResponse = dlg.DoModal();
+
 	if (nResponse == IDOK)
 	{
 		// TODO: Place code here to handle when the dialog is
@@ -88,9 +89,10 @@ BOOL CDartLevelEditorApp::InitInstance()
 	}
 
 	// Delete the shell manager created above.
-	if (pShellManager != NULL)
+	if (pShellManager)
 	{
 		delete pShellManager;
+		pShellManager = nullptr;
 	}
 
 	// Since the dialog has been closed, return FALSE so that we exit the

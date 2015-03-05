@@ -19,10 +19,6 @@
 #include <afxwin.h>         // MFC core and standard components
 #include <afxext.h>         // MFC extensions
 
-
-
-
-
 #ifndef _AFX_NO_OLE_SUPPORT
 #include <afxdtctl.h>           // MFC support for Internet Explorer 4 Common Controls
 #endif
@@ -32,13 +28,10 @@
 
 #include <afxcontrolbars.h>     // MFC support for ribbons and control bars
 
-
-
-
-
-
-
-
+/************************************************************************/
+/* Our own includes                                                                     */
+/************************************************************************/
+#include "RenderWindow.h"
 
 #ifdef _UNICODE
 #if defined _M_IX86
