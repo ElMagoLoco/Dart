@@ -4,6 +4,7 @@
 //Client should also set global application pointer (gD3DGame) to point to the one instance e.g. gD3DApp = new GameApp(hInstance);
 
 // this is a test
+// this is more of a test
 #include <assert.h>
 #include "D3DApp.h"
 //global window size
