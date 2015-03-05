@@ -3,7 +3,7 @@
 //Clients derive from this, override the framework methods, and instantiate a single instance of derived class.
 //Client should also set global application pointer (gD3DGame) to point to the one instance e.g. gD3DApp = new GameApp(hInstance);
 
-
+// this is a test
 #include <assert.h>
 #include "D3DApp.h"
 //global window size

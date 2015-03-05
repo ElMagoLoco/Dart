@@ -1,0 +1,39 @@
+﻿  Vertex.cpp
+d:\school materials\gsp362\dart\dart\vertex.h(6): fatal error C1083: Cannot open include file: 'd3dx9.h': No such file or directory
+  Texture2D.cpp
+d:\school materials\gsp362\dart\dart\d3dutils.h(18): fatal error C1083: Cannot open include file: 'd3dx9.h': No such file or directory
+  StateMachine.cpp
+d:\school materials\gsp362\dart\dart\d3dutils.h(18): fatal error C1083: Cannot open include file: 'd3dx9.h': No such file or directory
+  ProjectApp.cpp
+d:\school materials\gsp362\dart\dart\d3dutils.h(18): fatal error C1083: Cannot open include file: 'd3dx9.h': No such file or directory
+  Player.cpp
+d:\school materials\gsp362\dart\dart\d3dutils.h(18): fatal error C1083: Cannot open include file: 'd3dx9.h': No such file or directory
+  PathNode.cpp
+d:\school materials\gsp362\dart\dart\d3dutils.h(18): fatal error C1083: Cannot open include file: 'd3dx9.h': No such file or directory
+  Mesh.cpp
+d:\school materials\gsp362\dart\dart\d3dutils.h(18): fatal error C1083: Cannot open include file: 'd3dx9.h': No such file or directory
+  Menu.cpp
+d:\school materials\gsp362\dart\dart\d3dutils.h(18): fatal error C1083: Cannot open include file: 'd3dx9.h': No such file or directory
+  Level.cpp
+d:\school materials\gsp362\dart\dart\d3dutils.h(18): fatal error C1083: Cannot open include file: 'd3dx9.h': No such file or directory
+  FrameStats.cpp
+d:\school materials\gsp362\dart\dart\d3dutils.h(18): fatal error C1083: Cannot open include file: 'd3dx9.h': No such file or directory
+  Enemy.cpp
+d:\school materials\gsp362\dart\dart\d3dutils.h(18): fatal error C1083: Cannot open include file: 'd3dx9.h': No such file or directory
+  Effect.cpp
+d:\school materials\gsp362\dart\dart\d3dutils.h(18): fatal error C1083: Cannot open include file: 'd3dx9.h': No such file or directory
+  DirectInput.cpp
+d:\school materials\gsp362\dart\dart\d3dutils.h(18): fatal error C1083: Cannot open include file: 'd3dx9.h': No such file or directory
+  D3DUtils.cpp
+d:\school materials\gsp362\dart\dart\d3dutils.h(18): fatal error C1083: Cannot open include file: 'd3dx9.h': No such file or directory
+  D3DApp.cpp
+d:\school materials\gsp362\dart\dart\d3dutils.h(18): fatal error C1083: Cannot open include file: 'd3dx9.h': No such file or directory
+  Camera.cpp
+d:\school materials\gsp362\dart\dart\d3dutils.h(18): fatal error C1083: Cannot open include file: 'd3dx9.h': No such file or directory
+  Button.cpp
+d:\school materials\gsp362\dart\dart\d3dutils.h(18): fatal error C1083: Cannot open include file: 'd3dx9.h': No such file or directory
+  Bounds.cpp
+d:\school materials\gsp362\dart\dart\d3dutils.h(18): fatal error C1083: Cannot open include file: 'd3dx9.h': No such file or directory
+  Attack.cpp
+d:\school materials\gsp362\dart\dart\d3dutils.h(18): fatal error C1083: Cannot open include file: 'd3dx9.h': No such file or directory
+  Generating Code...
