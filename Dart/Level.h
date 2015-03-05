@@ -1,9 +1,7 @@
 #pragma once
 
 #include <list>
-using std::list;
 #include <vector>
-using std::vector;
 
 #include "D3DUtils.h"
 #include "Attack.h"
@@ -32,7 +30,7 @@ public:
 	//delete all meshes
 	void clearMeshes();
 	//access world geometry for collisions
-	vector<Mesh*> getWorldGeometry()  { return mObstacle; }
+	std::vector<Mesh*> getWorldGeometry()  { return mObstacle; }
 	//maps in this case are square on x/z and axis aligned
 	UINT getSquareSize()		{ return mSquareSize; }
 	D3DXVECTOR2 getNegCorner()	{ return mNegCorner; }
@@ -40,18 +38,18 @@ public:
 	AStar* getPaths()			{ return mPaths; }
 	//get enemies
 	EnemySpawner* getSpawner()  { return mSpawner; }
-	list<Enemy*> getEnemies()	{ return mSpawner->getEnemies(); }//get individuals
-	list<EnemyGroup*> getGroups() {	return mSpawner->getGroups(); }//get groups
+	std::list<Enemy*> getEnemies()	{ return mSpawner->getEnemies(); }//get individuals
+	std::list<EnemyGroup*> getGroups() { return mSpawner->getGroups(); }//get groups
 	//get attack manager
 	AttackManager* getAttackManager() { return mAttacks;  }
 	//get flee points
-	vector<D3DXVECTOR2> getFleePoints() { return mFleePoints; }
+	std::vector<D3DXVECTOR2> getFleePoints() { return mFleePoints; }
 private:
 	//world geometry
-	vector<Mesh*> mGround;
-	vector<Mesh*> mObstacle;
+	std::vector<Mesh*> mGround;
+	std::vector<Mesh*> mObstacle;
 	//locations a panicked unit might flee towards
-	vector<D3DXVECTOR2> mFleePoints;
+	std::vector<D3DXVECTOR2> mFleePoints;
 	//northwest corner of square level
 	D3DXVECTOR2 mNegCorner;
 	//size squared

@@ -1,5 +1,8 @@
 #include "Level.h"
 
+using std::list;
+using std::vector;
+
 Level* gCurrentLevel = 0;
 
 Level::Level(D3DXVECTOR2 _negCorner, UINT _squareSize):

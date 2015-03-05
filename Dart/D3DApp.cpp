@@ -81,10 +81,10 @@ void D3DApp::initMainWindow(HINSTANCE _hInstance)
 
 	//default to initial window size
 	//start with windowed window of global size
-	RECT R = { 0, 0, gWindowWidth, gWindowHeight };
-	AdjustWindowRect(&R, WS_OVERLAPPEDWINDOW, false);
-	mhMainWnd = CreateWindow(L"D3DWndClassName", mMainWndCaption, WS_OVERLAPPEDWINDOW, 5, 5,
-		R.right - R.left, R.bottom - R.top, NULL, NULL, mhAppInst, NULL);
+	//RECT R = { 0, 0, gWindowWidth, gWindowHeight };
+	//AdjustWindowRect(&R, WS_OVERLAPPEDWINDOW, false);
+	mhMainWnd = CreateWindow(L"D3DWndClassName", mMainWndCaption, WS_OVERLAPPEDWINDOW, (GetSystemMetrics(SM_CXSCREEN) >> 1) - (gWindowWidth >> 1), (GetSystemMetrics(SM_CYSCREEN) >> 1) - (gWindowHeight >> 1),
+		gWindowWidth/*R.right - R.left*/, gWindowHeight/*R.bottom - R.top*/, NULL, NULL, mhAppInst, NULL);
 
 	if (!mhMainWnd)
 	{
