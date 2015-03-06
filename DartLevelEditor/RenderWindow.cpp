@@ -39,7 +39,7 @@ void RenderWindow::drawScene()
 {
 	HR(gD3DDevice->BeginScene());
 	HR(gD3DDevice->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL,
-		0x222255CC, 1.0f, 0));
+		0xff020202, 1.0f, 0));
 
 	HR(gD3DDevice->EndScene());
 	HR(gD3DDevice->Present(0, 0, 0, 0));
