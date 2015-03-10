@@ -63,6 +63,9 @@ public:
 		D3DXVECTOR3 _startPosition, float _healthMax, float _radius,
 		D3DXVECTOR3 _meshScale = D3DXVECTOR3(1.0f, 1.0f, 1.0f));
 	void update(float _dt);
+	void addScore(UINT _add) { mScore += _add; }
+	void addAmmoSeeds(UINT _amount){ mAmmoSeeds = min(mAmmoSeedsMax, mAmmoSeeds + _amount); }
+	void addAmmoFire(UINT _amount){ mAmmoSeeds = min(mAmmoFireMax, mAmmoFire + _amount); }
 private:
 	//ammo
 	UINT mAmmoSeeds;

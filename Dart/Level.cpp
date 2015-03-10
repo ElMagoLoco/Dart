@@ -11,6 +11,7 @@ mNegCorner(_negCorner), mSquareSize(_squareSize)
 	mPaths = new AStar();
 	mSpawner = new EnemySpawner();
 	mAttacks = new AttackManager();
+	mPickUps = new PickUpManager();
 }
 
 Level::~Level()
@@ -18,12 +19,14 @@ Level::~Level()
 	delete mPaths;
 	delete mSpawner;
 	delete mAttacks;
+	delete mPickUps;
 }
 
 void Level::update(float _dt)
 {
 	mSpawner->update(_dt);
 	mAttacks->update(_dt);
+	mPickUps->update(_dt);
 }
 void Level::draw()
 {//draw in order ground, obstacles, enemies, attacks
@@ -34,6 +37,7 @@ void Level::draw()
 	mPaths->draw();
 	mSpawner->draw();
 	mAttacks->draw();
+	mPickUps->draw();
 }
 void Level::onLostDevice()
 {

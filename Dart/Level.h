@@ -7,6 +7,7 @@
 #include "Attack.h"
 #include "Enemy.h"
 #include "PathNode.h"
+#include "PickUp.h"
 #include "Mesh.h"
 
 //the level itself
@@ -60,6 +61,8 @@ private:
 	EnemySpawner* mSpawner;
 	//keep track of projectiles
 	AttackManager* mAttacks;
+	//keep track of pickups
+	PickUpManager* mPickUps;
 };
 
 extern Level* gCurrentLevel;
