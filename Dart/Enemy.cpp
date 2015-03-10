@@ -23,7 +23,9 @@ void Enemy::update(float _dt)
 	mAttackTime += _dt;//when last attack was made
 	mLoseSightPlayer += _dt;
 	mLoseSightFollower += _dt;
+	//have to be declared outside case structure
 	D3DXVECTOR3 targetPosition;
+	float distanceToTargetSq;
 	switch (mState)
 	{
 	case PSTATE_WANDER:
@@ -75,7 +77,7 @@ void Enemy::update(float _dt)
 		//if they no longer see the target, go back to wandering state
 		// if pursuing player and doesn't see player and hasn't seen them for a while
 		if ((bPursuingPlayer && !noticePlayer() && mLoseSightPlayer >= LOSE_SIGHT) ||
-		//if pursuing follower and doesn't see them and hasn't seen them for a while
+			//if pursuing follower and doesn't see them and hasn't seen them for a while
 			(!bPursuingPlayer && !noticeFollower() && mLoseSightFollower >= LOSE_SIGHT))
 		{
 			mState = PSTATE_WANDER;
@@ -93,7 +95,9 @@ void Enemy::update(float _dt)
 		if (bPursuingPlayer) targetPosition = gPlayer->getPosition();
 		else                 targetPosition = gFollower->getPosition();
 
-		if ((D3DXVec3LengthSq(&(mPosition - targetPosition))) <= mClosestDistanceSq)
+		distanceToTargetSq = D3DXVec3LengthSq(&(mPosition - targetPosition));
+		//move unless too close, in which case stop
+		if (distanceToTargetSq <= mClosestDistanceSq)
 		{
 			mVelocity = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 		}
@@ -101,12 +105,12 @@ void Enemy::update(float _dt)
 		{
 			if (mLastPathFound >= MIN_PATH_TIME || !followPath(1.0f))
 			{
-				if(bPursuingPlayer) setPathPlayer();
+				if (bPursuingPlayer) setPathPlayer();
 				else                setPathFollower();
 			}
 		}
-		//attack if it can
-		if (mAttackTime > mAttackDelay)
+		//attack if it is time and they are close enough
+		if (mAttackTime > mAttackDelay && distanceToTargetSq <= mAttackDistanceSq)
 		{
 			if (bPursuingPlayer)
 			{
@@ -148,22 +152,31 @@ void Enemy::update(float _dt)
 			setPathFlee();
 		}
 		//still attack if they are close enough
+
 		if (mAttackTime >= mAttackDelay)
 		{
-			if (bPursuingPlayer)
+			//target 
+			if (bPursuingPlayer) targetPosition = gPlayer->getPosition();
+			else                 targetPosition = gFollower->getPosition();
+
+			distanceToTargetSq = D3DXVec3LengthSq(&(mPosition - targetPosition));
+			if (distanceToTargetSq <= mAttackDistanceSq)
 			{
-				if (bAttackPlayer)
+				if (bPursuingPlayer)
 				{
-					attack(gPlayer->getPosition());
-					mAttackTime = 0.0f;
+					if (bAttackPlayer)
+					{
+						attack(gPlayer->getPosition());
+						mAttackTime = 0.0f;
+					}
 				}
-			}
-			else
-			{
-				if (bAttackFollower)
+				else
 				{
-					attack(gFollower->getPosition());
-					mAttackTime = 0.0f;
+					if (bAttackFollower)
+					{
+						attack(gFollower->getPosition());
+						mAttackTime = 0.0f;
+					}
 				}
 			}
 		}
