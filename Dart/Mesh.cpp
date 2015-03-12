@@ -145,3 +145,222 @@ const bool Mesh::collideWith(const BoundingSphere2D& _sphere)
 	}
 	return false;
 }
+
+AnimMesh::AnimMesh(LPDIRECT3DDEVICE9 _d3dDevice) :
+mpFrameRoot(NULL), mpBoneMatrices(NULL), mVecCenter(D3DXVECTOR3(0.0f, 0.0f, 0.0f)),
+mfRadius(0.0f), mdwCurrentAnimation(-1), mdwAnimationSetCount(0), muMaxBones(0),
+mpAnimController(NULL), mpFirstMesh(NULL), mpD3DDevice(_d3dDevice)
+{
+}
+
+AnimMesh::~AnimMesh()
+{
+	//delete controller
+	SAFE_RELEASE(mpAnimController);
+	//if there is frame hierarchy...
+	if (mpFrameRoot)
+	{
+		//allocation class
+		AnimAllocateHierarchy* alloc = NULL;
+		D3DXFrameDestroy(mpFrameRoot, alloc);
+		mpFrameRoot = NULL;
+	}
+	//delete bones
+	SAFE_DELETE_ARRAY(mpBoneMatrices);
+	//clear device
+	mpD3DDevice = NULL;
+}
+
+void AnimMesh::loadXFile(LPCWSTR _filename)
+{
+	//allocation class
+	AnimAllocateHierarchy* alloc = NULL;
+	//load mesh
+	HR(D3DXLoadMeshHierarchyFromX(_filename, D3DXMESH_MANAGED, mpD3DDevice, alloc, NULL,
+		&mpFrameRoot, &mpAnimController));
+	if (mpAnimController)
+		mdwAnimationSetCount = mpAnimController->GetMaxNumAnimationSets();
+	if (mpFrameRoot)
+	{
+		//set up bones
+		setupBoneMatrices((LPFRAME)mpFrameRoot, NULL);
+		//set up bone matrices array
+		mpBoneMatrices = new D3DXMATRIX[muMaxBones];
+		ZeroMemory(mpBoneMatrices, sizeof(D3DXMATRIX) *muMaxBones);
+		//calculate the bounding sphere
+		D3DXFrameCalculateBoundingSphere(mpFrameRoot, &mVecCenter, &mfRadius);
+	}
+}
+
+void AnimMesh::setupBoneMatrices(LPFRAME _frame, LPD3DXMATRIX _parentMatrix)
+{
+	LPMESHCONTAINER pMesh = (LPMESHCONTAINER)_frame->pMeshContainer;
+	//setup bones on mesh
+	if (pMesh)
+	{
+		if (!mpFirstMesh)
+			mpFirstMesh = pMesh;
+		//if there is skin mesh, then setup the bone matrices
+		if (pMesh->pSkinInfo)
+		{
+			//create copy of mesh
+			pMesh->MeshData.pMesh->CloneMeshFVF(D3DXMESH_MANAGED, pMesh->MeshData.pMesh->GetFVF(),
+				mpD3DDevice, &pMesh->pSkinMesh);
+			if (muMaxBones < pMesh->pSkinInfo->GetNumBones())
+			{
+				//get number of bones
+				muMaxBones = pMesh->pSkinInfo->GetNumBones();
+			}
+			LPFRAME pTempFrame = NULL;
+			//for each bone
+			for (UINT i = 0; i < pMesh->pSkinInfo->GetNumBones(); ++i)
+			{
+				//find frame
+				pTempFrame = (LPFRAME)D3DXFrameFind(mpFrameRoot, pMesh->pSkinInfo->GetBoneName(i));
+				//set the bone part
+				pMesh->ppFrameMatrices[i] = &pTempFrame->matCombined;
+			}
+		}
+	}
+	//check sibling
+	if (_frame->pFrameSibling)
+		setupBoneMatrices((LPFRAME)_frame->pFrameSibling, _parentMatrix);
+	//check child
+	if (_frame->pFrameFirstChild)
+		setupBoneMatrices((LPFRAME)_frame->pFrameFirstChild, &_frame->matCombined);
+}
+
+void AnimMesh::setCurrentAnimation(DWORD _animationFlag)
+{
+	//if animation is not one that we are already using, and passed in flag
+	//is not bigger than the number of animations
+	if (_animationFlag != mdwCurrentAnimation && _animationFlag < mdwAnimationSetCount)
+	{
+		mdwCurrentAnimation = _animationFlag;
+		LPD3DXANIMATIONSET AnimSet = NULL;
+		mpAnimController->GetAnimationSet(mdwCurrentAnimation, &AnimSet);
+		mpAnimController->SetTrackAnimationSet(0, AnimSet);
+		SAFE_RELEASE(AnimSet);
+	}
+}
+
+void AnimMesh::draw()
+{
+	LPMESHCONTAINER pMesh = mpFirstMesh;
+	//while there is a mesh, try to draw it
+	while (pMesh)
+	{
+		//select mesh to draw
+		LPD3DXMESH pDrawMesh = (pMesh->pSkinInfo) ? pMesh->pSkinMesh : pMesh->MeshData.pMesh;
+		//draw each mesh subset with correct materials and texture
+		for (DWORD i = 0; i < pMesh->NumMaterials; ++i)
+		{
+			mpD3DDevice->SetMaterial(&pMesh->pMaterials9[i]);
+			mpD3DDevice->SetTexture(0, pMesh->ppTextures[i]);
+			pDrawMesh->DrawSubset(i);
+		}
+		//go to next
+		pMesh = (LPMESHCONTAINER)pMesh->pNextMeshContainer;
+	}
+}
+
+void AnimMesh::drawFrame(LPFRAME _frame)
+{
+	LPMESHCONTAINER pMesh = (LPMESHCONTAINER)_frame->pMeshContainer;
+	//try to draw a mesh while there are meshes to draw
+	while (pMesh)
+	{
+		//select mesh
+		LPD3DXMESH pDrawMesh = (pMesh->pSkinInfo)
+			? pMesh->pSkinMesh : pMesh->MeshData.pMesh;
+
+		//draw subsets with materials and textures
+		for (DWORD i = 0; i < pMesh->NumMaterials; ++i)
+		{
+			mpD3DDevice->SetMaterial(&pMesh->pMaterials9[i]);
+			mpD3DDevice->SetTexture(0, pMesh->ppTextures[i]);
+			pDrawMesh->DrawSubset(i);
+		}
+
+		//go to next
+		pMesh = (LPMESHCONTAINER)pMesh->pNextMeshContainer;
+	}
+
+	//Check your Sister
+	if (_frame->pFrameSibling)
+		drawFrame((LPFRAME)_frame->pFrameSibling);
+
+	//Check your Son
+	if (_frame->pFrameFirstChild)
+		drawFrame((LPFRAME)_frame->pFrameFirstChild);
+}
+
+void AnimMesh::update(float _dt)
+{
+	//Set the time for animation
+	if (mpAnimController && mdwCurrentAnimation != -1)
+		//mpAnimController->SetTime(mpAnimController->GetTime() + _dt);
+		mpAnimController->AdvanceTime(_dt, NULL);
+
+	//Update the frame hierarchy
+	if (mpFrameRoot)
+	{
+		updateFrameMatrices((LPFRAME)mpFrameRoot, NULL);
+
+		LPMESHCONTAINER pMesh = mpFirstMesh;
+		if (pMesh)
+		{
+			if (pMesh->pSkinInfo)
+			{
+				UINT Bones = pMesh->pSkinInfo->GetNumBones();
+				for (UINT i = 0; i < Bones; ++i)
+				{
+					D3DXMatrixMultiply
+						(
+						&mpBoneMatrices[i],//out
+						&pMesh->pBoneOffsets[i],
+						pMesh->ppFrameMatrices[i]
+						);
+				}
+
+				// Lock the meshes' vertex buffers
+				void *SrcPtr, *DestPtr;
+				pMesh->MeshData.pMesh->LockVertexBuffer(D3DLOCK_READONLY, (void**)&SrcPtr);
+				pMesh->pSkinMesh->LockVertexBuffer(0, (void**)&DestPtr);
+
+				// Update the skinned mesh using provided transformations
+				pMesh->pSkinInfo->UpdateSkinnedMesh(mpBoneMatrices, NULL, SrcPtr, DestPtr);
+
+				// Unlock the meshes vertex buffers
+				pMesh->pSkinMesh->UnlockVertexBuffer();
+				pMesh->MeshData.pMesh->UnlockVertexBuffer();
+			}
+		}
+	}
+}
+
+void AnimMesh::updateFrameMatrices(LPFRAME _frame, LPD3DXMATRIX _parentMatrix)
+{
+	//Parent check
+	if (_parentMatrix)
+	{
+		D3DXMatrixMultiply(&_frame->matCombined,
+			&_frame->TransformationMatrix,
+			_parentMatrix);
+	}
+	else
+		_frame->matCombined = _frame->TransformationMatrix;
+
+	//Do the kid too
+	if (_frame->pFrameSibling)
+	{
+		updateFrameMatrices((LPFRAME)_frame->pFrameSibling, _parentMatrix);
+	}
+
+	//make sure you get the first kid
+	if (_frame->pFrameFirstChild)
+	{
+		updateFrameMatrices((LPFRAME)_frame->pFrameFirstChild,
+			&_frame->matCombined);
+	}
+}

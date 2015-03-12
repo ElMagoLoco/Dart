@@ -27,8 +27,8 @@
 
 //clean up
 #define SAFE_RELEASE(x)    { if (x) { x->Release(); x = 0; } }
-
-
+#define SAFE_DELETE_ARRAY(x) { if(x) { delete[] (x); (x)=NULL; } }
+#define SAFE_DELETE(x) { if(x) { delete (x); (x)=NULL; } }
 
 
 //globals for convenient access
@@ -48,9 +48,9 @@ extern UINT					gWindowHeight;
 	{                                                  \
 		HRESULT hr = x;                                \
 		if (FAILED(hr))                                \
-				{                                              \
+								{                                              \
 			MessageBox(gD3DApp->getMainWnd(), DXGetErrorDescription(hr), DXGetErrorString(hr), MB_OK);\
-				}                                              \
+								}                                              \
 	}
 #endif
 //			DXTrace(__FILE__, __LINE__, hr, DXGetErrorString(hr), TRUE);

@@ -1,9 +1,12 @@
 //meshes are what many objects descend from, including player, enemies, and projectiles
+//http://www.gamedev.net/page/resources/_/technical/game-programming/working-with-the-directx-x-file-format-and-animation-in-directx-90-r2079
+//used as a tutorial when making animated mesh structures
 #pragma once
 
 #include <vector>
-#include "Camera.h"
+#include "Animation.h"
 #include "Bounds.h"
+#include "Camera.h"
 #include "D3DUtils.h"
 #include "DirectInput.h"
 #include "Effect.h"
@@ -32,7 +35,9 @@ public:
 	void setPosition(D3DXVECTOR3 _position)		{ mPosition = _position; doWorld(); }
 	void setRotation(D3DXVECTOR3 _rotation)		{ mRotation = _rotation; doWorld(); }
 	void setPosRot(D3DXVECTOR3 _position, D3DXVECTOR3 _rotation)
-		{ mPosition = _position; mRotation = _rotation; doWorld(); }
+	{
+		mPosition = _position; mRotation = _rotation; doWorld();
+	}
 	//set the world matrix for the mesh
 	void setWorldMatrix(D3DXMATRIX _world)	{ mWorld = _world; }
 	//add a texture to the mesh
@@ -67,5 +72,49 @@ protected:
 	bool						bTextured;
 	//collision boxes
 	vector<AxisAlignedBoundingBox2D*> mBoundsAABB;
+};
+
+//animmesh is a mesh with animations attached
+//set animation.h for credit info
+class AnimMesh
+{
+public:
+	AnimMesh(LPDIRECT3DDEVICE9 _d3dDevice);
+	~AnimMesh();
+	AnimMesh &operator=(const AnimMesh&){}
+	AnimMesh(const AnimMesh&){}
+	//return center and radius of bounding sphere
+	inline LPD3DXVECTOR3 getBoundingSphereCenter(){ return &mVecCenter; }
+	inline float getBoundingSphereRadius(){ return mfRadius; }
+	//return animation being used
+	inline DWORD getCurrentAnimation(){ return mdwCurrentAnimation; }
+	//set current animation
+	void setCurrentAnimation(DWORD dwAnimationFlag);
+	void draw();
+	void loadXFile(LPCWSTR _fileName);
+	void update(float _dt);
+private:
+	LPDIRECT3DDEVICE9 mpD3DDevice;//d3d device to use
+	//model
+	LPMESHCONTAINER mpFirstMesh;//first mesh in hierarchy
+	LPD3DXFRAME mpFrameRoot;//frame hierarchy
+	LPD3DXMATRIX mpBoneMatrices;//used when calculating bone positions
+	D3DXVECTOR3 mVecCenter;//center of bounding sphere of object
+	float mfRadius;//radius of bounding sphere of object
+	UINT muMaxBones;//max number of bones for model
+	//animation
+	DWORD mdwCurrentAnimation;//current animation
+	DWORD mdwAnimationSetCount;//number of animation sets
+	LPD3DXANIMATIONCONTROLLER mpAnimController;//controller for animations
+
+
+	//void drawMesh(LPMESHCONTAINER _meshContainer, LPD3DXMATRIX _matrix);
+	//go through each frame and draw non-null frames
+	void drawFrame(LPFRAME _frame);
+	//set up bone matrices
+	void setupBoneMatrices(LPFRAME _frame, LPD3DXMATRIX _parentMatrix);
+	//update frame matrices
+	void updateFrameMatrices(LPFRAME _frame, LPD3DXMATRIX _parentMatrix);
+	//void setupBoneMatricesOnMesh(LPMESHCONTAINER _meshContainer);
 };
 
