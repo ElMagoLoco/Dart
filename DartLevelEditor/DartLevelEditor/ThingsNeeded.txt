@@ -1,0 +1,12 @@
+﻿
+As for what we'd need. We'd need a list of non-colliding meshes like ground, a list of meshes that players/enemies can 
+collide with like rocks or plants.  Then we'd need positions for healing berries, bonus point items, seed ammo items, and fire ammo items. 
+For enemies we'd need the healing points that they can flee to.‏
+
+
+‎3‎:‎42‎ ‎PM 
+Then maybe a 'start point' and 'goal point' on either end‏
+
+
+‎3‎:‎48‎ ‎PM 
+And of course the places where enemies will spawn. Not sure exactly how to do that.
