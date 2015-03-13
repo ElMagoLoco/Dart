@@ -19,6 +19,7 @@ public:
 	void drawFloor(D3DFILLMODE fillMode);
 	void drawPawns();
 	int createCube(FLOAT width, FLOAT height, FLOAT depth);
+	int createSphere(float radius, UINT slices, UINT stacks);
 	void saveLevel(CString filename);
 	void loadLevel(CString filename);
 	void createWall(D3DXVECTOR3& scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f), D3DXVECTOR3& initPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f));
@@ -54,8 +55,9 @@ protected:
 	float		m_fFarZ;
 	float		m_fNearZ;
 
-	int			m_nLevelShaderId;
-	int			m_nBoxMeshId;
+	int			m_nLevelShaderID;
+	int			m_nBoxMeshID;
+	int			m_nSphereMeshID;
 	int			m_nMovePawnID;
 
 	UINT		m_nNumFloorVerts;

@@ -61,11 +61,12 @@ BOOL DartLevelEditorApp::InitInstance()
 	m_camera.setLens(D3DXToRadian(m_fFOV), m_fAspect, m_fNearZ, m_fFarZ);
 
 	m_fxs.createFxPool();
-	m_nLevelShaderId = m_fxs.loadFx(L"Effects\\LevelEditorShader.fx", L"LevelEditorTech", L"gWorld");
+	m_nLevelShaderID = m_fxs.loadFx(L"Effects\\LevelEditorShader.fx", L"LevelEditorTech", L"gWorld");
 
 	D3DXMatrixIdentity(&m_matWorld);
 
-	m_nBoxMeshId = createCube(1.0f, 1.0f, 1.0f);
+	m_nBoxMeshID = createCube(1.0f, 1.0f, 1.0f);
+	m_nSphereMeshID = createSphere(3.0f, 12, 10);
 
 	Timer::Get()->setTimer();
 
@@ -111,7 +112,7 @@ void DartLevelEditorApp::drawScene()
 		0xff0f0f0f, m_fNearZ, 0));
 	HR(gD3DDevice->BeginScene());
 
- 	m_fxs.getFx(m_nLevelShaderId).pFx->SetTechnique(m_fxs.getFx(m_nLevelShaderId).hTech);
+ 	m_fxs.getFx(m_nLevelShaderID).pFx->SetTechnique(m_fxs.getFx(m_nLevelShaderID).hTech);
 
 	if (m_bFloorCreated)
 		drawFloor(D3DFILL_SOLID);
@@ -177,23 +178,24 @@ void DartLevelEditorApp::drawFloor(D3DFILLMODE fillMode)
 	D3DXMatrixIdentity(&iden);
 
 	m_fxs.setWVP(iden * m_camera.viewProj());
-	m_fxs.getFx(m_nLevelShaderId).pFx->CommitChanges();
+	m_fxs.getFx(m_nLevelShaderID).pFx->CommitChanges();
 	m_fxs.setMtrlDiffuse(D3DXVECTOR4(0.0f, 0.750f, 0.0f, 1.0f));
+
 	HR(gD3DDevice->SetIndices(m_pFloorIB));
 	HR(gD3DDevice->SetFVF(MY_FVF));
 	HR(gD3DDevice->SetStreamSource(0, m_pFloorVB, 0, sizeof(VertexCol)));
-	HR(m_fxs.getFx(m_nLevelShaderId).pFx->CommitChanges());
+	HR(m_fxs.getFx(m_nLevelShaderID).pFx->CommitChanges());
 
 	UINT numpasses = 0;
-	m_fxs.getFx(m_nLevelShaderId).pFx->Begin(&numpasses, 0);
+	m_fxs.getFx(m_nLevelShaderID).pFx->Begin(&numpasses, 0);
 	for (UINT i = 0; i < numpasses; ++i) {
-		m_fxs.getFx(m_nLevelShaderId).pFx->BeginPass(i);
+		m_fxs.getFx(m_nLevelShaderID).pFx->BeginPass(i);
 		
 		HR(gD3DDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, m_nNumFloorVerts, 0, m_nNumFloorTris));
 
-		m_fxs.getFx(m_nLevelShaderId).pFx->EndPass();
+		m_fxs.getFx(m_nLevelShaderID).pFx->EndPass();
 	}
-	m_fxs.getFx(m_nLevelShaderId).pFx->End();
+	m_fxs.getFx(m_nLevelShaderID).pFx->End();
 }
 
 int DartLevelEditorApp::createCube(FLOAT width, FLOAT height, FLOAT depth)
@@ -231,6 +233,22 @@ int DartLevelEditorApp::createCube(FLOAT width, FLOAT height, FLOAT depth)
 
 	return m_meshList.size() - 1;
 }
+
+
+int DartLevelEditorApp::createSphere(float radius, UINT slices, UINT stacks)
+{
+	ID3DXMesh* pMesh = nullptr;
+	ID3DXBuffer* pAdj = nullptr;
+
+	HR(D3DXCreateSphere(gD3DDevice, radius, slices, stacks, &pMesh, &pAdj));
+
+	SAFE_RELEASE(pAdj);
+
+	m_meshList.push_back(pMesh);
+
+	return m_meshList.size() - 1;
+}
+
 
 void DartLevelEditorApp::saveLevel(CString filename)
 {
@@ -484,16 +502,16 @@ void DartLevelEditorApp::drawPawns()
 	for (UINT i = 0; i < m_pawnList.size(); ++i) {
 		m_fxs.setWVP(m_pawnList[i].getMatWorld() * m_camera.viewProj());
 		m_fxs.setMtrlDiffuse(m_pawnList[i].getDiffuseColor());
-		m_fxs.getFx(m_nLevelShaderId).pFx->CommitChanges();
+		m_fxs.getFx(m_nLevelShaderID).pFx->CommitChanges();
 
 		UINT numpasses = 0;
-		m_fxs.getFx(m_nLevelShaderId).pFx->Begin(&numpasses, 0);
+		m_fxs.getFx(m_nLevelShaderID).pFx->Begin(&numpasses, 0);
 		for (UINT j = 0; j < numpasses; ++j) {
-			m_fxs.getFx(m_nLevelShaderId).pFx->BeginPass(j);
+			m_fxs.getFx(m_nLevelShaderID).pFx->BeginPass(j);
 			m_meshList[m_pawnList[i].getMeshID()]->DrawSubset(0);
-	 		m_fxs.getFx(m_nLevelShaderId).pFx->EndPass();
+	 		m_fxs.getFx(m_nLevelShaderID).pFx->EndPass();
 		}
-		m_fxs.getFx(m_nLevelShaderId).pFx->End();
+		m_fxs.getFx(m_nLevelShaderID).pFx->End();
 	}
 }
 
@@ -537,7 +555,7 @@ void DartLevelEditorApp::createDartSpawn(D3DXVECTOR3& initPos /*= D3DXVECTOR3(0.
 {
 	DartPawn dart;
 
-	dart.setMeshID(m_nBoxMeshId);
+	dart.setMeshID(m_nBoxMeshID);
 	dart.setPos(D3DXVECTOR3(initPos));
 	dart.update(0.0f);
 	m_pawnList.push_back(dart);
@@ -547,7 +565,7 @@ void DartLevelEditorApp::createBartSpawn(D3DXVECTOR3& initPos /*= D3DXVECTOR3(0.
 {
 	BartPawn bart;
 
-	bart.setMeshID(m_nBoxMeshId);
+	bart.setMeshID(m_nBoxMeshID);
 	bart.setPos(initPos);
 	bart.update(0.0f);
 	m_pawnList.push_back(bart);
@@ -557,7 +575,7 @@ void DartLevelEditorApp::createAntzSpawn(D3DXVECTOR3& initPos /*= D3DXVECTOR3(0.
 {
 	AntzPawn antz;
 
-	antz.setMeshID(m_nBoxMeshId);
+	antz.setMeshID(m_nBoxMeshID);
 	antz.setPos(initPos);
 	antz.update(0.0f);
 	m_pawnList.push_back(antz);
@@ -567,9 +585,9 @@ void DartLevelEditorApp::createWall(D3DXVECTOR3& scale/* = D3DXVECTOR3(1.0f, 1.0
 {
 	WallPawn wall;
 
-	initPos.y += m_dlg.getWallHeigth() >> 1;	// do this so what the bottom is at y = 0.0
+	initPos.y += m_dlg.getWallHeigth() >> 1;
 	wall.setPos(initPos);
-	wall.setMeshID(m_nBoxMeshId);
+	wall.setMeshID(m_nBoxMeshID);
 	wall.setScale(scale);
 	wall.update(0.0f);
 	m_pawnList.push_back(wall);
