@@ -137,6 +137,7 @@ void DartDlg::OnBnClickedBtnBartspawn()
 
 void DartDlg::OnBnClickedBtnAntzspawn()
 {
+	// TODO: fix so that this count gets reduced when Antz is deleted
 	static int count = -1;
 
 	theApp.createAntzSpawn();
@@ -170,6 +171,7 @@ void DartDlg::insertToPawnList(const wchar_t* pawnName)
 
 void DartDlg::OnBnClickedBtnCreatewall()
 {
+	// TODO: fix so that this count gets decremented as walls are deleted.
 	static int count = -1;
 
 	m_nWallHeigth = GetDlgItemInt(IDC_EDIT_WALLHEIGHT);
@@ -202,6 +204,6 @@ void DartDlg::OnBnClickedBtnDeleteobject()
 	list->DeleteString(selected);
 
 	theApp.deletePawn(selected);
-
+	// TODO: fix so that objects counts are properly decremented so the strings like WallX in the combolist show up right
 	--m_nPawnCount;
 }
