@@ -4,8 +4,6 @@
 #include "Mesh.h"
 #include "PathNode.h"
 
-
-
 //pawn is base class for player, follower, and enemies, so it has the things that are common 
 //to all of them. 
 class Pawn
@@ -22,14 +20,16 @@ public:
 	float getHealthMax()	{ return mHealthMax; }
 	float getIsDead()		{ return bIsDead; }
 	float getRadius()		{ return mRadius; }
-	bool getJustAttackedd()	{ return mAttackTime < mAttackDelay; }//did player just attack
+	bool getJustAttacked()	{ return mAttackTime < mAttackDelay; }//did player just attack
 	D3DXVECTOR3 getPosition()	{ return mPosition; }
 	//add health, add negative to remove health
 	void addHealth(float _amount);
 	//draw the pawn
 	void draw();
+	//update, also call this from child class update functions
+	void update(float _dt);
 protected:
-	Mesh* mMesh;
+	AnimMesh* mMesh;
 	//health
 	float mHealth;
 	float mHealthMax;
@@ -45,6 +45,8 @@ protected:
 	float mAttackDelay;//how often can attack
 	//collision radius
 	float mRadius;
+	///is moving
+	bool bIsMoving;
 };
 
 //attacks that the player can use
@@ -90,7 +92,7 @@ enum pState{
 //this is squared to make math easier
 const static float FOLLOW_DISTANCE_SQ = 40000.0f;//actual distance 200.0f
 //distance from player in which the follower stops
-const static float FOLLOW_DISTANCE_STOP_SQ = 10000.0f;//100.0f
+const static float FOLLOW_DISTANCE_STOP_SQ = 22500.0f;//150.0f
 //the minimum time between making new paths
 const static float MIN_PATH_TIME = 1.5f;
 //how often does AI run; increases framerate
@@ -131,6 +133,10 @@ protected:
 	float mLastPathFound;
 	//is follower afraid or panicking
 	bool bAfraid;
+	//time they have spent being afraid
+	float mAfraidTime;
+	//max time follower will remain afraid
+	float mAfraidMax;
 	//the health level where we start checking to see if it is afraid, also used for enemies
 	float mFearHealth;
 };

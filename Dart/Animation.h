@@ -1,18 +1,36 @@
 #pragma once
 /////////////////////////////////////////////////
 //
-// Code from animation tutorial
-//
-// Author: Jason Jurecka
-//
-// Creation Date: June 9, 2003
-//
-//http://www.gamedev.net/page/resources/_/technical/game-programming/working-with-the-directx-x-file-format-and-animation-in-directx-90-r2079
-//
-/////////////////////////////////////////////////
+
+#define MAX_NUM_BONES_SUPPORTED 35
+
 #include "D3DUtils.h"
+struct FrameEx : public D3DXFRAME
+{
+	D3DXMATRIX	toRoot;
+};
 
-
+class AllocMeshHierarchy : public ID3DXAllocateHierarchy
+{
+public:
+	HRESULT STDMETHODCALLTYPE CreateFrame(
+		THIS_ PCSTR Name,
+		D3DXFRAME** ppNewFrame);
+	HRESULT STDMETHODCALLTYPE CreateMeshContainer(
+		PCSTR Name,
+		const D3DXMESHDATA* pMeshData,
+		const D3DXMATERIAL* pMaterials,
+		const D3DXEFFECTINSTANCE* pEffectInstances,
+		DWORD NumMaterials,
+		const DWORD* pAdjacency,
+		ID3DXSkinInfo* pSkinInfo,
+		D3DXMESHCONTAINER** ppNewMeshContainer);
+	HRESULT STDMETHODCALLTYPE DestroyFrame(
+		THIS_ D3DXFRAME* pFrameToFree);
+	HRESULT STDMETHODCALLTYPE DestroyMeshContainer(
+		THIS_ D3DXMESHCONTAINER* pMeshContainerBase);
+};
+/*
 //derived animation frame, builds on default frame
 typedef struct _D3DXFRAME_DERIVED : public D3DXFRAME
 {
@@ -35,7 +53,7 @@ typedef struct _D3DXMESHCONTAINER_DERIVED : public D3DXMESHCONTAINER
 	LPD3DXATTRIBUTERANGE pAttributeTable;//attribute table
 	DWORD NumAttributeGroups;//number of attribute groups
 }MESHCONTAINER, *LPMESHCONTAINER;
-
+*/
 
 // Purpose: This is an Allocation class that is
 //		used with the D3DXLoadMeshHierarchyFromX
@@ -48,19 +66,35 @@ typedef struct _D3DXMESHCONTAINER_DERIVED : public D3DXMESHCONTAINER
 class AnimAllocateHierarchy : public ID3DXAllocateHierarchy
 {
 public:
-	//create a frame 1) name of frame 2) output new frame
-	STDMETHOD(CreateFrame)(THIS_ LPCTSTR Name, LPD3DXFRAME *ppNewFrame);
-	//create mesh container
-	//1) name of mesh 2) mesh data 3) materials of mesh 4) effects on the mesh
-	//5) number of materials in mesh 6) adjacency array for mesh
-	//7)skin info for mesh 8) output mesh container
-	STDMETHOD(CreateMeshContainer)(THIS_ LPCTSTR Name, LPD3DXMESHDATA pMeshData,
-		LPD3DXMATERIAL pMaterials, LPD3DXEFFECTINSTANCE pEffectInstances, DWORD NumMaterials,
-		DWORD *pAdjacency, LPD3DXSKININFO pSkinInfo, LPD3DXMESHCONTAINER *ppNewMeshContainer);
-	//destroy frame, the frame to destroy
-	STDMETHOD(DestroyFrame)(THIS_ LPD3DXFRAME pFrameToFree);
-	//destroy mesh container, the container to destroy
-	STDMETHOD(DestroyMeshContainer)(THIS_ LPD3DXMESHCONTAINER pMeshContainerBase);
-
+/*
+	HRESULT STDMETHODCALLTYPE CreateFrame(
+		THIS_ LPCWSTR Name,
+		D3DXFRAME** ppNewFrame);
+	HRESULT STDMETHODCALLTYPE CreateMeshContainer(
+		LPCWSTR Name,
+		const D3DXMESHDATA* pMeshData,
+		const D3DXMATERIAL* pMaterials,
+		const D3DXEFFECTINSTANCE* pEffectInstances,
+		DWORD NumMaterials,
+		const DWORD* pAdjacency,
+		ID3DXSkinInfo* pSkinInfo,
+		D3DXMESHCONTAINER** ppNewMeshContainer);
+*/
+	HRESULT STDMETHODCALLTYPE CreateFrame(
+		THIS_ PCSTR Name,
+		D3DXFRAME** ppNewFrame);
+	HRESULT STDMETHODCALLTYPE CreateMeshContainer(
+		PCSTR Name,
+		const D3DXMESHDATA* pMeshData,
+		const D3DXMATERIAL* pMaterials,
+		const D3DXEFFECTINSTANCE* pEffectInstances,
+		DWORD NumMaterials,
+		const DWORD* pAdjacency,
+		ID3DXSkinInfo* pSkinInfo,
+		D3DXMESHCONTAINER** ppNewMeshContainer);
+	HRESULT STDMETHODCALLTYPE DestroyFrame(
+		THIS_ D3DXFRAME* pFrameToFree);
+	HRESULT STDMETHODCALLTYPE DestroyMeshContainer(
+		THIS_ D3DXMESHCONTAINER* pMeshContainerBase);
 };
 

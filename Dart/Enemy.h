@@ -29,6 +29,9 @@ public:
 	//additional path finding
 	void setPathRandom();
 	void setPathFollower();
+	void setPathHealing();
+	//choose target, either player or follower
+	void chooseTarget();
 protected:
 	//has the enemy seen the player. When it sees the player, it's point value 
 	//starts to decrease
@@ -41,6 +44,8 @@ protected:
 	bool bAttackFollower;
 	//who are they currently attacking? true for player, false for follower
 	bool bPursuingPlayer;
+	//are they presently being healed by a heal point
+	bool bHealing;
 	//present point value
 	float mPoints;
 	//how fast points drain once it notices the player

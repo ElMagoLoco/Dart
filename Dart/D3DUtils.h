@@ -4,7 +4,8 @@
 
 #define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers
 //type of vertex to use
-#define VERTEX VertexPNTaT
+#define VERTEX_STATIC VertexPNTaT
+#define VERTEX_ANIM VertexPNT
 //enable extra D3D debugging
 #if defined(DEBUG) | defined(_DEBUG)
 #ifndef D3D_DEBUG_INFO
@@ -62,3 +63,4 @@ extern UINT					gWindowHeight;
 
 //some utility functions
 float getRandomFloat(float _low, float _high);
+void CopyString(const char* input, char** output);

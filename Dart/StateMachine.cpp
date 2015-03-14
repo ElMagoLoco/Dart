@@ -231,16 +231,16 @@ void EventProcessLevel1::beginEvent()
 	gCurrentLevel->addFleePoint(D3DXVECTOR2(-1400, 1400));
 	gCurrentLevel->addFleePoint(D3DXVECTOR2(1400, 1400));
 	//add enemies to level
-	gCurrentLevel->getSpawner()->addEnemy(new EnemyAnt(L"Content/Models/box.x",
-		L"Content/Textures/rock_h.dds", L"Content/Textures/rock_n.dds",
+	gCurrentLevel->getSpawner()->addEnemy(new EnemyAnt(L"Content/Models/tiny.x", L"Content/Textures/Tiny_skin.dds",
+		L"Content/Textures/Tiny_skin_n.dds",
 		D3DXVECTOR3(1000.0f, 50.0f, 1000.0f), 30.0f, 40.0f));
-	gCurrentLevel->getSpawner()->addEnemy(new EnemyAnt(L"Content/Models/box.x",
-		L"Content/Textures/rock_h.dds", L"Content/Textures/rock_n.dds",
+	gCurrentLevel->getSpawner()->addEnemy(new EnemyAnt(L"Content/Models/tiny.x", L"Content/Textures/Tiny_skin.dds",
+		L"Content/Textures/Tiny_skin_n.dds",
 		D3DXVECTOR3(1000.0f, 50.0f, -1000.0f), 30.0f, 40.0f));
-	gCurrentLevel->getSpawner()->addEnemy(new EnemyAnt(L"Content/Models/box.x",
-		L"Content/Textures/rock_h.dds", L"Content/Textures/rock_n.dds",
+	gCurrentLevel->getSpawner()->addEnemy(new EnemyAnt(L"Content/Models/tiny.x", L"Content/Textures/Tiny_skin.dds",
+		L"Content/Textures/Tiny_skin_n.dds",
 		D3DXVECTOR3(-1000.0f, 50.0f, 1000.0f), 30.0f, 40.0f));
-	gCurrentLevel->getSpawner()->addEnemy(new EnemyAnt(L"Content/Models/box.x",
-		L"Content/Textures/rock_h.dds", L"Content/Textures/rock_n.dds",
+	gCurrentLevel->getSpawner()->addEnemy(new EnemyAnt(L"Content/Models/tiny.x", L"Content/Textures/Tiny_skin.dds",
+		L"Content/Textures/Tiny_skin_n.dds",
 		D3DXVECTOR3(-1000.0f, 50.0f, -1000.0f), 30.0f, 40.0f));
 }

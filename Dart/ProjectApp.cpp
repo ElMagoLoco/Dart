@@ -135,7 +135,7 @@ void ProjectApp::drawScene()
 	//set things that are the same for the room and models
 	HR(gD3DDevice->SetRenderState(D3DRS_ZENABLE, TRUE));
 	HR(gD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE));
-	HR(gD3DDevice->SetVertexDeclaration(VERTEX::Decl));
+	
 	//call 3ddrawing events for the current state
 	gStateMachine->drawState3D();
 
@@ -215,6 +215,7 @@ void ProjectApp::initGameComponents()
 {
 	//load main effect file for levels
 	gEffectPrimary = new Effect(L"Content/FX/BumpMapping.fx");
+	gEffectAnim = new Effect(L"Content/FX/MultiAnimation.fx");
 	//create light for levels
 	//light setting uses D3DXVECTOR instead of XMFLOAT because the functions they are called for
 	//usually require the former
@@ -224,5 +225,6 @@ void ProjectApp::initGameComponents()
 	lights.setSpecular(2.0f, D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f), 5.0f);
 	//set lights to effect file
 	gEffectPrimary->setLighting(lights);
+	gEffectAnim->setLighting(lights);
 }
 

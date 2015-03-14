@@ -21,6 +21,9 @@ public:
 	//constructor s
 	Mesh(LPCWSTR _mesh, D3DXVECTOR3 _position, D3DXVECTOR3  _scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f),
 		D3DXVECTOR3 _rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f), UINT _subsets = 1);
+	Mesh(LPCWSTR _mesh, LPCWSTR _texture, LPCWSTR _normal, D3DXVECTOR3 _position, 
+		D3DXVECTOR3  _scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f),
+		D3DXVECTOR3 _rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f), UINT _subsets = 1);
 	Mesh(){}
 	//destructor
 	~Mesh();
@@ -74,12 +77,40 @@ protected:
 	vector<AxisAlignedBoundingBox2D*> mBoundsAABB;
 };
 
+class AnimMesh: public Mesh
+{
+public:
+	AnimMesh(LPCWSTR _mesh, LPCWSTR _texture, LPCWSTR _normal, D3DXVECTOR3 _position,
+		D3DXVECTOR3  _scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f),
+		D3DXVECTOR3 _rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f), UINT _subsets = 1);
+	void update(float _dt);
+	void draw();
+	void setCurrentAnimation(DWORD _dwAnimationFlag);
+	DWORD getAnimationSetCount() { return mAnimationSetCount; }
+private:
+	D3DXFRAME* findNodeWithMesh(D3DXFRAME* _frame);
+	void buildSkinnedMesh(ID3DXMesh* mesh);
+	void buildToRootXFormPtrArray();
+	void buildToRootXForms(FrameEx* _frame, D3DXMATRIX& _parentsToRoot);
+	const D3DXMATRIX* getFinalXFormArray() { return &mFinalXForms[0]; }
+	D3DXFRAME* mRoot;
+	ID3DXAnimationController* mAnimController;
+	ID3DXSkinInfo* mSkinInfo;
+	DWORD mNumBones;
+	vector<D3DXMATRIX> mFinalXForms;
+	vector<D3DXMATRIX*> mToRootXFormPtrs;
+	DWORD mMaxVertInfluences;
+	DWORD mCurrentAnimation;
+	DWORD mAnimationSetCount;
+};
+/*
 //animmesh is a mesh with animations attached
 //set animation.h for credit info
 class AnimMesh
 {
 public:
-	AnimMesh(LPDIRECT3DDEVICE9 _d3dDevice);
+	AnimMesh(LPDIRECT3DDEVICE9 _d3dDevice, D3DXVECTOR3 _position, D3DXVECTOR3  scale,
+		D3DXVECTOR3 _rotation);
 	~AnimMesh();
 	AnimMesh &operator=(const AnimMesh&){}
 	AnimMesh(const AnimMesh&){}
@@ -90,10 +121,28 @@ public:
 	inline DWORD getCurrentAnimation(){ return mdwCurrentAnimation; }
 	//set current animation
 	void setCurrentAnimation(DWORD dwAnimationFlag);
-	void draw();
+	void draw(UINT _texIndex);
 	void loadXFile(LPCWSTR _fileName);
 	void update(float _dt);
+
+	//add a texture to the mesh
+	void addTexture(LPCWSTR _texture, LPCWSTR _normal);
+	void clearTextures();//reset textures
+	//set world matrix based on positions
+	void doWorld();
+
 private:
+	vector<IDirect3DTexture9*>	mTextures;
+	vector<IDirect3DTexture9*>	mNormals;
+	bool bTextured;//is it textured
+	bool bVisible;//is it visible
+	UINT mNumSubsets;//how many subsets
+	//position and world matrix
+	D3DXVECTOR3					mPosition;//position
+	D3DXVECTOR3					mScale;//how big compared to base scale of mesh
+	D3DXVECTOR3					mRotation;//rotation of mesh
+	D3DXMATRIX					mWorld;//world matrix
+
 	LPDIRECT3DDEVICE9 mpD3DDevice;//d3d device to use
 	//model
 	LPMESHCONTAINER mpFirstMesh;//first mesh in hierarchy
@@ -118,3 +167,4 @@ private:
 	//void setupBoneMatricesOnMesh(LPMESHCONTAINER _meshContainer);
 };
 
+*/

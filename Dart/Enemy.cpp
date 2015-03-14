@@ -19,148 +19,93 @@ Enemy::~Enemy()
 
 void Enemy::update(float _dt)
 {
+	if (bIsDead == true)
+		return;
+	Pawn::update(_dt);
 	mLastPathFound += _dt;//when last path was found
 	mAttackTime += _dt;//when last attack was made
 	mLoseSightPlayer += _dt;
 	mLoseSightFollower += _dt;
-	//have to be declared outside case structure
 	D3DXVECTOR3 targetPosition;
-	float distanceToTargetSq;
-	switch (mState)
+/*	static float aiCheck = 0.0f;
+	aiCheck += _dt;
+	if (aiCheck >= RUN_AI)//only run the AI every so many frames*/
+		//inside this conditional you should use aiCheck where you'd normally use _dt
 	{
-	case PSTATE_WANDER:
-		//if they have recently seen player/follower or see them now
-		if (mLoseSightPlayer < LOSE_SIGHT || mLoseSightFollower < LOSE_SIGHT ||
-			noticeFollower() || noticePlayer())
+		switch (mState)
 		{
-			if (bAfraid)//if afraid, run
+		case PSTATE_WANDER:
+			//if they have recently seen player/follower or see them now
+			if (mLoseSightPlayer < LOSE_SIGHT || mLoseSightFollower < LOSE_SIGHT ||
+				noticeFollower() || noticePlayer())
+			{
+				if (bAfraid)//if afraid, run
+				{
+					mState = PSTATE_AFRAID;
+					break;
+				}
+				else
+				{
+					chooseTarget();
+					mState = PSTATE_PURSUE;
+					break;
+				}
+			}
+			else //if they can't see the player, just wander
+				//unless low on health, in which case seek a heal spot
+			{
+				if (mHealth == mHealthMax)
+				{
+					if (!followPath(0.75f) && mLastPathFound > MIN_PATH_TIME)
+					{
+						setPathRandom();
+						break;
+					}
+				}
+				else
+				{
+					mState = PSTATE_INJURED;
+					bHealing = false;
+					break;
+				}
+			}
+			break;
+		case PSTATE_PURSUE:
+			//if they no longer see the target, go back to wandering state
+			// if pursuing player and doesn't see player and hasn't seen them for a while
+			if ((bPursuingPlayer && !noticePlayer() && mLoseSightPlayer >= LOSE_SIGHT) ||
+				//if pursuing follower and doesn't see them and hasn't seen them for a while
+				(!bPursuingPlayer && !noticeFollower() && mLoseSightFollower >= LOSE_SIGHT))
+			{
+				mState = PSTATE_WANDER;
+				break;
+			}
+			//if can see their target, but is afraid
+			if (bAfraid)
 			{
 				mState = PSTATE_AFRAID;
 				break;
 			}
-			else
-			{
-				if (!bAttackPlayer)
-				{//if only see the follower, attack them
-					bPursuingPlayer = false;
-					mState = PSTATE_PURSUE;
-					break;
-				}
-				else if (!bAttackFollower)
-				{//if only sees the player, attack them
-					bPursuingPlayer = true;
-					mState = PSTATE_PURSUE;
-					break;
-				}
-				else//else choose randomly between them
-				{
-					if (getRandomFloat(0.0f, 1.0f) < 0.5f)
-						bPursuingPlayer = true;
-					else
-						bPursuingPlayer = false;
-					mState = PSTATE_PURSUE;
-					break;
-				}
-			}
-		}
-		else //if they can't see the player, just wander
-			//TO DO here - Make it so that if they are < full health, they seek a healing point
-		{
-			if (!followPath(0.75f) && mLastPathFound > MIN_PATH_TIME)
-			{
-				setPathRandom();
-				break;
-			}
-		}
-		break;
-	case PSTATE_PURSUE:
-		//if they no longer see the target, go back to wandering state
-		// if pursuing player and doesn't see player and hasn't seen them for a while
-		if ((bPursuingPlayer && !noticePlayer() && mLoseSightPlayer >= LOSE_SIGHT) ||
-			//if pursuing follower and doesn't see them and hasn't seen them for a while
-			(!bPursuingPlayer && !noticeFollower() && mLoseSightFollower >= LOSE_SIGHT))
-		{
-			mState = PSTATE_WANDER;
-			break;
-		}
-		//if can see their target, but is afraid
-		if (bAfraid)
-		{
-			mState = PSTATE_AFRAID;
-			break;
-		}
-		//otherwise they can see and aren't afraid
+			//otherwise they can see and aren't afraid
 
-		//stop if they are too close to the target, otherwise try to get closer
-		if (bPursuingPlayer) targetPosition = gPlayer->getPosition();
-		else                 targetPosition = gFollower->getPosition();
-
-		distanceToTargetSq = D3DXVec3LengthSq(&(mPosition - targetPosition));
-		//move unless too close, in which case stop
-		if (distanceToTargetSq <= mClosestDistanceSq)
-		{
-			mVelocity = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-		}
-		else
-		{
-			if (mLastPathFound >= MIN_PATH_TIME || !followPath(1.0f))
-			{
-				if (bPursuingPlayer) setPathPlayer();
-				else                setPathFollower();
-			}
-		}
-		//attack if it is time and they are close enough
-		if (mAttackTime > mAttackDelay && distanceToTargetSq <= mAttackDistanceSq)
-		{
-			if (bPursuingPlayer)
-			{
-				if (bAttackPlayer)
-				{
-					attack(gPlayer->getPosition());
-					mAttackTime = 0.0f;
-				}
-			}
-			else
-			{
-				if (bAttackFollower)
-				{
-					attack(gFollower->getPosition());
-					mAttackTime = 0.0f;
-				}
-			}
-		}
-		break;
-	case PSTATE_AFRAID:
-		//if they reached full health again, they are no longer afraid
-		if (mHealth == mHealthMax)
-		{
-			bAfraid = false;
-			mState = PSTATE_WANDER;
-			break;
-		}
-		//if they no longer see the target, go back to wandering state
-		// if pursuing player and doesn't see player and hasn't seen them for a while
-		if ((bPursuingPlayer && !noticePlayer() && mLoseSightPlayer >= LOSE_SIGHT) ||
-			//if pursuing follower and doesn't see them and hasn't seen them for a while
-			(!bPursuingPlayer && !noticeFollower() && mLoseSightFollower >= LOSE_SIGHT))
-		{
-			mState = PSTATE_WANDER;
-			break;
-		}
-		if (mLastPathFound >= MIN_PATH_TIME || !followPath(1.0f))
-		{
-			setPathFlee();
-		}
-		//still attack if they are close enough
-
-		if (mAttackTime >= mAttackDelay)
-		{
-			//target 
+			//stop if they are too close to the target, otherwise try to get closer
 			if (bPursuingPlayer) targetPosition = gPlayer->getPosition();
 			else                 targetPosition = gFollower->getPosition();
 
-			distanceToTargetSq = D3DXVec3LengthSq(&(mPosition - targetPosition));
-			if (distanceToTargetSq <= mAttackDistanceSq)
+			if ((D3DXVec3LengthSq(&(mPosition - targetPosition))) <= mClosestDistanceSq)
+			{
+				mVelocity = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+			}
+			else
+			{
+				if (mLastPathFound >= MIN_PATH_TIME || !followPath(1.0f))
+				{
+					if (bPursuingPlayer) setPathPlayer();
+					else                setPathFollower();
+				}
+			}
+			//attack if it can
+			if (mAttackTime > mAttackDelay)
 			{
 				if (bPursuingPlayer)
 				{
@@ -179,14 +124,100 @@ void Enemy::update(float _dt)
 					}
 				}
 			}
+			break;
+		case PSTATE_AFRAID:
+			//if they reached good health again, they are no longer afraid
+			//the add health function will take away fear state when they reach proper hp
+			if (!bAfraid)
+			{
+				mState = PSTATE_WANDER;
+				break;
+			}
+			//if they no longer see the target, go back to wandering state
+			// if pursuing player and doesn't see player and hasn't seen them for a while
+			if ((bPursuingPlayer && !noticePlayer() && mLoseSightPlayer >= LOSE_SIGHT) ||
+				//if pursuing follower and doesn't see them and hasn't seen them for a while
+				(!bPursuingPlayer && !noticeFollower() && mLoseSightFollower >= LOSE_SIGHT))
+			{
+				mState = PSTATE_INJURED;
+				break;
+			}
+			if (mLastPathFound >= MIN_PATH_TIME || !followPath(1.0f))
+			{
+				setPathFlee();
+			}
+			//still attack if they are close enough
+			if (mAttackTime >= mAttackDelay)
+			{
+				if (bPursuingPlayer)
+				{
+					if (bAttackPlayer)
+					{
+						attack(gPlayer->getPosition());
+						mAttackTime = 0.0f;
+					}
+				}
+				else
+				{
+					if (bAttackFollower)
+					{
+						attack(gFollower->getPosition());
+						mAttackTime = 0.0f;
+					}
+				}
+			}
+			break;
+		case PSTATE_INJURED://enemy is injured and cannot presently see player/wanderer
+			//if they have recently seen player/follower or see them now
+			if (mLoseSightPlayer < LOSE_SIGHT || mLoseSightFollower < LOSE_SIGHT ||
+				noticeFollower() || noticePlayer())
+			{
+				//if they are afraid, flee. If not, pursue
+				if (bAfraid)
+				{
+					mState = PSTATE_AFRAID;
+					break;
+				}
+				else
+				{
+					chooseTarget();
+					mState = PSTATE_PURSUE;
+					break;
+				}
+			}
+			else//if they don't see the player or follower, find a healing spot to recover
+			{
+				if (mHealth == mHealthMax)
+				{//when fully healed, go back to wandering
+					mState = PSTATE_WANDER;
+					break;
+				}
+				if (bHealing)
+				{
+					stop();
+					if (mHealth == mHealthMax)
+					{
+						bHealing = false;
+						mState = PSTATE_WANDER;
+						break;
+					}
+				}
+				else
+				{
+					if (mLastPathFound >= MIN_PATH_TIME || !followPath(1.0f))
+					{
+						setPathHealing();
+					}
+				}
+			}
+			break;
 		}
-		break;
+		//rotate to the direction you're going
+		pointForward(_dt);
+		//update position
+		mPosition += mVelocity * _dt;
+		mMesh->setPosRot(mPosition, mRotation);
 	}
-	//rotate to the direction you're going
-	pointForward(_dt);
-	//update position
-	mPosition += mVelocity * _dt;
-	mMesh->setPosRot(mPosition, mRotation);
 }
 
 bool Enemy::noticePlayer()
@@ -200,7 +231,7 @@ bool Enemy::noticePlayer()
 		return false;
 	}
 	//if player has fired within hearing range of enemy
-	if (distanceSq < mHearAttackRangeSq && gPlayer->getJustAttackedd())
+	if (distanceSq < mHearAttackRangeSq && gPlayer->getJustAttacked())
 		returnBool = true;
 	// they are close enough to hear the player through a wall or behind them
 	if (distanceSq < mHearRangeSq)
@@ -330,12 +361,59 @@ void Enemy::setPathFollower()
 	mLastPathFound = 0.0f;
 }
 
+void Enemy::setPathHealing()
+{
+	vector<D3DXVECTOR3>().swap(mPath);//clean out vector
+	//find new path to nearest healing spot
+	float nearestSq = 1000000000000.0f;
+	D3DXVECTOR2 nearestV = D3DXVECTOR2(0.0f, 0.0f);
+	for (D3DXVECTOR2 V : gCurrentLevel->getHealPoints())
+	{
+		float distance = D3DXVec2LengthSq(&(V - D3DXVECTOR2(mPosition.x, mPosition.z)));
+		if (distance < nearestSq)
+		{
+			nearestSq = distance;
+			nearestV = V;
+		}
+	}
+	if (nearestSq < 400)
+	{
+		bHealing = true;
+		stop();
+		return;
+	}
+	resetStartNode();
+	mPath = gCurrentLevel->getPaths()->findPath(mStartNode, D3DXVECTOR3(nearestV.x, 50.0f, nearestV.y));
+	//path just found
+	mLastPathFound = 0.0f;
+}
+
 void Enemy::attack(D3DXVECTOR3 _position)
 {
 	Attack* attack = new Attack(*mAttack);
 	attack->moveTowardPoint(mPosition, _position);
 	gCurrentLevel->getAttackManager()->addAttack(attack);
 }
+
+void Enemy::chooseTarget()
+{
+	if (!bAttackPlayer)
+	{//if only see the follower, attack them
+		bPursuingPlayer = false;
+	}
+	else if (!bAttackFollower)
+	{//if only sees the player, attack them
+		bPursuingPlayer = true;
+	}
+	else//else choose randomly between them
+	{
+		if (getRandomFloat(0.0f, 1.0f) < 0.5f)
+			bPursuingPlayer = true;
+		else
+			bPursuingPlayer = false;
+	}
+}
+
 
 EnemyAnt::EnemyAnt(LPCWSTR _meshName, LPCWSTR _textureName, LPCWSTR _normalTexName,
 	D3DXVECTOR3 _startPosition, float _healthMax, float _radius, D3DXVECTOR3 _meshScale) :
@@ -350,7 +428,6 @@ EnemyAnt::EnemyAnt(LPCWSTR _meshName, LPCWSTR _textureName, LPCWSTR _normalTexNa
 	mPoints = 100.0f;
 	mPointDrain = 1.0f;
 	mMinPoints = 50.0f;
-	mRanged = false;
 	mSightRangeSq = 1000000.0f;//1000
 	mHearAttackRangeSq = 62500.0f;//250
 	mHearRangeSq = 10000.0f;//100

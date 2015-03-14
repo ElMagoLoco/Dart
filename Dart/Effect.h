@@ -18,6 +18,7 @@ public:
 	ID3DXEffect* getFX()						{ return mFX; }
 	D3DXHANDLE getTechniqueHandle()				{ return mhTechnique; }
 	D3DXHANDLE getWorldHandle()					{ return mhWorld; }
+	D3DXHANDLE getWorldInverseTransHandle()		{ return mhWorldInverseTranspose; }
 	D3DXHANDLE getWorldViewProjectionHandle()	{ return mhWorldViewProjection; }
 	D3DXHANDLE getTextureHandle()				{ return mhTexture; }
 	D3DXHANDLE getNormalTextureHandle()			{ return mhNormalTexture; }
@@ -37,6 +38,7 @@ private:
 	D3DXHANDLE mhTechnique;
 	//world matrices
 	D3DXHANDLE mhWorld;
+	D3DXHANDLE mhWorldInverseTranspose;
 	D3DXHANDLE mhWorldViewProjection;
 	//textures
 	D3DXHANDLE mhTexture;
@@ -57,3 +59,4 @@ private:
 };
 
 extern Effect* gEffectPrimary;
+extern Effect* gEffectAnim;

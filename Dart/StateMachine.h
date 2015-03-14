@@ -146,8 +146,8 @@ class EventProcessFollower : public Event
 {
 public:
 	void beginEvent(){
-		gFollower = new Follower(L"Content/Models/box.x", L"Content/Textures/ice_h.dds",
-			L"Content/Textures/ice_n.dds", D3DXVECTOR3(1000.0f, 50.0f, 0.0f), 100, 32.0f);
+		gFollower = new Follower(L"Content/Models/tiny.x", L"Content/Textures/Tiny_skin.dds",
+			L"Content/Textures/Tiny_skin_n.dds", D3DXVECTOR3(1000.0f, 50.0f, 0.0f), 100, 32.0f);
 	}
 	void endEvent()				{ delete gFollower;  }
 	void updateEvent(float _dt)	{ gFollower->update(_dt); }
@@ -168,8 +168,8 @@ public:
 class EventProcessPlayer : public Event
 {
 	void beginEvent(){
-		gPlayer = new Player(L"Content/Models/box.x", L"Content/Textures/fire_h.dds",
-			L"Content/Textures/fire_n.dds", D3DXVECTOR3(0.0f, 50.0f, 0.0f),
+		gPlayer = new Player(L"Content/Models/tiny.x", L"Content/Textures/Tiny_skin.dds",
+			L"Content/Textures/Tiny_skin_n.dds", D3DXVECTOR3(0.0f, 50.0f, 0.0f),
 			100, 32.0f);
 	}
 	void updateEvent(float _dt)	{ gPlayer->update(_dt); }

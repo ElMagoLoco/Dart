@@ -11,10 +11,12 @@ Pawn::Pawn(LPCWSTR _meshName, LPCWSTR _textureName, LPCWSTR _normalTexName,
 	D3DXVECTOR3 _startPosition, float _healthMax, float _radius, D3DXVECTOR3 _meshScale) :
 	mHealth(_healthMax), mHealthMax(_healthMax), bIsDead(false), mPosition(_startPosition), 
 	mVelocity(D3DXVECTOR3(0.0f, 0.0f, 0.0f)), mSpeed(0.0f), mRotation(D3DXVECTOR3(0.0f, 0.0f, 0.0f)),
-	mRadius(_radius), mAttackTime(0.0f), mLastPosition(_startPosition)
+	mRadius(_radius), mAttackTime(0.0f), mLastPosition(_startPosition), bIsMoving(false)
 {
-	mMesh = new Mesh(_meshName, _startPosition, _meshScale, D3DXVECTOR3(0.0f, 0.0f, 0.0f), 1);
-	mMesh->addTexture(_textureName, _normalTexName);
+	//mMesh = new Mesh(_meshName, _startPosition, _meshScale, D3DXVECTOR3(0.0f, 0.0f, 0.0f), 1);
+	//mMesh->addTexture(_textureName, _normalTexName);
+	mMesh = new AnimMesh(_meshName, _textureName, _normalTexName,_startPosition, _meshScale, 
+		D3DXVECTOR3(0.0f, 0.0f, 0.0f), 1);
 }
 
 Pawn::~Pawn()
@@ -32,6 +34,17 @@ void Pawn::addHealth(float _health)
 		bIsDead = true;
 		return;
 	}
+}
+
+void Pawn::update(float _dt)
+{
+	
+	if (bIsMoving)
+		mMesh->setCurrentAnimation(mMesh->getAnimationSetCount() - 1);
+	else
+		mMesh->setCurrentAnimation(-1);
+	
+	mMesh->update(_dt);
 }
 
 void Pawn::draw()
@@ -59,16 +72,32 @@ void Player::update(float _dt)
 		gStateMachine->transitionState(STATE_MAINMENU);
 		return;
 	}
+
+	Pawn::update(_dt);
+
 	//direction controls
+	bIsMoving = false;
 	mVelocity = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	if (gDInput->keyDown(DIK_W))
+	{
 		mVelocity += D3DXVECTOR3(-mSpeed, 0.0f, 0.0f);
+		bIsMoving = true;
+	}
 	if (gDInput->keyDown(DIK_S))
+	{
 		mVelocity += D3DXVECTOR3(mSpeed, 0.0f, 0.0f);
+		bIsMoving = true;
+	}
 	if (gDInput->keyDown(DIK_A))
+	{
 		mVelocity += D3DXVECTOR3(0.0f, 0.0f, -mSpeed);
+		bIsMoving = true;
+	}
 	if (gDInput->keyDown(DIK_D))
+	{
 		mVelocity += D3DXVECTOR3(0.0f, 0.0f, mSpeed);
+		bIsMoving = true;
+	}
 	if (mVelocity != D3DXVECTOR3(0.0f, 0.0f, 0.0f))
 		D3DXVec3Normalize(&mVelocity, &mVelocity);
 	mVelocity *= mSpeed;
@@ -169,14 +198,16 @@ void Follower::update(float _dt)
 		return;
 	}
 
+	Pawn::update(_dt);
+
 	mLastPathFound += _dt;
 	static float aiCheck = 0.0f;
 	aiCheck += _dt;
-	
 	if (aiCheck >= RUN_AI)//only run the AI every so many frames
 	//inside this conditional you should use aiCheck where you'd normally use _dt
 	{
 		float distanceToPlayerSq;
+		bIsMoving = true;
 		switch (mState)
 		{
 		case PSTATE_PURSUE:
@@ -195,9 +226,33 @@ void Follower::update(float _dt)
 			else
 			{
 				stop();
+				bIsMoving = false;
 			}
 			break;
 		case PSTATE_AFRAID:
+			//how long has it been afraid
+			mAfraidTime += _dt;
+			if (mAfraidTime >= mAfraidMax)
+			{//don't let the follower be afraid indefinitely, else the task of getting them
+				//to the goal might become impossible
+				bAfraid = false;
+				mAfraidTime = 0.0f;
+				mState = PSTATE_PURSUE;
+				break;
+			}
+			//if no longer afraid
+			if (!bAfraid)
+			{
+				mState = PSTATE_PURSUE;
+				break;
+			}
+			else//flee randomly in panic
+			{
+				if (mLastPathFound >= MIN_PATH_TIME || !followPath(1.0f))
+				{
+					setPathFlee();
+				}
+			}
 			break;
 		}
 		mPosition += (mVelocity * aiCheck);//set position based on speed
@@ -281,7 +336,7 @@ void Follower::pointForward(float _dt)
 	if (D3DXVec3LengthSq(&mVelocity) == 0.0f)
 		return;
 	//face the direction it is going
-	float targetDir = atan2(mVelocity.x, mVelocity.z);//target direction
+	float targetDir = atan2(mVelocity.x, mVelocity.z) + D3DX_PI;//target direction
 	float angleDiff;//difference between angle we have and angle we want
 	float pi2 = 2 * D3DX_PI;//2 * PI (full circle in radians)
 	float facingMinusTarget = mRotation.y - targetDir;//vector difference between present rotation and target

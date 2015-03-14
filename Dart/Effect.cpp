@@ -1,6 +1,7 @@
 #include "Effect.h"
 
 Effect* gEffectPrimary = 0;
+Effect* gEffectAnim = 0;
 //create effect file
 //so far we are only using the one effect file for everything shown
 Effect::Effect(LPCWSTR _fileName)
@@ -20,6 +21,7 @@ Effect::Effect(LPCWSTR _fileName)
 	//if those semantics aren't used in the file, these will be made Null
 	mhTechnique = mFX->GetTechniqueByName("Main");
 	mhWorld = mFX->GetParameterBySemantic(0, "WORLD");
+	mhWorldInverseTranspose = mFX->GetParameterBySemantic(0, "WORLDINVTRANS");
 	mhWorldViewProjection = mFX->GetParameterBySemantic(0, "WORLDVIEWPROJ");
 	mhTexture = mFX->GetParameterBySemantic(0, "TEXTURE");
 	mhNormalTexture = mFX->GetParameterBySemantic(0, "NORMALTEX");
@@ -76,7 +78,7 @@ void Effect::setTextures(IDirect3DTexture9* _texture, IDirect3DTexture9* _normal
 	if (mhTexture && mhNormalTexture)
 	{
 		HR(mFX->SetTexture(mhTexture, _texture));
-		HR(mFX->SetTexture(mhNormalTexture, _texture));
+		HR(mFX->SetTexture(mhNormalTexture, _normal));
 	}
 	else
 	{
