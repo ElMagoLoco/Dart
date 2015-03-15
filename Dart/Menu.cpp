@@ -30,17 +30,33 @@ void Menu::update(float _dt)
 {
 	static float delay = 0.0f;
 	delay += _dt;
-	//if button is clicked
-	if (gDInput->mouseButtonDown(0) && delay > 0.2f)
+	if (delay > 0.2f)
 	{
-		delay = 0.0f;
-		//.. for each button
-		for (Button* B : mButtons)
+		//if button is clicked
+		if (gDInput->mouseButtonDown(0))
 		{
-			//see if it triggers
-			//once one triggers, don't bother checking others
-			if (B->tryClick())
-				break;
+			delay = 0.0f;
+			//.. for each button
+			for (Button* B : mButtons)
+			{
+				//see if it triggers
+				//once one triggers, don't bother checking others
+				if (B->tryClick(true))
+					break;
+			}
+		}
+		//if right mouse button is clicked
+		else if (gDInput->mouseButtonDown(1))
+		{
+			delay = 0.0f;
+			//.. for each button
+			for (Button* B : mButtons)
+			{
+				//see if it triggers
+				//once one triggers, don't bother checking others
+				if (B->tryClick(false))
+					break;
+			}
 		}
 	}
 }

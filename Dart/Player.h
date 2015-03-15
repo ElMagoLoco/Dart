@@ -68,6 +68,10 @@ public:
 	void addScore(UINT _add) { mScore += _add; }
 	void addAmmoSeeds(UINT _amount){ mAmmoSeeds = min(mAmmoSeedsMax, mAmmoSeeds + _amount); }
 	void addAmmoFire(UINT _amount){ mAmmoSeeds = min(mAmmoFireMax, mAmmoFire + _amount); }
+	UINT getAmmoSeeds() { return mAmmoSeeds; }
+	UINT getAmmoSeedsMax() { return mAmmoSeedsMax; }
+	UINT getAmmoFire() { return mAmmoFire; }
+	UINT getAmmoFireMax() { return mAmmoFireMax; }
 private:
 	//ammo
 	UINT mAmmoSeeds;

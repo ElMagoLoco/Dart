@@ -9,15 +9,8 @@ Button::Button(LPCWSTR _texture, float _positionX, float _positionY, int _sizeOX
 {
 }
 
-//virtual function that is overridden by children
-//is ran when the button is clicked
-void Button::onClick()
-{
-	
-}
-
 //see if the mouse is in the right spot and run the onClick if it is
-bool Button::tryClick()
+bool Button::tryClick(bool _left)
 {
 	if (bProcess)
 	{
@@ -31,7 +24,10 @@ bool Button::tryClick()
 		if (gDInput->mCursorPos2D.x >= minX && gDInput->mCursorPos2D.x <= maxX &&
 			gDInput->mCursorPos2D.y >= minY && gDInput->mCursorPos2D.y <= maxY)
 		{
-			onClick();
+			if (_left)
+				onClickLeft();
+			else
+				onClickRight();
 			return true;
 		}
 		//if it returns true, no other buttons will be checked
@@ -49,9 +45,9 @@ ButtonNewGame::ButtonNewGame(LPCWSTR _texture, float _positionX, float _position
 {
 }
 //go to state play
-void ButtonNewGame::onClick()
+void ButtonNewGame::onClickLeft()
 {
-	Button::onClick();
+	Button::onClickLeft();
 	gStateMachine->transitionState(STATE_PLAY);
 }
 /***********************************************************
@@ -64,7 +60,7 @@ ButtonExitGame::ButtonExitGame(LPCWSTR _texture, float _positionX, float _positi
 {
 }
 //exit the game
-void ButtonExitGame::onClick()
+void ButtonExitGame::onClickLeft()
 {
 	PostQuitMessage(0);
 }
@@ -78,9 +74,9 @@ ButtonOptions::ButtonOptions(LPCWSTR _texture, float _positionX, float _position
 {
 }
 //go to the options menu
-void ButtonOptions::onClick()
+void ButtonOptions::onClickLeft()
 {
-	Button::onClick();
+	Button::onClickLeft();
 	gStateMachine->transitionState(STATE_OPTIONSMENU);
 }
 /***********************************************************
@@ -93,9 +89,9 @@ Button1024x768::Button1024x768(LPCWSTR _texture, float _positionX, float _positi
 {
 }
 //set windowed mode and size
-void Button1024x768::onClick()
+void Button1024x768::onClickLeft()
 {
-	Button::onClick();
+	Button::onClickLeft();
 	gD3DApp->enableFullScreenMode(false);
 	gD3DApp->changeWindowResolution(1024, 768);
 }
@@ -109,9 +105,9 @@ ButtonFullScreen::ButtonFullScreen(LPCWSTR _texture, float _positionX, float _po
 {
 }
 //go to full screen mode
-void ButtonFullScreen::onClick()
+void ButtonFullScreen::onClickLeft()
 {
-	Button::onClick();
+	Button::onClickLeft();
 	gD3DApp->enableFullScreenMode(true);
 }
 /***********************************************************
@@ -124,9 +120,9 @@ ButtonGoBack::ButtonGoBack(LPCWSTR _texture, float _positionX, float _positionY,
 {
 }
 //go to main menu
-void ButtonGoBack::onClick()
+void ButtonGoBack::onClickLeft()
 {
-	Button::onClick();
+	Button::onClickLeft();
 	bProcess = false;
 	gStateMachine->transitionState(STATE_MAINMENU);
 }
