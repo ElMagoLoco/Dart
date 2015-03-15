@@ -159,7 +159,7 @@ void Player::update(float _dt)
 					--mAmmoSeeds;
 					attack = new Attack(L"Content/Models/ball.x", 15.0f, 600.0f, 8.0f, true, 10.0f,
 						D3DXVECTOR3(2.0f, 2.0f, 2.0f));
-					attack->setTextures(L"Content/Textures/energy_h.dds", L"Content/Textures/energy_n.dds");
+					attack->setTextures(L"Content/Textures/tex_seed.dds", L"Content/Textures/tex_seed_n.dds");
 				}
 				break;
 			case A_FIRE:
@@ -168,7 +168,7 @@ void Player::update(float _dt)
 					--mAmmoFire;
 					attack = new Attack(L"Content/Models/ball.x", 30.0f, 500.0f, 8.0f, true, 10.0f,
 						D3DXVECTOR3(2.0f, 2.0f, 2.0f));
-					attack->setTextures(L"Content/Textures/fire_h.dds", L"Content/Textures/fire_n.dds");
+					attack->setTextures(L"Content/Textures/tex_fire.dds", L"Content/Textures/tex_fire_n.dds");
 				}
 				break;
 			}

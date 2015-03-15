@@ -435,7 +435,7 @@ EnemyAnt::EnemyAnt(LPCWSTR _meshName, LPCWSTR _textureName, LPCWSTR _normalTexNa
 	mLoseSightFollower = 1.0f;
 	mSpeed = 300.0f;
 	mAttack = new Attack(L"Content/Models/ball.x", 10.0f, 400.0f, 0.1f, false);
-	mAttack->setTextures(L"Content/Textures/fire_h.dds", L"Content/Textures/fire_n.dds");
+	mAttack->setTextures(L"Content/Textures/tex_fire.dds", L"Content/Textures/tex_fire_n.dds");
 }
 
 void EnemyGroup::update(float _dt)

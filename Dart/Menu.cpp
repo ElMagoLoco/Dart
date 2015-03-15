@@ -28,9 +28,12 @@ Menu::~Menu()
 //check if buttons are pressed
 void Menu::update(float _dt)
 {
+	static float delay = 0.0f;
+	delay += _dt;
 	//if button is clicked
-	if (gDInput->mouseButtonDown(0))
+	if (gDInput->mouseButtonDown(0) && delay > 0.2f)
 	{
+		delay = 0.0f;
 		//.. for each button
 		for (Button* B : mButtons)
 		{

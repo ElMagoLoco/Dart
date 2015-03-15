@@ -197,13 +197,13 @@ void AStar::connectPathfinding()
 		//if we are debugging paths, set their texture based on how many links they have
 #ifdef DEBUG_PATHS
 		if (PN->getNumLinks() < 4)
-			PN->getMesh()->addTexture(L"Content/Textures/energy_h.dds", L"Content/Textures/energy_n.dds");
+			PN->getMesh()->addTexture(L"Content/Textures/tex_bark.dds", L"Content/Textures/tex_bark_n.dds");
 		else if (PN->getNumLinks() < 6)
-			PN->getMesh()->addTexture(L"Content/Textures/grass_h.dds", L"Content/Textures/grass_n.dds");
+			PN->getMesh()->addTexture(L"Content/Textures/tex_grass.dds", L"Content/Textures/tex_grass_n.dds");
 		else if (PN->getNumLinks() < 8)
-			PN->getMesh()->addTexture(L"Content/Textures/ice_h.dds", L"Content/Textures/ice_n.dds");
+			PN->getMesh()->addTexture(L"Content/Textures/tex_heal_berry.dds", L"Content/Textures/tex_heal_berry_n.dds");
 		else
-			PN->getMesh()->addTexture(L"Content/Textures/fire_h.dds", L"Content/Textures/fire_n.dds");
+			PN->getMesh()->addTexture(L"Content/Textures/tex_fire.dds", L"Content/Textures/tex_fire_n.dds");
 #endif
 	}
 }
