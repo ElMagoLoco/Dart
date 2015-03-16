@@ -27,8 +27,8 @@ void Attack::moveFacingDirection()
 {
 	mPosition = gPlayer->getPosition();
 	//assumes player remains in middle of screen
-	D3DXVECTOR3 direction = D3DXVECTOR3(-(((float)gWindowHeight / 2.0f) - gDInput->mCursorPos2D.y), 0.0f,
-		gDInput->mCursorPos2D.x - ((float)gWindowWidth / 2.0f));
+	D3DXVECTOR3 direction = D3DXVECTOR3((gDInput->mCursorPos2D.x) - ((float)gWindowWidth / 2.0f), 0.0f,
+		((float)gWindowHeight / 2.0f) - gDInput->mCursorPos2D.y);
 	D3DXVec3Normalize(&direction, &direction);
 	mVelocity = direction * mSpeed;
 }

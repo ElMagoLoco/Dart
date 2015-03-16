@@ -80,22 +80,22 @@ void Player::update(float _dt)
 	mVelocity = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	if (gDInput->keyDown(DIK_W))
 	{
-		mVelocity += D3DXVECTOR3(-mSpeed, 0.0f, 0.0f);
+		mVelocity += D3DXVECTOR3(0.0f, 0.0f, mSpeed);
 		bIsMoving = true;
 	}
 	if (gDInput->keyDown(DIK_S))
 	{
-		mVelocity += D3DXVECTOR3(mSpeed, 0.0f, 0.0f);
+		mVelocity += D3DXVECTOR3(0.0f, 0.0f, -mSpeed);
 		bIsMoving = true;
 	}
 	if (gDInput->keyDown(DIK_A))
 	{
-		mVelocity += D3DXVECTOR3(0.0f, 0.0f, -mSpeed);
+		mVelocity += D3DXVECTOR3(-mSpeed, 0.0f, 0.0f);
 		bIsMoving = true;
 	}
 	if (gDInput->keyDown(DIK_D))
 	{
-		mVelocity += D3DXVECTOR3(0.0f, 0.0f, mSpeed);
+		mVelocity += D3DXVECTOR3(mSpeed, 0.0f, 0.0f);
 		bIsMoving = true;
 	}
 	if (mVelocity != D3DXVECTOR3(0.0f, 0.0f, 0.0f))
@@ -104,7 +104,7 @@ void Player::update(float _dt)
 	//face towards mouse position
 	float a = (float)gWindowWidth / 2.0f - gDInput->mCursorPos2D.x;
 	float b = (float)gWindowHeight / 2.0f - gDInput->mCursorPos2D.y;
-	float angle = atan2f(b, a);
+	float angle = atan2f(b, a) + D3DX_PI / 2.0f;
 	mRotation.y = angle;
 	//did we collide with any level geometry?
 	bool colliding = false;
