@@ -2,13 +2,13 @@
 //this contains the state machine, the base state class, and the base event class
 
 #pragma once
+#include <vector>
 #include "Camera.h"
 #include "D3DUtils.h"
 #include "Level.h"
 #include "Menu.h"
 #include "Player.h"
-#include <vector>
-
+#include "LevelImporter.h"
 using std::vector;
 
 //you have to be careful in what order you add the states in. you should add them so that
@@ -147,7 +147,7 @@ class EventProcessFollower : public Event
 public:
 	void beginEvent(){
 		gFollower = new Follower(L"Content/Models/tiny.x", L"Content/Textures/Tiny_skin.dds",
-			L"Content/Textures/Tiny_skin_n.dds", D3DXVECTOR3(1000.0f, 50.0f, 0.0f), 100, 32.0f);
+			L"Content/Textures/Tiny_skin_n.dds", g_levelImp->getBart().getPos() * 10.0f/*D3DXVECTOR3(1000.0f, 50.0f, 0.0f)*/, 100, 32.0f);
 	}
 	void endEvent()				{ delete gFollower;  }
 	void updateEvent(float _dt)	{ gFollower->update(_dt); }
@@ -169,7 +169,7 @@ class EventProcessPlayer : public Event
 {
 	void beginEvent(){
 		gPlayer = new Player(L"Content/Models/tiny.x", L"Content/Textures/Tiny_skin.dds",
-			L"Content/Textures/Tiny_skin_n.dds", D3DXVECTOR3(0.0f, 50.0f, 0.0f),
+			L"Content/Textures/Tiny_skin_n.dds", g_levelImp->getDart().getPos() * 10.0f/*D3DXVECTOR3(0.0f, 50.0f, 0.0f)*/,
 			100, 32.0f);
 	}
 	void updateEvent(float _dt)	{ gPlayer->update(_dt); }

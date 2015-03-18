@@ -518,13 +518,13 @@ void DartLevelEditorApp::drawPawns()
 void DartLevelEditorApp::movePawn(UINT idx, float dt)
 {
 	if (g_input->keyDown(DIK_LEFT) && (g_input->keyDown(DIK_LSHIFT) || g_input->keyDown(DIK_RSHIFT)))
-		m_pawnList[idx].update(dt, D3DXVECTOR3(-5.0f, 0.0f, 0.0f));
+		m_pawnList[idx].update(dt, D3DXVECTOR3(-15.0f, 0.0f, 0.0f));
 	if (g_input->keyDown(DIK_RIGHT) && (g_input->keyDown(DIK_LSHIFT) || g_input->keyDown(DIK_RSHIFT)))
-		m_pawnList[idx].update(dt, D3DXVECTOR3(5.0f, 0.0f, 0.0f));
+		m_pawnList[idx].update(dt, D3DXVECTOR3(15.0f, 0.0f, 0.0f));
 	if (g_input->keyDown(DIK_UP) && (g_input->keyDown(DIK_LSHIFT) || g_input->keyDown(DIK_RSHIFT)))
-		m_pawnList[idx].update(dt, D3DXVECTOR3(0.0f, 0.0f, 5.0f));
+		m_pawnList[idx].update(dt, D3DXVECTOR3(0.0f, 0.0f, 15.0f));
 	if (g_input->keyDown(DIK_DOWN) && (g_input->keyDown(DIK_LSHIFT) || g_input->keyDown(DIK_RSHIFT)))
-		m_pawnList[idx].update(dt, D3DXVECTOR3(0.0f, 0.0f, -5.0f));
+		m_pawnList[idx].update(dt, D3DXVECTOR3(0.0f, 0.0f, -15.0f));
 }
 
 void DartLevelEditorApp::setPawnToMove(UINT id)

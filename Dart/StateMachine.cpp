@@ -210,19 +210,30 @@ Level 1
 *******************************************************************/
 void EventProcessLevel1::beginEvent()
 {
+	// load the level info from the file
+	g_levelImp->loadLevel(L"Content\\Levels\\TestLevel4.dlvl");
 	//make level
-	gCurrentLevel = new Level(D3DXVECTOR2(-1500.0f, -1500.0f), 3000);
+	gCurrentLevel = new Level(D3DXVECTOR2(-1500.0f, -1500.0f), 1000);
 	//add ground
 	Mesh* meshGround = new Mesh(L"Content/Models/ground.X", D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 	meshGround->addTexture(L"Content/Textures/tex_grass.dds", L"Content/Textures/tex_grass_n.dds");
 	gCurrentLevel->addGround(meshGround);
 	//add obstacles
-	Mesh* meshObstacle = new Mesh(L"Content/Models/box.x", D3DXVECTOR3(100.0f, 50.0f, 100.0f));
-	meshObstacle->addTexture(L"Content/Textures/tex_rock.dds", L"Content/Textures/tex_rock_n.dds");
-	AxisAlignedBoundingBox2D* aabbObstacle = new AxisAlignedBoundingBox2D(
-		D3DXVECTOR2(50.0f, 50.0f), D3DXVECTOR2(150.0f, 150.0f));
-	meshObstacle->addAABB(aabbObstacle);
-	gCurrentLevel->addObstacle(meshObstacle);
+	//add obstacles
+	for (int i = 0; i < g_levelImp->getNumWalls(); ++i) {
+		Mesh* meshObstacle = new Mesh(L"Content/Models/box.x", g_levelImp->getWallList()[i].getPos() * 10.0f, g_levelImp->getWallList()[i].getScale());
+		meshObstacle->addTexture(L"Content/Textures/tex_rock.dds", L"Content/Textures/tex_rock_n.dds");
+		gCurrentLevel->addObstacle(meshObstacle);
+	}
+	// TODO: most figure out the dimensions of the AABB using the position and scale of the current wall
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// 	Mesh* meshObstacle = new Mesh(L"Content/Models/box.x", D3DXVECTOR3(100.0f, 50.0f, 100.0f));
+// 	meshObstacle->addTexture(L"Content/Textures/tex_rock.dds", L"Content/Textures/tex_rock_n.dds");
+// 	AxisAlignedBoundingBox2D* aabbObstacle = new AxisAlignedBoundingBox2D(
+// 		D3DXVECTOR2(50.0f, 50.0f), D3DXVECTOR2(150.0f, 150.0f));
+// 	meshObstacle->addAABB(aabbObstacle);
+// 	gCurrentLevel->addObstacle(meshObstacle);
 	//always load obstacles before running initialize path finding
 	gCurrentLevel->getPaths()->initPathfinding();
 	//specify points for units to flee to
@@ -231,16 +242,23 @@ void EventProcessLevel1::beginEvent()
 	gCurrentLevel->addFleePoint(D3DXVECTOR2(-1400, 1400));
 	gCurrentLevel->addFleePoint(D3DXVECTOR2(1400, 1400));
 	//add enemies to level
-	gCurrentLevel->getSpawner()->addEnemy(new EnemyAnt(L"Content/Models/tiny.x", L"Content/Textures/Tiny_skin.dds",
-		L"Content/Textures/Tiny_skin_n.dds",
-		D3DXVECTOR3(1000.0f, 50.0f, 1000.0f), 30.0f, 40.0f));
-	gCurrentLevel->getSpawner()->addEnemy(new EnemyAnt(L"Content/Models/tiny.x", L"Content/Textures/Tiny_skin.dds",
-		L"Content/Textures/Tiny_skin_n.dds",
-		D3DXVECTOR3(1000.0f, 50.0f, -1000.0f), 30.0f, 40.0f));
-	gCurrentLevel->getSpawner()->addEnemy(new EnemyAnt(L"Content/Models/tiny.x", L"Content/Textures/Tiny_skin.dds",
-		L"Content/Textures/Tiny_skin_n.dds",
-		D3DXVECTOR3(-1000.0f, 50.0f, 1000.0f), 30.0f, 40.0f));
-	gCurrentLevel->getSpawner()->addEnemy(new EnemyAnt(L"Content/Models/tiny.x", L"Content/Textures/Tiny_skin.dds",
-		L"Content/Textures/Tiny_skin_n.dds",
-		D3DXVECTOR3(-1000.0f, 50.0f, -1000.0f), 30.0f, 40.0f));
+	for (UINT i = 0; i < g_levelImp->getEnemyList().size(); ++i) {
+		gCurrentLevel->getSpawner()->addEnemy(new EnemyAnt(L"Content/Models/tiny.x", L"Content/Textures/Tiny_skin.dds",
+			L"Content/Textures/Tiny_skin_n.dds",
+			g_levelImp->getEnemyList()[i].getPos() * 10.0f, 30.0f, 40.0f, D3DXVECTOR3(0.50f, 0.50f, 0.50f)));
+	}
+
+
+// 	gCurrentLevel->getSpawner()->addEnemy(new EnemyAnt(L"Content/Models/tiny.x", L"Content/Textures/Tiny_skin.dds",
+// 		L"Content/Textures/Tiny_skin_n.dds",
+// 		D3DXVECTOR3(1000.0f, 50.0f, 1000.0f), 30.0f, 40.0f));
+// 	gCurrentLevel->getSpawner()->addEnemy(new EnemyAnt(L"Content/Models/tiny.x", L"Content/Textures/Tiny_skin.dds",
+// 		L"Content/Textures/Tiny_skin_n.dds",
+// 		D3DXVECTOR3(1000.0f, 50.0f, -1000.0f), 30.0f, 40.0f));
+// 	gCurrentLevel->getSpawner()->addEnemy(new EnemyAnt(L"Content/Models/tiny.x", L"Content/Textures/Tiny_skin.dds",
+// 		L"Content/Textures/Tiny_skin_n.dds",
+// 		D3DXVECTOR3(-1000.0f, 50.0f, 1000.0f), 30.0f, 40.0f));
+// 	gCurrentLevel->getSpawner()->addEnemy(new EnemyAnt(L"Content/Models/tiny.x", L"Content/Textures/Tiny_skin.dds",
+// 		L"Content/Textures/Tiny_skin_n.dds",
+// 		D3DXVECTOR3(-1000.0f, 50.0f, -1000.0f), 30.0f, 40.0f));
 }

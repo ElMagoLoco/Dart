@@ -88,10 +88,12 @@
     <ClInclude Include="D3DApp.h" />
     <ClInclude Include="D3DUtils.h" />
     <ClInclude Include="DirectInput.h" />
+    <ClInclude Include="EditorPawn.h" />
     <ClInclude Include="Effect.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="FrameStats.h" />
     <ClInclude Include="Level.h" />
+    <ClInclude Include="LevelImporter.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Mesh.h" />
@@ -113,10 +115,12 @@
     <ClCompile Include="D3DApp.cpp" />
     <ClCompile Include="D3DUtils.cpp" />
     <ClCompile Include="DirectInput.cpp" />
+    <ClCompile Include="EditorPawn.cpp" />
     <ClCompile Include="Effect.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="FrameStats.cpp" />
     <ClCompile Include="Level.cpp" />
+    <ClCompile Include="LevelImporter.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="PathNode.cpp" />
