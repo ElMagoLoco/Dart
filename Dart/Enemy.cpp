@@ -22,6 +22,14 @@ void Enemy::update(float _dt)
 	if (bIsDead == true)
 		return;
 	Pawn::update(_dt);
+	//if it has seen the player/follower, decrease its point value over time
+	if (bSeenPlayer && mPoints > mMinPoints)
+	{
+		mPoints -= (mPointDrain * _dt);
+		mPoints = max(mMinPoints, mPoints);//if it dropped below min value, push it back up
+	}
+
+
 	mLastPathFound += _dt;//when last path was found
 	mAttackTime += _dt;//when last attack was made
 	mLoseSightPlayer += _dt;
@@ -292,6 +300,7 @@ bool Enemy::noticePlayer()
 	//if it gets through the above checks, then it can see the player
 	mLoseSightPlayer = 0.0f;
 	bAttackPlayer = true;
+	bSeenPlayer = true;
 	return true;
 }
 
@@ -349,6 +358,7 @@ bool Enemy::noticeFollower()
 	//if it gets through the above checks, then it can see the player
 	mLoseSightFollower = 0.0f;
 	bAttackFollower = true;
+	bSeenPlayer = true;
 	return true;
 }
 
