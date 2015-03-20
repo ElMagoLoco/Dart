@@ -73,3 +73,34 @@ public:
 private:
 
 };
+//button to set attack
+class ButtonSetAttackMelee : public Button
+{
+public:
+	ButtonSetAttackMelee(LPCWSTR _texture, float _positionX, float _positionY, int _sizeOX, int _sizeOY,
+		float _sizeSX, float _sizeSY, D3DCOLOR _color = D3DCOLOR_ARGB(255, 255, 255, 255));
+	void onClickLeft();
+	void onClickRight();
+private:
+
+};
+class ButtonSetAttackSeed : public Button
+{
+public:
+	ButtonSetAttackSeed(LPCWSTR _texture, float _positionX, float _positionY, int _sizeOX, int _sizeOY,
+		float _sizeSX, float _sizeSY, D3DCOLOR _color = D3DCOLOR_ARGB(255, 255, 255, 255));
+	void onClickLeft();
+	void onClickRight();
+private:
+
+};
+class ButtonSetAttackFire : public Button
+{
+public:
+	ButtonSetAttackFire(LPCWSTR _texture, float _positionX, float _positionY, int _sizeOX, int _sizeOY,
+		float _sizeSX, float _sizeSY, D3DCOLOR _color = D3DCOLOR_ARGB(255, 255, 255, 255));
+	void onClickLeft();
+	void onClickRight();
+private:
+
+};

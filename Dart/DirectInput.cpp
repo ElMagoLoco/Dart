@@ -89,15 +89,9 @@ bool DirectInput::keyDown(unsigned char _key)
 	return (mKeyboardState[_key] & 0x80) != 0;
 }
 //a mouse button is clicked
-bool DirectInput::mouseButtonDown(int _button, bool _bImmediate)
+bool DirectInput::mouseButtonDown(int _button)
 {
-	if (mMouseClickPause <= 0.0f || _bImmediate)
-	{
-		mMouseClickPause = 0.1f;
 		return (mMouseState.rgbButtons[_button] & 0x80) != 0;
-	}
-	else
-		return false;
 }
 //the amount the mouse moved in the x direction this frame
 float DirectInput::mouseDX()

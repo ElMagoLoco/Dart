@@ -22,7 +22,7 @@ public:
 
 	void poll();//poll for any keys or mouse activated
 	bool keyDown(unsigned char key);//a key has been pressed
-	bool mouseButtonDown(int button, bool _bImmediate = false);//a mouse button was clicked
+	bool mouseButtonDown(int button);//a mouse button was clicked
 	//the amount that the mouse moves this frame
 	float mouseDX();
 	float mouseDY();

@@ -206,6 +206,38 @@ void EventDisplayMenuOptions::beginEvent()
 }
 
 /*******************************************************************
+User Interface
+*******************************************************************/
+void EventDisplayUserInterface::beginEvent()
+{
+	//overlay
+	mInterface = new UserInterface(L"Content/Textures/ui_overlay.png", 0.0f, 0.0f, 1024, 1024,
+		1.0f, 1.0f);
+	StatBar* sbHealthDart = new StatBar(L"Content/Textures/ui_bar_health_dart.png", 0.0f, 0.85f,
+		64, 16, 0.1f, 0.05f, STAT_HEALTH_PLAYER);
+	mInterface->addStatBar(sbHealthDart);
+	StatBar* sbHealthBart = new StatBar(L"Content/Textures/ui_bar_health_bart.png", 0.0f, 0.9f,
+		64, 16, 0.1f, 0.05f, STAT_HEALTH_FOLLOWER);
+	mInterface->addStatBar(sbHealthBart);
+	StatBar* sbAmmoSeeds = new StatBar(L"Content/Textures/ui_bar_ammo_seed.png", 0.9f, 0.85f,
+		64, 16, 0.1f, 0.05f, STAT_AMMO_SEED);
+	mInterface->addStatBar(sbAmmoSeeds);
+	StatBar* sbAmmoFire = new StatBar(L"Content/Textures/ui_bar_ammo_fire.png", 0.9f, 0.9f,
+		64, 16, 0.1f, 0.05f, STAT_AMMO_SEED);
+	mInterface->addStatBar(sbAmmoFire);
+	ButtonSetAttackMelee* bMelee = new ButtonSetAttackMelee(L"Content/Textures/ui_icon_beak.png",
+		0.9f, 0.0f, 64, 64, 0.1f, 0.1f);
+	mInterface->addButton(bMelee);
+	ButtonSetAttackSeed* bSeed = new ButtonSetAttackSeed(L"Content/Textures/ui_icon_seed.png",
+		0.9f, 0.1f, 64, 64, 0.1f, 0.1f);
+	mInterface->addButton(bSeed);
+	ButtonSetAttackFire* bFire = new ButtonSetAttackFire(L"Content/Textures/ui_icon_fire.png",
+		0.9f, 0.2f, 64, 64, 0.1f, 0.1f);
+	mInterface->addButton(bFire);
+}
+
+
+/*******************************************************************
 Level 1
 *******************************************************************/
 void EventProcessLevel1::beginEvent()

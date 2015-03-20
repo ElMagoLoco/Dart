@@ -6,9 +6,10 @@
 #include "Camera.h"
 #include "D3DUtils.h"
 #include "Level.h"
+#include "LevelImporter.h"
 #include "Menu.h"
 #include "Player.h"
-#include "LevelImporter.h"
+#include "UserInterface.h"
 using std::vector;
 
 //you have to be careful in what order you add the states in. you should add them so that
@@ -123,6 +124,20 @@ public:
 	void onResetDevice()					{ mMenu->onResetDevice(); }
 private:
 	Menu* mMenu;
+};
+
+class EventDisplayUserInterface : public Event
+{
+public:
+	void beginEvent();
+	void endEvent()							{ delete mInterface; }
+	void updateEvent(float _dt)				{ mInterface->update(_dt); }
+	void drawEvent2D(ID3DXSprite* _sprite)	{ mInterface->draw(_sprite); }
+	void drawEventText()					{ mInterface->drawText(); }
+	void onLostDevice()						{ mInterface->onLostDevice(); }
+	void onResetDevice()					{ mInterface->onResetDevice(); }
+private:
+	UserInterface* mInterface;
 };
 
 //event to process the game camera

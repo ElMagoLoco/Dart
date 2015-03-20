@@ -40,9 +40,10 @@ using FMOD::System;
 	{													\
 		FMOD_RESULT fr = x;								\
 		if(fr != FMOD_OK)								\
-						{												\
-			gLog->writeLog("FMOD ERROR: " + fr );		\
-			gLog->writeLog(FMOD_ErrorString(fr), true);	\
+								{												\
+						wchar_t* wString = new wchar_t[1024]; \
+						MultiByteToWideChar(CP_ACP, 0, FMOD_ErrorString(fr), -1, wString, 1024); \
+						OutputDebugString(wString);	\
 						}												\
 	}
 #endif

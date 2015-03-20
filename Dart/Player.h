@@ -72,6 +72,10 @@ public:
 	UINT getAmmoSeedsMax() { return mAmmoSeedsMax; }
 	UINT getAmmoFire() { return mAmmoFire; }
 	UINT getAmmoFireMax() { return mAmmoFireMax; }
+	ePAttack getLeftAttack() { return mLeftAttack; }
+	ePAttack getRightAttack() { return mRightAttack; }
+	void setLeftAttack(ePAttack attack) { mLeftAttack = attack; }
+	void setRightAttack(ePAttack attack) { mRightAttack = attack; }
 private:
 	//ammo
 	UINT mAmmoSeeds;

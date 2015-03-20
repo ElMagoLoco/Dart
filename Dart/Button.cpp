@@ -126,3 +126,63 @@ void ButtonGoBack::onClickLeft()
 	bProcess = false;
 	gStateMachine->transitionState(STATE_MAINMENU);
 }
+
+/***********************************************************
+Change Attack to Melee
+***********************************************************/
+//parent constructor
+ButtonSetAttackMelee::ButtonSetAttackMelee(LPCWSTR _texture, float _positionX, float _positionY, int _sizeOX, int _sizeOY,
+	float _sizeSX, float _sizeSY, D3DCOLOR _color) :
+	Button(_texture, _positionX, _positionY, _sizeOX, _sizeOY, _sizeSX, _sizeSY, _color)
+{
+}
+
+void ButtonSetAttackMelee::onClickLeft()
+{
+	gPlayer->setLeftAttack(A_MELEE);
+}
+
+void ButtonSetAttackMelee::onClickRight()
+{
+	gPlayer->setRightAttack(A_MELEE);
+}
+
+/***********************************************************
+Change Attack to Seeds
+***********************************************************/
+//parent constructor
+ButtonSetAttackSeed::ButtonSetAttackSeed(LPCWSTR _texture, float _positionX, float _positionY, int _sizeOX, int _sizeOY,
+	float _sizeSX, float _sizeSY, D3DCOLOR _color) :
+	Button(_texture, _positionX, _positionY, _sizeOX, _sizeOY, _sizeSX, _sizeSY, _color)
+{
+}
+
+void ButtonSetAttackSeed::onClickLeft()
+{
+	gPlayer->setLeftAttack(A_SEED);
+}
+
+void ButtonSetAttackSeed::onClickRight()
+{
+	gPlayer->setRightAttack(A_SEED);
+}
+
+/***********************************************************
+Change Attack to Fire
+***********************************************************/
+//parent constructor
+ButtonSetAttackFire::ButtonSetAttackFire(LPCWSTR _texture, float _positionX, float _positionY, int _sizeOX, int _sizeOY,
+	float _sizeSX, float _sizeSY, D3DCOLOR _color) :
+	Button(_texture, _positionX, _positionY, _sizeOX, _sizeOY, _sizeSX, _sizeSY, _color)
+{
+}
+
+void ButtonSetAttackFire::onClickLeft()
+{
+	gPlayer->setLeftAttack(A_FIRE);
+}
+
+void ButtonSetAttackFire::onClickRight()
+{
+	gPlayer->setRightAttack(A_FIRE);
+}

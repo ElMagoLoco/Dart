@@ -7,9 +7,9 @@
 Player* gPlayer = 0;
 Follower* gFollower = 0;
 
-Pawn::Pawn(LPCWSTR _meshName, LPCWSTR _textureName, LPCWSTR _normalTexName, 
+Pawn::Pawn(LPCWSTR _meshName, LPCWSTR _textureName, LPCWSTR _normalTexName,
 	D3DXVECTOR3 _startPosition, float _healthMax, float _radius, D3DXVECTOR3 _meshScale) :
-	mHealth(_healthMax), mHealthMax(_healthMax), bIsDead(false), mPosition(_startPosition), 
+	mHealth(_healthMax), mHealthMax(_healthMax), bIsDead(false), mPosition(_startPosition),
 	mVelocity(D3DXVECTOR3(0.0f, 0.0f, 0.0f)), mSpeed(0.0f), mRotation(D3DXVECTOR3(0.0f, 0.0f, 0.0f)),
 	mRadius(_radius), mAttackTime(0.0f), mLastPosition(_startPosition), bIsMoving(false)
 {
@@ -134,12 +134,19 @@ void Player::update(float _dt)
 	
 	//attacks
 	mAttackTime += _dt;
-	if (mAttackTime > mAttackDelay)//if able to attack again
+	//if time to attack and if didn't just click the upper right UI buttons this frame
+	if (mAttackTime > mAttackDelay &&
+		(
+		(gDInput->mCursorPos2D.x < (0.9f * (float)gWindowWidth)) ||
+		(gDInput->mCursorPos2D.y > (0.3f * (float)gWindowHeight))
+		)
+		)
 	{
 		ePAttack attackType;
-		if (gDInput->mouseButtonDown(0, true))
+		//check if button is pressed
+		if (gDInput->mouseButtonDown(0))
 			attackType = mLeftAttack;
-		else if (gDInput->mouseButtonDown(1, true))
+		else if (gDInput->mouseButtonDown(1))
 			attackType = mRightAttack;
 		else
 			attackType = A_NONE;
@@ -158,7 +165,7 @@ void Player::update(float _dt)
 				{
 					--mAmmoSeeds;
 					attack = new Attack(L"Content/Models/ball.x", 15.0f, 600.0f, 8.0f, true, 10.0f,
-						D3DXVECTOR3(2.0f, 2.0f, 2.0f));
+						D3DXVECTOR3(4.0f, 4.0f, 4.0f));
 					attack->setTextures(L"Content/Textures/tex_seed.dds", L"Content/Textures/tex_seed_n.dds");
 				}
 				break;
@@ -167,7 +174,7 @@ void Player::update(float _dt)
 				{
 					--mAmmoFire;
 					attack = new Attack(L"Content/Models/ball.x", 30.0f, 500.0f, 8.0f, true, 10.0f,
-						D3DXVECTOR3(2.0f, 2.0f, 2.0f));
+						D3DXVECTOR3(4.0f, 4.0f, 4.0f));
 					attack->setTextures(L"Content/Textures/tex_fire.dds", L"Content/Textures/tex_fire_n.dds");
 				}
 				break;

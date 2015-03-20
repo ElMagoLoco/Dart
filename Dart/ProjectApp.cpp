@@ -7,6 +7,7 @@
 #include "Menu.h"
 #include "Mesh.h"
 #include "Player.h"
+#include "Sound.h"
 #include "StateMachine.h"
 #include "Vertex.h"
 
@@ -192,6 +193,11 @@ void ProjectApp::initStateMachine()
 	GamePlay Level 1
 	*******************************************************************/
 	State* sPlay = new State();
+	//user interface///////////////////////////////////////////////////
+	//Always process user interface before player so we'll know if they
+	//clicked a button during that frame
+	EventDisplayUserInterface* eInterface = new EventDisplayUserInterface();
+	sPlay->addEvent(eInterface);
 	//camera///////////////////////////////////////////////////////////
 	EventProcessCamera* eCam = new EventProcessCamera();
 	sPlay->addEvent(eCam);
@@ -213,6 +219,8 @@ void ProjectApp::initStateMachine()
 
 void ProjectApp::initGameComponents()
 {
+	//sounds
+	gSound = new SoundSystem();
 	//load main effect file for levels
 	gEffectPrimary = new Effect(L"Content/FX/BumpMapping.fx");
 	gEffectAnim = new Effect(L"Content/FX/MultiAnimation.fx");
