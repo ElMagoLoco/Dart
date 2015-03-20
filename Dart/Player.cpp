@@ -119,6 +119,15 @@ void Player::update(float _dt)
 				break;
 		}
 		if (colliding) break;
+
+		// SAM
+		for (UINT i = 0; i < M->getBoundsBoxList().size(); ++i) {
+			colliding = collides(AxisAlignedBoundingBox(M->getBoundsBoxList()[i]), BoundingSphere(D3DXVECTOR3(mPosition.x, mPosition.y, mPosition.z), mRadius));
+			if (colliding)
+				break;
+		}
+		if (colliding)
+			break;
 	}
 	//move
 	if (!colliding)

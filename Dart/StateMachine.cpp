@@ -256,10 +256,22 @@ void EventProcessLevel1::beginEvent()
 		Mesh* meshObstacle = new Mesh(L"Content/Models/box.x", g_levelImp->getWallList()[i].getPos() * 10.0f, g_levelImp->getWallList()[i].getScale());
 		meshObstacle->addTexture(L"Content/Textures/tex_rock.dds", L"Content/Textures/tex_rock_n.dds");
 		gCurrentLevel->addObstacle(meshObstacle);
+		// SAM
+		// TODO: most figure out the dimensions of the AABB using the position and scale of the current wall
+		///////////////////////////////////////////////////////////////////////////////////////////////////////////
+		// 		float minx = g_levelImp->getWallList()[i].getPos().x - (g_levelImp->getWallList()[i].getScale().x * 0.5f);
+		// 		float minz = g_levelImp->getWallList()[i].getPos().z - (g_levelImp->getWallList()[i].getScale().z * 0.5f);
+		// 		float maxx = g_levelImp->getWallList()[i].getPos().x + (g_levelImp->getWallList()[i].getScale().x * 0.5f);
+		// 		float maxz = g_levelImp->getWallList()[i].getPos().z + (g_levelImp->getWallList()[i].getScale().z * 0.5f);
+		float minx = (g_levelImp->getWallList()[i].getScale().x * 0.5f) + g_levelImp->getWallList()[i].getPos().x;
+		float minz = (g_levelImp->getWallList()[i].getScale().x * 0.5f) + g_levelImp->getWallList()[i].getPos().x;
+		float maxx = (g_levelImp->getWallList()[i].getScale().z * 0.5f) + g_levelImp->getWallList()[i].getPos().z;
+		float maxz = (g_levelImp->getWallList()[i].getScale().z * 0.5f) + g_levelImp->getWallList()[i].getPos().z;
+		AxisAlignedBoundingBox aabbObstacle(D3DXVECTOR3(minx, minz, minx/*50.0f, 50.0f*/), D3DXVECTOR3(maxx, maxz, maxz/*150.0f, 150.0f*/));
+		meshObstacle->addBoundsBox(aabbObstacle);
+		gCurrentLevel->addObstacle(meshObstacle);
 	}
-	// TODO: most figure out the dimensions of the AABB using the position and scale of the current wall
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 // 	Mesh* meshObstacle = new Mesh(L"Content/Models/box.x", D3DXVECTOR3(100.0f, 50.0f, 100.0f));
 // 	meshObstacle->addTexture(L"Content/Textures/tex_rock.dds", L"Content/Textures/tex_rock_n.dds");
 // 	AxisAlignedBoundingBox2D* aabbObstacle = new AxisAlignedBoundingBox2D(

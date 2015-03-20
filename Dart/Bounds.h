@@ -16,9 +16,11 @@ struct AxisAlignedBoundingBox
 	//constructor, just sets the three variables
 	AxisAlignedBoundingBox(D3DXVECTOR3 _min, D3DXVECTOR3 _max, bool _bBlocksProjectiles = true) :
 		mMin(_min), mMax(_max), bBlocksProjectiles(_bBlocksProjectiles)
-	{
+	{// SAM
+#if defined _DEBUG | DEBUG
 		if (_min.x > _max.x || _min.y > _max.y || _min.z > _max.z)
 			OutputDebugString(L"ERROR: AABB min point should be less than max point or collision detection will be inaccurate.");
+#endif
 	}
 	AxisAlignedBoundingBox() : mMin(D3DXVECTOR3(-FLT_MAX, -FLT_MAX, -FLT_MAX)),
 		mMax(D3DXVECTOR3(FLT_MAX, FLT_MAX, FLT_MAX)), bBlocksProjectiles(true) {};
@@ -30,10 +32,11 @@ struct AxisAlignedBoundingBox
 struct BoundingSphere
 {
 	//constructor, just sets the three variables
-	BoundingSphere(D3DXVECTOR3 _center, float _radius, bool _bBlocksProjectiles = true)
-	{
-		mCenter = _center; mRadius = _radius; bBlocksProjectiles = _bBlocksProjectiles;
-	}
+	BoundingSphere(D3DXVECTOR3 _center, float _radius, bool _bBlocksProjectiles = true) : // SAM
+		mCenter(_center),
+		mRadius(_radius),
+		bBlocksProjectiles(_bBlocksProjectiles)
+	{}
 
 	D3DXVECTOR3	mCenter;//center of sphere
 	float		mRadius;//sphere radius
@@ -42,10 +45,10 @@ struct BoundingSphere
 
 struct LineSegment
 {
-	LineSegment(D3DXVECTOR3 _begin, D3DXVECTOR3 _end)
-	{
-		mBegin = _begin; mEnd = _end;
-	}
+	LineSegment(D3DXVECTOR3 _begin, D3DXVECTOR3 _end) : // SAM
+		mBegin(_begin),
+		mEnd(_end)
+	{}
 
 	D3DXVECTOR3 mBegin;
 	D3DXVECTOR3 mEnd;
@@ -57,11 +60,13 @@ struct AxisAlignedBoundingBox2D
 	//constructor
 	AxisAlignedBoundingBox2D(D3DXVECTOR2 _min, D3DXVECTOR2 _max, bool _blocksProjectiles = true) :
 		mMin(_min), mMax(_max)
-	{
+	{/// SAM
+#if defined _DEBUG | DEBUG
 		if (_max.x < _min.x || _max.y < _min.y)
 		{
 			OutputDebugString(L"ERROR: Box max point should be > box min point or collision detection will fail.");
 		}
+#endif
 	}
 	D3DXVECTOR2 mMin;//minimum point of box
 	D3DXVECTOR2 mMax;//size of box starting from min point
@@ -94,3 +99,6 @@ const bool collides(const AxisAlignedBoundingBox2D _box, const BoundingSphere2D 
 const bool collides(const BoundingSphere2D _circle1, const BoundingSphere2D _circle2);
 const bool collides(const AxisAlignedBoundingBox2D _box, const LineSegment2D _line);
 const bool collides(const LineSegment2D _line1, const LineSegment2D _line2);
+// SAM
+const bool collides(const AxisAlignedBoundingBox& box, const BoundingSphere& circle);
+const bool collides(const AxisAlignedBoundingBox& box, const LineSegment& line);

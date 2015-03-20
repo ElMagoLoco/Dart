@@ -53,8 +53,12 @@ public:
 	void setVisibility(bool _bVisible) { bVisible = _bVisible; }
 	//adding AABB to the mesh for collisions
 	void addAABB(AxisAlignedBoundingBox2D* AABB) { mBoundsAABB.push_back(AABB); }
+	// SAM
+	void addBoundsBox(const AxisAlignedBoundingBox& box) { mBoundsBoxList.push_back(box); }
 	//get collision boxes
 	vector<AxisAlignedBoundingBox2D*> getAABBs(){ return mBoundsAABB; }
+	// SAM
+	vector<AxisAlignedBoundingBox>& getBoundsBoxList() { return mBoundsBoxList; }
 	//collisions with bounding spheres
 	const bool collideWith(const BoundingSphere2D& _sphere);
 protected:
@@ -75,6 +79,8 @@ protected:
 	bool						bTextured;
 	//collision boxes
 	vector<AxisAlignedBoundingBox2D*> mBoundsAABB;
+	// SAM
+	vector<AxisAlignedBoundingBox>		mBoundsBoxList;
 };
 
 class AnimMesh: public Mesh

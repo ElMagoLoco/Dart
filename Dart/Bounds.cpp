@@ -71,3 +71,16 @@ const bool collides(const LineSegment2D _line1, const LineSegment2D _line2)
 	//if it makes it through the above checks, then they collide
 	return true;
 }
+
+// SAM
+const bool collides(const AxisAlignedBoundingBox& box, const BoundingSphere& circle)
+{
+	// TODO: Implement
+	return false;
+}
+// SAM
+const bool collides(const AxisAlignedBoundingBox& box, const LineSegment& line)
+{
+	// TODO: Implement
+	return false;
+}

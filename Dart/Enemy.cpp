@@ -259,6 +259,8 @@ bool Enemy::noticePlayer()
 	//make a line segment between enemy and player location
 	//only take into account x and z here since map is flat, will save time
 	LineSegment2D line(D3DXVECTOR2(mPosition.x, mPosition.z), D3DXVECTOR2(playerPos.x, playerPos.z));
+	// SAM
+	LineSegment line3D(D3DXVECTOR3(mPosition.x, mPosition.y, mPosition.z), D3DXVECTOR3(playerPos.x, playerPos.y, playerPos.z));
 	for (Mesh* M : gCurrentLevel->getWorldGeometry())
 	{
 		for (AxisAlignedBoundingBox2D* AABB : M->getAABBs())
@@ -268,6 +270,19 @@ bool Enemy::noticePlayer()
 				continue;
 			//see if it collides with the line
 			if (collides(*AABB, line))
+			{
+				bAttackPlayer = false;
+				return returnBool;
+			}
+		}
+
+		// SAM
+		for (UINT i = 0; i < M->getBoundsBoxList().size(); ++i)	{
+			//if further out than sight range, no point in checking it
+			if (D3DXVec3LengthSq(&(M->getBoundsBoxList()[i].mMin - D3DXVECTOR3(mPosition.x, mPosition.y, mPosition.z))) > mSightRangeSq)
+				continue;
+			//see if it collides with the line
+			if (collides(M->getBoundsBoxList()[i], line3D))
 			{
 				bAttackPlayer = false;
 				return returnBool;
