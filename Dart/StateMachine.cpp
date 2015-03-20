@@ -287,7 +287,7 @@ void EventProcessLevel1::beginEvent()
 	gCurrentLevel->addFleePoint(D3DXVECTOR2(1400, 1400));
 	//add enemies to level
 	for (UINT i = 0; i < g_levelImp->getEnemyList().size(); ++i) {
-		gCurrentLevel->getSpawner()->addEnemy(new EnemyAnt(L"Content/Models/tiny.x", L"Content/Textures/Tiny_skin.dds",
+		gCurrentLevel->getSpawner()->addEnemy(new EnemyMelee(L"Content/Models/tiny.x", L"Content/Textures/Tiny_skin.dds",
 			L"Content/Textures/Tiny_skin_n.dds",
 			g_levelImp->getEnemyList()[i].getPos() * 10.0f, 30.0f, 40.0f, D3DXVECTOR3(0.50f, 0.50f, 0.50f)));
 	}

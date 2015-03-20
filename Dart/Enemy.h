@@ -72,11 +72,33 @@ protected:
 //sub classes of enemy will mostly just be constructors with variable setting. . All else will be in the main
 //enemy class
 
-//ants are a basic enemy with a melee attack
-class EnemyAnt : public Enemy
+//basic enemy with a melee attack
+class EnemyMelee : public Enemy
 {
 public:
-	EnemyAnt(LPCWSTR _meshName, LPCWSTR _textureName, LPCWSTR _normalTexName,
+	EnemyMelee(LPCWSTR _meshName, LPCWSTR _textureName, LPCWSTR _normalTexName,
+		D3DXVECTOR3 _startPosition, float _healthMax, float _radius,
+		D3DXVECTOR3 _meshScale = D3DXVECTOR3(1.0f, 1.0f, 1.0f));
+	void attack(D3DXVECTOR3 _position);//attack towards a position
+private:
+};
+
+//basic enemy with a seed ranged attack
+class EnemySeeds : public Enemy
+{
+public:
+	EnemySeeds(LPCWSTR _meshName, LPCWSTR _textureName, LPCWSTR _normalTexName,
+		D3DXVECTOR3 _startPosition, float _healthMax, float _radius,
+		D3DXVECTOR3 _meshScale = D3DXVECTOR3(1.0f, 1.0f, 1.0f));
+	void attack(D3DXVECTOR3 _position);//attack towards a position
+private:
+};
+
+//basic enemy with a seed ranged attack
+class EnemyFire : public Enemy
+{
+public:
+	EnemyFire(LPCWSTR _meshName, LPCWSTR _textureName, LPCWSTR _normalTexName,
 		D3DXVECTOR3 _startPosition, float _healthMax, float _radius,
 		D3DXVECTOR3 _meshScale = D3DXVECTOR3(1.0f, 1.0f, 1.0f));
 	void attack(D3DXVECTOR3 _position);//attack towards a position

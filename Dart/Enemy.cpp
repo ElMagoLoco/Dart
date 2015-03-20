@@ -430,7 +430,7 @@ void Enemy::chooseTarget()
 }
 
 
-EnemyAnt::EnemyAnt(LPCWSTR _meshName, LPCWSTR _textureName, LPCWSTR _normalTexName,
+EnemyMelee::EnemyMelee(LPCWSTR _meshName, LPCWSTR _textureName, LPCWSTR _normalTexName,
 	D3DXVECTOR3 _startPosition, float _healthMax, float _radius, D3DXVECTOR3 _meshScale) :
 	Enemy(_meshName, _textureName, _normalTexName, _startPosition, _healthMax,
 	_radius, _meshScale)
@@ -450,6 +450,52 @@ EnemyAnt::EnemyAnt(LPCWSTR _meshName, LPCWSTR _textureName, LPCWSTR _normalTexNa
 	mLoseSightFollower = 1.0f;
 	mSpeed = 300.0f;
 	mAttack = new Attack(L"Content/Models/ball.x", 10.0f, 400.0f, 0.1f, false);
+	mAttack->setTextures(L"Content/Textures/tex_fire.dds", L"Content/Textures/tex_fire_n.dds");
+}
+
+EnemySeeds::EnemySeeds(LPCWSTR _meshName, LPCWSTR _textureName, LPCWSTR _normalTexName,
+	D3DXVECTOR3 _startPosition, float _healthMax, float _radius, D3DXVECTOR3 _meshScale) :
+	Enemy(_meshName, _textureName, _normalTexName, _startPosition, _healthMax,
+	_radius, _meshScale)
+{
+	mRanged = true;
+	mAttackDistanceSq = 4000000.0f;//2000
+	mClosestDistanceSq = 6500.0f;//80
+	mAttackDelay = 1.0f;
+	mFearHealth = mHealthMax * .667f;
+	mPoints = 200.0f;
+	mPointDrain = 1.5f;
+	mMinPoints = 75.0f;
+	mSightRangeSq = 1000000.0f;//1000
+	mHearAttackRangeSq = 62500.0f;//250
+	mHearRangeSq = 10000.0f;//100
+	mLoseSightPlayer = 1.0f;
+	mLoseSightFollower = 1.0f;
+	mSpeed = 250.0f;
+	mAttack = new Attack(L"Content/Models/ball.x", 15.0f, 400.0f, 0.1f, false);
+	mAttack->setTextures(L"Content/Textures/tex_seed.dds", L"Content/Textures/tex_seed_n.dds");
+}
+
+EnemyFire::EnemyFire(LPCWSTR _meshName, LPCWSTR _textureName, LPCWSTR _normalTexName,
+	D3DXVECTOR3 _startPosition, float _healthMax, float _radius, D3DXVECTOR3 _meshScale) :
+	Enemy(_meshName, _textureName, _normalTexName, _startPosition, _healthMax,
+	_radius, _meshScale)
+{
+	mRanged = true;
+	mAttackDistanceSq = 4000000.0f;//2000
+	mClosestDistanceSq = 6500.0f;//80
+	mAttackDelay = 1.0f;
+	mFearHealth = mHealthMax * .667f;
+	mPoints = 300.0f;
+	mPointDrain = 2.0f;
+	mMinPoints = 100.0f;
+	mSightRangeSq = 1000000.0f;//1000
+	mHearAttackRangeSq = 62500.0f;//250
+	mHearRangeSq = 10000.0f;//100
+	mLoseSightPlayer = 1.0f;
+	mLoseSightFollower = 1.0f;
+	mSpeed = 300.0f;
+	mAttack = new Attack(L"Content/Models/ball.x", 20.0f, 400.0f, 0.1f, false);
 	mAttack->setTextures(L"Content/Textures/tex_fire.dds", L"Content/Textures/tex_fire_n.dds");
 }
 
