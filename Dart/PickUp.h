@@ -44,6 +44,7 @@ protected:
 class PickUpManager
 {
 public:
+	list<PickUp*>& getPickUps() { return mPickUps; }
 	void addPickUp(PickUp* _pickup) { mPickUps.push_back(_pickup); }
 	void update(float _dt);
 	void draw();

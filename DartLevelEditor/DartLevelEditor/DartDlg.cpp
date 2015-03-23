@@ -1,5 +1,7 @@
 #include "DartLevelEditorApp.h"
 #include "DartDlg.h"
+#include "PickUpDlg.h"
+#include "EditorPawn.h"
 #include "resource.h"
 
 extern DartLevelEditorApp theApp;
@@ -18,6 +20,7 @@ BEGIN_MESSAGE_MAP(DartDlg, CDialog)
 	ON_BN_CLICKED(IDC_BTN_LOADLEVEL, &DartDlg::OnBnClickedBtnLoadlevel)
 ON_BN_CLICKED(IDC_BTN_CREATEWALL, &DartDlg::OnBnClickedBtnCreatewall)
 ON_BN_CLICKED(IDC_BTN_DELETEOBJECT, &DartDlg::OnBnClickedBtnDeleteobject)
+ON_BN_CLICKED(IDC_BTN_PICKUPSPAWN, &DartDlg::OnBnClickedBtnPickupspawn)
 END_MESSAGE_MAP()
 
 DartDlg::DartDlg() :
@@ -143,7 +146,7 @@ void DartDlg::OnBnClickedBtnAntzspawn()
 	theApp.createAntzSpawn();
 
 	CComboBox* list = (CComboBox*)GetDlgItem(IDC_LIST_PAWNSELECTOR);
-	CString temp = L"Antz Spawn Point";
+	CString temp = L"Antz Spawn Point_";
 	wchar_t temp1[32];
 	_itow_s(++count, temp1, 10);
 	temp += temp1;
@@ -187,7 +190,7 @@ void DartDlg::OnBnClickedBtnCreatewall()
 
 	CComboBox* list = (CComboBox*)GetDlgItem(IDC_LIST_PAWNSELECTOR);
 
-	CString temp = L"Wall";
+	CString temp = L"Wall_";
 	wchar_t temp1[32];
 	_itow_s(++count, temp1, 10);
 	temp += temp1;
@@ -206,4 +209,73 @@ void DartDlg::OnBnClickedBtnDeleteobject()
 	theApp.deletePawn(selected);
 	// TODO: fix so that objects counts are properly decremented so the strings like WallX in the combolist show up right
 	--m_nPawnCount;
+}
+
+
+void DartDlg::OnBnClickedBtnPickupspawn()
+{
+	PickUpDlg dlg;
+
+	int selected = -1;
+	if (IDOK == dlg.DoModal()) {
+		selected = dlg.m_nSelected;
+	}
+
+	static int count = -1;
+
+	switch (selected) {
+	case IDC_RADIO_HEAL: {
+		theApp.createPickUp(EditorPawn::PawnType::PT_Pickup_Heal);
+
+		CComboBox* list = (CComboBox*)GetDlgItem(IDC_LIST_PAWNSELECTOR);
+
+		CString temp = L"PickUp_Heal_";
+		wchar_t temp1[32];
+		_itow_s(++count, temp1, 10);
+		temp += temp1;
+		list->InsertString(m_nPawnCount, temp);
+		list->SetCurSel(m_nPawnCount++);
+	}
+	break;
+	
+	case IDC_RADIO_BONUS: {
+		theApp.createPickUp(EditorPawn::PawnType::PT_Pickup_Bonus);
+
+		CComboBox* list = (CComboBox*)GetDlgItem(IDC_LIST_PAWNSELECTOR);
+
+		CString temp = L"PickUp_Bonus_";
+		wchar_t temp1[32];
+		_itow_s(++count, temp1, 10);
+		temp += temp1;
+		list->InsertString(m_nPawnCount, temp);
+		list->SetCurSel(m_nPawnCount++);
+	}
+	break;
+	case IDC_RADIO_AMMO_SEED: {
+		theApp.createPickUp(EditorPawn::PawnType::PT_Pickup_Ammo_Seed);
+
+		CComboBox* list = (CComboBox*)GetDlgItem(IDC_LIST_PAWNSELECTOR);
+
+		CString temp = L"PickUp_Seed_";
+		wchar_t temp1[32];
+		_itow_s(++count, temp1, 10);
+		temp += temp1;
+		list->InsertString(m_nPawnCount, temp);
+		list->SetCurSel(m_nPawnCount++);
+	}
+	break;
+	case IDC_RADIO_AMMO_FIRE: {
+		theApp.createPickUp(EditorPawn::PawnType::PT_Pickup_Ammo_Fire);
+
+		CComboBox* list = (CComboBox*)GetDlgItem(IDC_LIST_PAWNSELECTOR);
+
+		CString temp = L"PickUp_Fire_";
+		wchar_t temp1[32];
+		_itow_s(++count, temp1, 10);
+		temp += temp1;
+		list->InsertString(m_nPawnCount, temp);
+		list->SetCurSel(m_nPawnCount++);
+	}
+	break;
+	}
 }

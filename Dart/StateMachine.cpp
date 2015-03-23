@@ -251,7 +251,6 @@ void EventProcessLevel1::beginEvent()
 	meshGround->addTexture(L"Content/Textures/tex_grass.dds", L"Content/Textures/tex_grass_n.dds");
 	gCurrentLevel->addGround(meshGround);
 	//add obstacles
-	//add obstacles
 	for (int i = 0; i < g_levelImp->getNumWalls(); ++i) {
 		Mesh* meshObstacle = new Mesh(L"Content/Models/box.x", g_levelImp->getWallList()[i].getPos() * 10.0f, g_levelImp->getWallList()[i].getScale());
 		meshObstacle->addTexture(L"Content/Textures/tex_rock.dds", L"Content/Textures/tex_rock_n.dds");
@@ -286,23 +285,15 @@ void EventProcessLevel1::beginEvent()
 	gCurrentLevel->addFleePoint(D3DXVECTOR2(-1400, 1400));
 	gCurrentLevel->addFleePoint(D3DXVECTOR2(1400, 1400));
 	//add enemies to level
-	for (UINT i = 0; i < g_levelImp->getEnemyList().size(); ++i) {
+	for (UINT i = 0; i < g_levelImp->getNumEnemies(); ++i) {
 		gCurrentLevel->getSpawner()->addEnemy(new EnemyMelee(L"Content/Models/tiny.x", L"Content/Textures/Tiny_skin.dds",
 			L"Content/Textures/Tiny_skin_n.dds",
 			g_levelImp->getEnemyList()[i].getPos() * 10.0f, 30.0f, 40.0f, D3DXVECTOR3(0.50f, 0.50f, 0.50f)));
 	}
 
-
-// 	gCurrentLevel->getSpawner()->addEnemy(new EnemyAnt(L"Content/Models/tiny.x", L"Content/Textures/Tiny_skin.dds",
-// 		L"Content/Textures/Tiny_skin_n.dds",
-// 		D3DXVECTOR3(1000.0f, 50.0f, 1000.0f), 30.0f, 40.0f));
-// 	gCurrentLevel->getSpawner()->addEnemy(new EnemyAnt(L"Content/Models/tiny.x", L"Content/Textures/Tiny_skin.dds",
-// 		L"Content/Textures/Tiny_skin_n.dds",
-// 		D3DXVECTOR3(1000.0f, 50.0f, -1000.0f), 30.0f, 40.0f));
-// 	gCurrentLevel->getSpawner()->addEnemy(new EnemyAnt(L"Content/Models/tiny.x", L"Content/Textures/Tiny_skin.dds",
-// 		L"Content/Textures/Tiny_skin_n.dds",
-// 		D3DXVECTOR3(-1000.0f, 50.0f, 1000.0f), 30.0f, 40.0f));
-// 	gCurrentLevel->getSpawner()->addEnemy(new EnemyAnt(L"Content/Models/tiny.x", L"Content/Textures/Tiny_skin.dds",
-// 		L"Content/Textures/Tiny_skin_n.dds",
-// 		D3DXVECTOR3(-1000.0f, 50.0f, -1000.0f), 30.0f, 40.0f));
+	// add pickups
+// 	for (UINT i = 0; i < g_levelImp->getNumPickups(); ++i) {
+// 		PickUp newPickup;
+// 
+// 	}
 }

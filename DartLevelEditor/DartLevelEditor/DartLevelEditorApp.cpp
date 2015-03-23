@@ -7,6 +7,7 @@
 #include "DartPawn.h"
 #include "AntzPawn.h"
 #include "WallPawn.h"
+#include "PickUpPawn.h"
 #include "resource.h"
 
 using namespace Fugui;
@@ -265,6 +266,10 @@ void DartLevelEditorApp::saveLevel(CString filename)
 	ofs << L"PointOfLevelLocale:" << EditorPawn::PawnType::PT_PointOfLevelLocale << L'\n';
 	ofs << L"RockLocale:" << EditorPawn::PawnType::PT_RockLocale << L'\n';
 	ofs << L"Wall:" << EditorPawn::PawnType::PT_Wall << L'\n';
+	ofs << L"PickUpHeal:" << EditorPawn::PawnType::PT_Pickup_Heal << L'\n';
+	ofs << L"PickUpBonus:" << EditorPawn::PawnType::PT_Pickup_Bonus << '\n';
+	ofs << L"PickUpAmmoSeed:" << EditorPawn::PawnType::PT_Pickup_Ammo_Seed << '\n';
+	ofs << L"PickUpAmmoFire:" << EditorPawn::PawnType::PT_Pickup_Ammo_Fire << '\n';
 
 	ofs << L"PawnCount:" << m_pawnList.size() << L'\n';
 	for (UINT i = 0; i < m_pawnList.size(); ++i) {
@@ -312,6 +317,34 @@ void DartLevelEditorApp::saveLevel(CString filename)
 			ofs << i << L":" << L"Solid:" << m_pawnList[i].getSolid() << L'\n';
 			ofs << i << L":" << L"Position:" << m_pawnList[i].getPos().x << L"," << m_pawnList[i].getPos().y << L"," << m_pawnList[i].getPos().z << L'\n';
 			ofs << i << L":" << L"Scale:" << m_pawnList[i].getScale().x << L"," << m_pawnList[i].getScale().y << L"," << m_pawnList[i].getScale().z << L'\n';
+		}
+		break;
+		case EditorPawn::PawnType::PT_Pickup_Heal:
+		{
+			ofs << i << L":" << L"Type:" << m_pawnList[i].getPawnType() << L'\n';
+			ofs << i << L":" << L"Solid:" << m_pawnList[i].getSolid() << L'\n';
+			ofs << i << L":" << L"Position:" << m_pawnList[i].getPos().x << L"," << m_pawnList[i].getPos().y << L"," << m_pawnList[i].getPos().z << L'\n';
+		}
+		break;
+		case EditorPawn::PawnType::PT_Pickup_Bonus:
+		{
+			ofs << i << L":" << L"Type:" << m_pawnList[i].getPawnType() << L'\n';
+			ofs << i << L":" << L"Solid:" << m_pawnList[i].getSolid() << L'\n';
+			ofs << i << L":" << L"Position:" << m_pawnList[i].getPos().x << L"," << m_pawnList[i].getPos().y << L"," << m_pawnList[i].getPos().z << L'\n';
+		}
+		break;
+		case EditorPawn::PawnType::PT_Pickup_Ammo_Seed:
+		{
+			ofs << i << L":" << L"Type:" << m_pawnList[i].getPawnType() << L'\n';
+			ofs << i << L":" << L"Solid:" << m_pawnList[i].getSolid() << L'\n';
+			ofs << i << L":" << L"Position:" << m_pawnList[i].getPos().x << L"," << m_pawnList[i].getPos().y << L"," << m_pawnList[i].getPos().z << L'\n';
+		}
+		break;
+		case EditorPawn::PawnType::PT_Pickup_Ammo_Fire:
+		{
+			ofs << i << L":" << L"Type:" << m_pawnList[i].getPawnType() << L'\n';
+			ofs << i << L":" << L"Solid:" << m_pawnList[i].getSolid() << L'\n';
+			ofs << i << L":" << L"Position:" << m_pawnList[i].getPos().x << L"," << m_pawnList[i].getPos().y << L"," << m_pawnList[i].getPos().z << L'\n';
 		}
 		break;
 		} // end switch		
@@ -388,7 +421,7 @@ void DartLevelEditorApp::loadLevel(CString filename)
 			ifs.getline(token, 64);
 			z = (float)_wtof(token);
 			createAntzSpawn(D3DXVECTOR3(x, y, z));
-			CString temp = L"Antz Spawn Point";
+			CString temp = L"Antz Spawn Point_";
 			wchar_t temp1[32];
 			_itow_s(numAntz++, temp1, 10);
 			temp += temp1;
@@ -473,7 +506,99 @@ void DartLevelEditorApp::loadLevel(CString filename)
 
 			createWall(D3DXVECTOR3(dx, dy, dz), D3DXVECTOR3(x, y, z));
 
-			CString temp = L"Wall";
+			CString temp = L"Wall_";
+			wchar_t temp1[32];
+			_itow_s(numWalls++, temp1, 10);
+			temp += temp1;
+			m_dlg.insertToPawnList(temp.GetString());
+		}
+		break;
+		case EditorPawn::PawnType::PT_Pickup_Heal:
+		{
+			ifs.getline(token, 64, L':');
+			ifs.getline(token, 64, L':');
+			ifs.getline(token, 64, L',');
+
+			float x, y, z;
+
+			x = (float)_wtof(token);
+			ifs.getline(token, 64, L',');
+			y = (float)_wtof(token);
+			ifs.getline(token, 64);
+			z = (float)_wtof(token);
+
+			createPickUp(EditorPawn::PT_Pickup_Heal, D3DXVECTOR3(x, y, z));
+
+			CString temp = L"PickUpHeal_";
+			wchar_t temp1[32];
+			_itow_s(numWalls++, temp1, 10);
+			temp += temp1;
+			m_dlg.insertToPawnList(temp.GetString());
+		}
+		break;
+		case EditorPawn::PawnType::PT_Pickup_Bonus:
+		{
+			ifs.getline(token, 64, L':');
+			ifs.getline(token, 64, L':');
+			ifs.getline(token, 64, L',');
+
+			float x, y, z;
+
+			x = (float)_wtof(token);
+			ifs.getline(token, 64, L',');
+			y = (float)_wtof(token);
+			ifs.getline(token, 64);
+			z = (float)_wtof(token);
+
+			createPickUp(EditorPawn::PT_Pickup_Bonus, D3DXVECTOR3(x, y, z));
+
+			CString temp = L"PickUpBonus_";
+			wchar_t temp1[32];
+			_itow_s(numWalls++, temp1, 10);
+			temp += temp1;
+			m_dlg.insertToPawnList(temp.GetString());
+		}
+		break;
+		case EditorPawn::PawnType::PT_Pickup_Ammo_Seed:
+		{
+			ifs.getline(token, 64, L':');
+			ifs.getline(token, 64, L':');
+			ifs.getline(token, 64, L',');
+
+			float x, y, z;
+
+			x = (float)_wtof(token);
+			ifs.getline(token, 64, L',');
+			y = (float)_wtof(token);
+			ifs.getline(token, 64);
+			z = (float)_wtof(token);
+
+			createPickUp(EditorPawn::PT_Pickup_Ammo_Seed, D3DXVECTOR3(x, y, z));
+
+			CString temp = L"PickUpAmmoSeed_";
+			wchar_t temp1[32];
+			_itow_s(numWalls++, temp1, 10);
+			temp += temp1;
+			m_dlg.insertToPawnList(temp.GetString());
+		}
+		break;
+		case EditorPawn::PawnType::PT_Pickup_Ammo_Fire:
+		{
+			ifs.getline(token, 64, L':');
+			ifs.getline(token, 64, L':');
+			ifs.getline(token, 64, L',');
+
+			float x, y, z;
+
+			x = (float)_wtof(token);
+			ifs.getline(token, 64, L',');
+			y = (float)_wtof(token);
+			ifs.getline(token, 64);
+			z = (float)_wtof(token);
+
+			createPickUp(EditorPawn::PT_Pickup_Ammo_Fire, D3DXVECTOR3(x, y, z));
+
+			CString temp = L"PickUpAmmoFire_";
 			wchar_t temp1[32];
 			_itow_s(numWalls++, temp1, 10);
 			temp += temp1;
@@ -591,6 +716,16 @@ void DartLevelEditorApp::createWall(D3DXVECTOR3& scale/* = D3DXVECTOR3(1.0f, 1.0
 	wall.setScale(scale);
 	wall.update(0.0f);
 	m_pawnList.push_back(wall);
+}
+
+void DartLevelEditorApp::createPickUp(const EditorPawn::PawnType type, D3DXVECTOR3& initPos /*= D3DXVECTOR3(0.0f, 0.0f, 0.0f)*/)
+{
+	PickUpPawn pickup(type);
+
+	pickup.setPos(initPos);
+	pickup.setMeshID(m_nSphereMeshID);
+	pickup.update(0.0f);
+	m_pawnList.push_back(pickup);
 }
 
 DartLevelEditorApp theApp; 

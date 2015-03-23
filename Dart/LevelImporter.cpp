@@ -12,7 +12,9 @@ LevelImporter* g_levelImp = &imp;
 LevelImporter::LevelImporter() :
 m_nLevelId(0),
 m_nNumPawns(0),
-m_nNumWalls(0)
+m_nNumWalls(0),
+m_nNumPickups(0),
+m_nNumEnemies(0)
 {
 }
 
@@ -28,13 +30,17 @@ int LevelImporter::loadLevel(wchar_t* fileName)
 	if (ifs.fail())
 		return -1;
 
-// 	if (m_bFloorCreated) {
-// 		SAFE_RELEASE(m_pFloorIB);
-// 		SAFE_RELEASE(m_pFloorVB);
-// 	}
+	// need to clear the vectors and reset the counters if a level has already been loaded
+	if (m_enemyList.size() > 0 || m_wallList.size() > 0 || m_pickupList.size() > 0) {
+		m_enemyList.clear();
+		m_wallList.clear();
+		m_pickupList.clear();
 
-	//m_pawnList.clear();
-	//m_pawnList.resize(0);
+		m_nNumPawns = 0;
+		m_nNumWalls = 0;
+		m_nNumPickups = 0;
+		m_nNumEnemies = 0;
+	}
 
 	wchar_t token[64];
 	ifs.getline(token, 64, L':');
@@ -54,8 +60,6 @@ int LevelImporter::loadLevel(wchar_t* fileName)
 	int numPawns = _wtoi(token);
 	int numAntz = 0;
 	int numWalls = 0;
-
-//	m_pawnList.resize(numPawns);
 
 	for (int i = 0; i < numPawns; ++i) {
 		ifs.getline(token, 64, L':');
@@ -89,13 +93,8 @@ int LevelImporter::loadLevel(wchar_t* fileName)
 			EditorPawn newPawn(EditorPawn::PawnType::PT_EnemyType1SpawnLocale, D3DXVECTOR3(x, y, z));
 			newPawn.setSolid((bool)solid);
 			m_enemyList.push_back(newPawn);
-			m_nNumPawns++;
-// 			createAntzSpawn(D3DXVECTOR3(x, y, z));
-// 			wstring temp = L"Antz Spawn Point";
-// 			wchar_t temp1[32];
-// 			_itow_s(numAntz++, temp1, 10);
-// 			temp += temp1;
-// 			m_dlg.insertToPawnList(temp.GetString());
+			++m_nNumPawns;
+			++m_nNumEnemies;
 		}
 		break;
 		case EditorPawn::PawnType::PT_EnemyType2SpawnLocale:
@@ -119,10 +118,7 @@ int LevelImporter::loadLevel(wchar_t* fileName)
 
 			m_dart = EditorPawn(EditorPawn::PawnType::PT_DartSpawnLocale, D3DXVECTOR3(x, y, z));
 			m_dart.setSolid((bool)solid);
-		//	m_pawnList.push_back(newPawn);
-// 			createDartSpawn(D3DXVECTOR3(x, y, z));
-// 			m_dlg.insertToPawnList(L"Dart Spawn Point");
-// 			m_dlg.setDartCreated(true);
+			++m_nNumPawns;
 		}
 		break;
 		case EditorPawn::PawnType::PT_BartSpawnLocale:
@@ -139,12 +135,9 @@ int LevelImporter::loadLevel(wchar_t* fileName)
 			ifs.getline(token, 64);
 			z = (float)_wtof(token);
 
-			m_bart = EditorPawn(EditorPawn::PawnType::PT_DartSpawnLocale, D3DXVECTOR3(x, y, z));
+			m_bart = EditorPawn(EditorPawn::PawnType::PT_BartSpawnLocale, D3DXVECTOR3(x, y, z));
 			m_bart.setSolid((bool)solid);
-
-// 			createBartSpawn(D3DXVECTOR3(x, y, z));
-// 			m_dlg.insertToPawnList(L"Bart Spawn Point");
-// 			m_dlg.setBartCreated(true);
+			++m_nNumPawns;
 		}
 		break;
 		case EditorPawn::PawnType::PT_PointOfLevelLocale:
@@ -188,13 +181,90 @@ int LevelImporter::loadLevel(wchar_t* fileName)
 
 			++m_nNumPawns;
 			++m_nNumWalls;
-// 			createWall(D3DXVECTOR3(dx, dy, dz), D3DXVECTOR3(x, y, z));
-// 
-// 			CString temp = L"Wall";
-// 			wchar_t temp1[32];
-// 			_itow_s(numWalls++, temp1, 10);
-// 			temp += temp1;
-// 			m_dlg.insertToPawnList(temp.GetString());
+		}
+		break;
+		case EditorPawn::PawnType::PT_Pickup_Heal:
+		{
+			ifs.getline(token, 64, L':');
+			ifs.getline(token, 64, L':');
+			ifs.getline(token, 64, L',');
+
+			float x, y, z;
+
+			x = (float)_wtof(token);
+			ifs.getline(token, 64, L',');
+			y = (float)_wtof(token);
+			ifs.getline(token, 64);
+			z = (float)_wtof(token);
+
+			EditorPawn newPawn(EditorPawn::PawnType::PT_Pickup_Heal, D3DXVECTOR3(x, y, z));
+			newPawn.setSolid((bool)solid);
+			m_pickupList.push_back(newPawn);
+			++m_nNumPawns;
+			++m_nNumPickups;
+		}
+		break;
+		case EditorPawn::PawnType::PT_Pickup_Bonus:
+		{
+			ifs.getline(token, 64, L':');
+			ifs.getline(token, 64, L':');
+			ifs.getline(token, 64, L',');
+
+			float x, y, z;
+
+			x = (float)_wtof(token);
+			ifs.getline(token, 64, L',');
+			y = (float)_wtof(token);
+			ifs.getline(token, 64);
+			z = (float)_wtof(token);
+
+			EditorPawn newPawn(EditorPawn::PawnType::PT_Pickup_Bonus, D3DXVECTOR3(x, y, z));
+			newPawn.setSolid((bool)solid);
+			m_pickupList.push_back(newPawn);
+			++m_nNumPawns;
+			++m_nNumPickups;
+		}
+		break;
+		case EditorPawn::PawnType::PT_Pickup_Ammo_Seed:
+		{
+			ifs.getline(token, 64, L':');
+			ifs.getline(token, 64, L':');
+			ifs.getline(token, 64, L',');
+
+			float x, y, z;
+
+			x = (float)_wtof(token);
+			ifs.getline(token, 64, L',');
+			y = (float)_wtof(token);
+			ifs.getline(token, 64);
+			z = (float)_wtof(token);
+
+			EditorPawn newPawn(EditorPawn::PawnType::PT_Pickup_Ammo_Seed, D3DXVECTOR3(x, y, z));
+			newPawn.setSolid((bool)solid);
+			m_pickupList.push_back(newPawn);
+			++m_nNumPawns;
+			++m_nNumPickups;
+		}
+		break;
+		case EditorPawn::PawnType::PT_Pickup_Ammo_Fire:
+		{
+			ifs.getline(token, 64, L':');
+			ifs.getline(token, 64, L':');
+			ifs.getline(token, 64, L',');
+
+			float x, y, z;
+
+			x = (float)_wtof(token);
+			ifs.getline(token, 64, L',');
+			y = (float)_wtof(token);
+			ifs.getline(token, 64);
+			z = (float)_wtof(token);
+
+			EditorPawn newPawn(EditorPawn::PawnType::PT_Pickup_Ammo_Fire, D3DXVECTOR3(x, y, z));
+			newPawn.setSolid((bool)solid);
+			m_pickupList.push_back(newPawn);
+			++m_nNumPawns;
+			++m_nNumPickups;
 		}
 		break;
 		} // end switch
@@ -206,11 +276,8 @@ int LevelImporter::loadLevel(wchar_t* fileName)
 	if (floorCreated) {
 		ifs.getline(token, 64, L':');
 		ifs.getline(token, 64);
-	//	m_dlg.setFloorWidth(_wtoi(token));
 		ifs.getline(token, 64, L':');
 		ifs.getline(token, 64);
-// 		m_dlg.setFloorLength(_wtoi(token));
-// 		createFloor();
 	}
 
 	return m_nLevelId++;

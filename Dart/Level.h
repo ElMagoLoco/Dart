@@ -43,12 +43,14 @@ public:
 	EnemySpawner* getSpawner()  { return mSpawner; }
 	std::list<Enemy*> getEnemies()	{ return mSpawner->getEnemies(); }//get individuals
 	std::list<EnemyGroup*> getGroups() { return mSpawner->getGroups(); }//get groups
+	//get flee points
+	std::vector<D3DXVECTOR2>& getFleePoints() { return mFleePoints; }
+	//get enemy heal points
+	vector<D3DXVECTOR2>& getHealPoints() { return mHealPoints; }
 	//get attack manager
 	AttackManager* getAttackManager() { return mAttacks;  }
-	//get flee points
-	std::vector<D3DXVECTOR2> getFleePoints() { return mFleePoints; }
-	//get enemy heal points
-	vector<D3DXVECTOR2> getHealPoints() { return mHealPoints; }
+	PickUpManager* getPickUps() const { return mPickUps; }
+
 private:
 	//world geometry
 	vector<Mesh*> mGround;

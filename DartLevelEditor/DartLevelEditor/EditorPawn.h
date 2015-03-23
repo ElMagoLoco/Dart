@@ -13,6 +13,10 @@ public:
 		PT_PointOfLevelLocale,
 		PT_RockLocale,
 		PT_Wall,
+		PT_Pickup_Heal,
+		PT_Pickup_Bonus,
+		PT_Pickup_Ammo_Seed,
+		PT_Pickup_Ammo_Fire,
 		PT_End
 	};
 
