@@ -9,6 +9,7 @@
 #include "LevelImporter.h"
 #include "Menu.h"
 #include "Player.h"
+#include "Sound.h"
 #include "UserInterface.h"
 using std::vector;
 
@@ -138,6 +139,18 @@ public:
 	void onResetDevice()					{ mInterface->onResetDevice(); }
 private:
 	UserInterface* mInterface;
+};
+
+//an event to start music
+class EventMusicStart : public Event
+{
+public:
+	EventMusicStart(char* _music);
+	void beginEvent();
+	void endEvent();
+private:
+	char* mFile;
+	Sound* mMusic;
 };
 
 //event to process the game camera

@@ -235,7 +235,28 @@ void EventDisplayUserInterface::beginEvent()
 		0.9f, 0.2f, 64, 64, 0.1f, 0.1f);
 	mInterface->addButton(bFire);
 }
+/*******************************************************************
+Start Music, stop old music
+*******************************************************************/
 
+EventMusicStart::EventMusicStart(char* _music)
+{
+	mFile = _music;
+}
+
+void EventMusicStart::beginEvent()
+{
+	FR(gSound->getSystem()->createStream(mFile, FMOD_DEFAULT, 0, &mMusic));
+	gSound->mChannel->stop();
+	FR(gSound->mSystem->playSound(FMOD_CHANNEL_FREE, mMusic, false, &gSound->mChannel));
+	FR(gSound->mChannel->setMode(FMOD_LOOP_NORMAL));
+	FR(gSound->mChannel->setLoopCount(-1));
+}
+
+void EventMusicStart::endEvent()
+{
+	FR(mMusic->release());
+}
 
 /*******************************************************************
 Level 1

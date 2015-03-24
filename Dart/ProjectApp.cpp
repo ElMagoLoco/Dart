@@ -177,6 +177,9 @@ void ProjectApp::initStateMachine()
 	EventDisplayMenuMain* eMainMenu = new EventDisplayMenuMain();
 	//add event to state
 	sMainMenu->addEvent(eMainMenu);
+	// music
+	EventMusicStart* musMain = new EventMusicStart("Content/Audio/musicMenu.mp3");
+	sMainMenu->addEvent(musMain);
 	//add state
 	gStateMachine->addState(sMainMenu);
 	/*******************************************************************
@@ -187,6 +190,9 @@ void ProjectApp::initStateMachine()
 	EventDisplayMenuOptions* eOptionsMenu = new EventDisplayMenuOptions();
 	//add event to state
 	sOptions->addEvent(eOptionsMenu);
+	// music
+	EventMusicStart* musOpt = new EventMusicStart("Content/Audio/musicMenu.mp3");
+	sOptions->addEvent(musOpt);
 	//add state
 	gStateMachine->addState(sOptions);
 	/*******************************************************************
@@ -210,6 +216,9 @@ void ProjectApp::initStateMachine()
 	//follower/////////////////////////////////////////////////////////
 	EventProcessFollower* eFollower = new EventProcessFollower();
 	sPlay->addEvent(eFollower);
+	// music
+	EventMusicStart* musPlay = new EventMusicStart("Content/Audio/musicPlay.mp3");
+	sPlay->addEvent(musPlay);
 	//add state
 	gStateMachine->addState(sPlay);
 
