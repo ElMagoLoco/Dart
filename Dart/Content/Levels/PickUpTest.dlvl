@@ -10,7 +10,7 @@ PickUpHeal:7
 PickUpBonus:8
 PickUpAmmoSeed:9
 PickUpAmmoFire:10
-PawnCount:4
+PawnCount:8
 0:Type:10
 0:Solid:0
 0:Position:-14.9003,0,49.7735
@@ -23,4 +23,16 @@ PawnCount:4
 3:Type:9
 3:Solid:0
 3:Position:-1.0488,0,-21.9462
+4:Type:2
+4:Solid:0
+4:Position:-2.86673,0,-7.95261
+5:Type:3
+5:Solid:0
+5:Position:13.9184,0,-5.78889
+6:Type:0
+6:Solid:0
+6:Position:15.33,0,20.2217
+7:Type:0
+7:Solid:0
+7:Position:7.96745,0,-24.7332
 FloorCreated:0

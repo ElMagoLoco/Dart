@@ -13,7 +13,10 @@ mType(_type), mAmount(_amount), mRadius(_radius), bUsed(false)
 
 PickUp::~PickUp()
 {
-	delete mMesh;
+	if (mMesh) {
+		delete mMesh;
+		mMesh = NULL;
+	}
 }
 
 void PickUp::draw()
@@ -76,7 +79,10 @@ void PickUpManager::update(float _dt)
 		if (used)
 		{
 			mPickUps.erase(it++);
+			break; // need to break because erasing can invalidate the iterator or set it back to the beginning
 		}
+
+		++it;
 	}
 }
 

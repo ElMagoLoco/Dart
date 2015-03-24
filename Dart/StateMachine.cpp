@@ -243,13 +243,13 @@ Level 1
 void EventProcessLevel1::beginEvent()
 {
 	// load the level info from the file
-	g_levelImp->loadLevel(L"Content\\Levels\\TestLevel4.dlvl");
+	g_levelImp->loadLevel(L"Content\\Levels\\PickUpTest.dlvl");
 	//make level
 	gCurrentLevel = new Level(D3DXVECTOR2(-1500.0f, -1500.0f), 1000);
 	//add ground
-	Mesh* meshGround = new Mesh(L"Content/Models/ground.X", D3DXVECTOR3(0.0f, 0.0f, 0.0f));
-	meshGround->addTexture(L"Content/Textures/tex_grass.dds", L"Content/Textures/tex_grass_n.dds");
-	gCurrentLevel->addGround(meshGround);
+ 	Mesh* meshGround = new Mesh(L"Content/Models/ground.X", D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+ 	meshGround->addTexture(L"Content/Textures/tex_grass.dds", L"Content/Textures/tex_grass_n.dds");
+ 	gCurrentLevel->addGround(meshGround);
 	//add obstacles
 	for (int i = 0; i < g_levelImp->getNumWalls(); ++i) {
 		Mesh* meshObstacle = new Mesh(L"Content/Models/box.x", g_levelImp->getWallList()[i].getPos() * 10.0f, g_levelImp->getWallList()[i].getScale());
@@ -285,15 +285,72 @@ void EventProcessLevel1::beginEvent()
 	gCurrentLevel->addFleePoint(D3DXVECTOR2(-1400, 1400));
 	gCurrentLevel->addFleePoint(D3DXVECTOR2(1400, 1400));
 	//add enemies to level
-	for (UINT i = 0; i < g_levelImp->getNumEnemies(); ++i) {
+	for (int i = 0; i < g_levelImp->getNumEnemies(); ++i) {
 		gCurrentLevel->getSpawner()->addEnemy(new EnemyMelee(L"Content/Models/tiny.x", L"Content/Textures/Tiny_skin.dds",
 			L"Content/Textures/Tiny_skin_n.dds",
 			g_levelImp->getEnemyList()[i].getPos() * 10.0f, 30.0f, 40.0f, D3DXVECTOR3(0.50f, 0.50f, 0.50f)));
 	}
 
 	// add pickups
-// 	for (UINT i = 0; i < g_levelImp->getNumPickups(); ++i) {
-// 		PickUp newPickup;
-// 
-// 	}
+	for (int i = 0; i < g_levelImp->getNumPickups(); ++i) {
+		switch (g_levelImp->getPickupList()[i].getPawnType()) 
+		{
+		case EditorPawn::PawnType::PT_Pickup_Heal:
+		{
+			//g_levelImp->getPickupList()[i].getPos().y += 350.0f;
+			PickUp* newPickup = new PickUp(L"Content\\Models\\ball.x",
+									L"Content\\Textures\\tex_heal_berry.dds",
+									L"Content\\Textures\\tex_heal_berry_n.dds",
+									ePickUpType::PICKUP_HEAL,
+									g_levelImp->getPickupList()[i].getPos() * 10.0f, 
+									D3DXVECTOR3(20.0f, 20.0f, 20.0f),//g_levelImp->getPickupList()[i].getScale(), 
+									25.0f);
+
+			gCurrentLevel->getPickUps()->addPickUp(newPickup);
+		}
+		break;
+		case EditorPawn::PawnType::PT_Pickup_Bonus:
+		{
+		//	g_levelImp->getPickupList()[i].getPos().y += 50.0f;
+			PickUp* newPickup = new PickUp(L"Content\\Models\\ball.x",
+									L"Content\\Textures\\tex_bonus.dds",
+									L"Content\\Textures\\tex_bonus_n.dds",
+									ePickUpType::PICKUP_BONUS,
+									g_levelImp->getPickupList()[i].getPos() * 10.0f,
+									D3DXVECTOR3(20.0f, 20.0f, 20.0f),//g_levelImp->getPickupList()[i].getScale(),
+									25.0f);
+
+			gCurrentLevel->getPickUps()->addPickUp(newPickup);
+		}
+		break;
+		case EditorPawn::PawnType::PT_Pickup_Ammo_Seed:
+		{
+		//	g_levelImp->getPickupList()[i].getPos().y += 50.0f;
+			PickUp* newPickup = new PickUp(L"Content\\Models\\ball.x",
+									L"Content\\Textures\\tex_seed.dds",
+									L"Content\\Textures\\tex_seed_n.dds",
+									ePickUpType::PICKUP_AMMO_SEED,
+									g_levelImp->getPickupList()[i].getPos() * 10.0f,
+									D3DXVECTOR3(20.0f, 20.0f, 20.0f),//g_levelImp->getPickupList()[i].getScale(),
+									10.0f);
+
+			gCurrentLevel->getPickUps()->addPickUp(newPickup);
+		}
+		break;
+		case EditorPawn::PawnType::PT_Pickup_Ammo_Fire:
+		{
+		//	g_levelImp->getPickupList()[i].getPos().y += 50.0f;
+			PickUp* newPickup = new PickUp(L"Content\\Models\\ball.x",
+									L"Content\\Textures\\tex_fire.dds",
+									L"Content\\Textures\\tex_fire_n.dds",
+									ePickUpType::PICKUP_AMMO_FIRE,
+									g_levelImp->getPickupList()[i].getPos() * 10.f,
+									D3DXVECTOR3(20.0f, 20.0f, 20.0f),//g_levelImp->getPickupList()[i].getScale(),
+									5.0f);
+
+			gCurrentLevel->getPickUps()->addPickUp(newPickup);
+		}
+		break;
+		} // end switch
+	} // end for
 }
