@@ -16,7 +16,7 @@
 class Level
 {
 public:
-	Level(D3DXVECTOR2 _negCorner, UINT _squareSize);
+	Level(D3DXVECTOR3 _negCorner, D3DXVECTOR3 mSize);
 	~Level();
 	void update(float dt);
 	void draw();
@@ -35,8 +35,10 @@ public:
 	//access world geometry for collisions
 	std::vector<Mesh*> getWorldGeometry()  { return mObstacle; }
 	//maps in this case are square on x/z and axis aligned
-	UINT getSquareSize()		{ return mSquareSize; }
-	D3DXVECTOR2 getNegCorner()	{ return mNegCorner; }
+	D3DXVECTOR3 getSize()		{ return mSize; }
+	void setSize(D3DXVECTOR3 s)  { mSize = s; }
+	D3DXVECTOR3 getNegCorner()	{ return mNegCorner; }
+	void setNegCorner(D3DXVECTOR3 c) { mNegCorner = c; }
 	//get paths
 	AStar* getPaths()			{ return mPaths; }
 	//get enemies
@@ -58,9 +60,9 @@ private:
 	//locations a panicked unit might flee towards
 	vector<D3DXVECTOR2> mFleePoints;
 	//northwest corner of square level
-	D3DXVECTOR2 mNegCorner;
-	//size squared
-	UINT mSquareSize;
+	D3DXVECTOR3 mNegCorner;
+	//size of level, y is height, so usually 0
+	D3DXVECTOR3 mSize;
 	//path finding within the level
 	AStar* mPaths;
 	//enemy spawning

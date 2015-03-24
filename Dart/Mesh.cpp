@@ -147,7 +147,7 @@ void Mesh::draw(UINT _texIndex)
 	}
 }
 //check if it collides with any of the AABB for this mesh
-const bool Mesh::collideWith(const BoundingSphere2D& _sphere)
+/*const bool Mesh::collideWith(const BoundingSphere2D& _sphere)
 {
 	for (AxisAlignedBoundingBox2D* AABB : mBoundsAABB)
 	{
@@ -155,7 +155,7 @@ const bool Mesh::collideWith(const BoundingSphere2D& _sphere)
 			return true;
 	}
 	return false;
-}
+}*/
 
 
 AnimMesh::AnimMesh(LPCWSTR _mesh, LPCWSTR _texture, LPCWSTR _normal, D3DXVECTOR3 _position,

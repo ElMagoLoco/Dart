@@ -112,13 +112,13 @@ void Player::update(float _dt)
 	for (Mesh* M : gCurrentLevel->getWorldGeometry())
 	{
 		//for each bounding box in mesh
-		for (AxisAlignedBoundingBox2D* AABB : M->getAABBs())
+/*		for (AxisAlignedBoundingBox2D* AABB : M->getAABBs())
 		{
 			colliding = collides(*AABB, BoundingSphere2D(D3DXVECTOR2(mPosition.x, mPosition.z), mRadius));
 			if (colliding)
 				break;
 		}
-		if (colliding) break;
+		if (colliding) break;*/
 
 		// SAM
 		for (UINT i = 0; i < M->getBoundsBoxList().size(); ++i) {
@@ -201,7 +201,11 @@ Follower::Follower(LPCWSTR _meshName, LPCWSTR _textureName, LPCWSTR _normalTexNa
 	_radius, _meshScale), 
 	mState(PSTATE_PURSUE), mLastPathFound(0.0f), bAfraid(false), mFearHealth(50.0f)
 {
+#ifdef DEBUG_PATHS
+	mStartNode = new PathNode(_meshName, _startPosition);
+#else
 	mStartNode = new PathNode(_startPosition);
+#endif
 	mSpeed = 375.0f;//slightly less than player's
 }
 

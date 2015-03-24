@@ -17,11 +17,9 @@ public:
 		PT_Pickup_Bonus,
 		PT_Pickup_Ammo_Seed,
 		PT_Pickup_Ammo_Fire,
-		PT_FleePoint,
 		PT_End
 	};
 
-	// accessors
 	D3DXMATRIX& getMatWorld() { return m_matWorld; }
 	D3DXVECTOR4& getDiffuseColor() { return m_vDiffuseColor; }
 	PawnType getPawnType() const { return m_ePawnType; }
@@ -30,10 +28,8 @@ public:
 	int getMeshID() const { return m_nMeshID; }
 	bool getSolid() const { return m_bSolid; }
 
-	// opertator overloading
 	bool operator==(const EditorPawn& other)		{ return ((this == &other) ? true : false); }
 
-	// mutators
 	void setMeshID(int val) { m_nMeshID = val; }
 	void setMatWorld(D3DXMATRIX& val) { m_matWorld = val; }
 	void setDiffuseColor(D3DXVECTOR4& val) { m_vDiffuseColor = val; }
@@ -42,7 +38,6 @@ public:
 	void setSolid(bool val) { m_bSolid = val; }
 	void setScale(D3DXVECTOR3& val) { m_vScale = val; }
 
-	// functionality
 	virtual void update(float dt, D3DXVECTOR3& velo = D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 
 	EditorPawn(PawnType type, D3DXVECTOR3& initPos, D3DXVECTOR4& color = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f), D3DXVECTOR3& initScale = D3DXVECTOR3(1.0f, 1.0f, 1.0f));

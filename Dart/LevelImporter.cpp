@@ -14,8 +14,7 @@ m_nLevelId(0),
 m_nNumPawns(0),
 m_nNumWalls(0),
 m_nNumPickups(0),
-m_nNumEnemies(0),
-m_nNumFleePoints(0)
+m_nNumEnemies(0)
 {
 }
 
@@ -32,19 +31,15 @@ int LevelImporter::loadLevel(wchar_t* fileName)
 		return -1;
 
 	// need to clear the vectors and reset the counters if a level has already been loaded
-	if (m_enemyList.size() > 0 || m_wallList.size() > 0 || m_pickupList.size() > 0 || m_fleePointList.size() > 0) {
+	if (m_enemyList.size() > 0 || m_wallList.size() > 0 || m_pickupList.size() > 0) {
 		m_enemyList.clear();
 		m_wallList.clear();
 		m_pickupList.clear();
-		m_fleePointList.clear();
 
-		m_dart = EditorPawn();
-		m_bart = EditorPawn();
 		m_nNumPawns = 0;
 		m_nNumWalls = 0;
 		m_nNumPickups = 0;
 		m_nNumEnemies = 0;
-		m_nNumFleePoints = 0;
 	}
 
 	wchar_t token[64];
@@ -270,27 +265,6 @@ int LevelImporter::loadLevel(wchar_t* fileName)
 			m_pickupList.push_back(newPawn);
 			++m_nNumPawns;
 			++m_nNumPickups;
-		}
-		break;
-		case EditorPawn::PawnType::PT_FleePoint:
-		{
-			ifs.getline(token, 64, L':');
-			ifs.getline(token, 64, L':');
-			ifs.getline(token, 64, L',');
-
-			float x, y, z;
-
-			x = (float)_wtof(token);
-			ifs.getline(token, 64, L',');
-			y = (float)_wtof(token);
-			ifs.getline(token, 64);
-			z = (float)_wtof(token);
-
-			EditorPawn newPawn(EditorPawn::PawnType::PT_FleePoint, D3DXVECTOR3(x, y, z));
-			newPawn.setSolid((bool)solid);
-			m_pickupList.push_back(newPawn);
-			++m_nNumPawns;
-			++m_nNumFleePoints;
 		}
 		break;
 		} // end switch

@@ -86,15 +86,14 @@ void Attack::update(float _dt)
 	for (Mesh* M : gCurrentLevel->getWorldGeometry())
 	{
 		//for each AABB in mesh
-		for (AxisAlignedBoundingBox2D* AABB : M->getAABBs())
+		for (AxisAlignedBoundingBox AABB : M->getBoundsBoxList())
 		{
 			//if the AABB blocks projectiles
-			if (AABB->bBlocksProjectiles)
+			if (AABB.bBlocksProjectiles)
 			{
 				//see if it collides
-				BoundingSphere2D circle =
-					BoundingSphere2D(D3DXVECTOR2(mPosition.x, mPosition.z), mRadius);
-				colliding = collides(*AABB, circle);
+				BoundingSphere circle = BoundingSphere(mPosition, mRadius);
+				colliding = collides(AABB, circle);
 				//if it collided, break
 				if (colliding) break;
 			}

@@ -73,14 +73,70 @@ const bool collides(const LineSegment2D _line1, const LineSegment2D _line2)
 }
 
 // SAM
-const bool collides(const AxisAlignedBoundingBox& box, const BoundingSphere& circle)
-{
-	// TODO: Implement
-	return false;
+const bool collides(const AxisAlignedBoundingBox& _box, const BoundingSphere& _sphere)
+{//Darrell
+	//variables for square root and difference
+	float sqRt = 0.0f;
+	float dist = 0.0f;//initialize distance
+	//if the sphere center x is less than the box position x
+	if (_sphere.mCenter.x < _box.mMin.x)
+	{
+		//then set sqrt to difference between x points
+		sqRt = _sphere.mCenter.x - _box.mMin.x;
+	}
+	//else if the center x is greater
+	else if (_sphere.mCenter.x > (_box.mMax.x))
+	{
+		//then set sqrt between center.x and the box side opposite the x position
+		sqRt = _sphere.mCenter.x - (_box.mMax.x);
+	}
+	//figure square, the distance
+	dist += sqRt * sqRt;
+	//we then do the above for the y and z dimensions and add their squared
+	//distance to the total distance
+	if (_sphere.mCenter.y < _box.mMin.y)
+	{
+		sqRt = _sphere.mCenter.y - _box.mMin.y;
+	}
+	else if (_sphere.mCenter.y > _box.mMax.y)
+	{
+		sqRt = _sphere.mCenter.y - _box.mMax.y;
+	}
+	dist += sqRt * sqRt;
+
+	if (_sphere.mCenter.z < _box.mMin.z)
+	{
+		sqRt = _sphere.mCenter.z - _box.mMin.z;
+	}
+	else if (_sphere.mCenter.z > _box.mMax.z)
+	{
+		sqRt = _sphere.mCenter.z - _box.mMax.z;
+	}
+	dist += sqRt * sqRt;
+	//if total distance is <= square of the radius, then we have
+	//a collision
+	return dist <= (_sphere.mRadius * _sphere.mRadius);
 }
-// SAM
+
+
+
 const bool collides(const AxisAlignedBoundingBox& box, const LineSegment& line)
 {
-	// TODO: Implement
-	return false;
+	//get line midpoint,extent
+	D3DXVECTOR3 lineMid = (line.mBegin + line.mEnd) * 0.5f;
+	D3DXVECTOR3 lineHalf = (line.mBegin - lineMid);
+	D3DXVECTOR3 lineExtent = D3DXVECTOR3(fabs(lineHalf.x), fabs(lineHalf.y), fabs(lineHalf.z));
+	//get box extent
+	D3DXVECTOR3 boxExtent = (box.mMax - box.mMin) * 0.5f;
+	//separating axis test
+	//separation vector from box center to line center is lineMid
+	if (fabs(lineMid.x) > boxExtent.x + lineExtent.x) return false;
+	if (fabs(lineMid.y) > boxExtent.y + lineExtent.y) return false;
+	if (fabs(lineMid.z) > boxExtent.z + lineExtent.z) return false;
+	//crossproducts of lines and each axis
+	if (fabs(lineMid.y * lineHalf.z - lineMid.z * lineHalf.y) > (boxExtent.y * lineExtent.z + boxExtent.z * lineExtent.y)) return false;
+	if (fabs(lineMid.x * lineHalf.z - lineMid.z * lineHalf.x) > (boxExtent.x * lineExtent.z + boxExtent.z * lineExtent.x)) return false;
+	if (fabs(lineMid.x * lineHalf.y - lineMid.y * lineHalf.x) > (boxExtent.x * lineExtent.y + boxExtent.y * lineExtent.x)) return false;
+	//no separating axis, it intersects
+	return true;
 }

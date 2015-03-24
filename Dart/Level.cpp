@@ -5,8 +5,8 @@ using std::vector;
 
 Level* gCurrentLevel = 0;
 
-Level::Level(D3DXVECTOR2 _negCorner, UINT _squareSize):
-mNegCorner(_negCorner), mSquareSize(_squareSize)
+Level::Level(D3DXVECTOR3 _negCorner, D3DXVECTOR3 _squareSize):
+mNegCorner(_negCorner), mSize(_squareSize)
 {
 	mPaths = new AStar();
 	mSpawner = new EnemySpawner();

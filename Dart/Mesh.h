@@ -52,15 +52,15 @@ public:
 	//can turn off visibility
 	void setVisibility(bool _bVisible) { bVisible = _bVisible; }
 	//adding AABB to the mesh for collisions
-	void addAABB(AxisAlignedBoundingBox2D* AABB) { mBoundsAABB.push_back(AABB); }
+	//void addAABB(AxisAlignedBoundingBox2D* AABB) { mBoundsAABB.push_back(AABB); }
 	// SAM
 	void addBoundsBox(const AxisAlignedBoundingBox& box) { mBoundsBoxList.push_back(box); }
 	//get collision boxes
-	vector<AxisAlignedBoundingBox2D*> getAABBs(){ return mBoundsAABB; }
+	//vector<AxisAlignedBoundingBox2D*> getAABBs(){ return mBoundsAABB; }
 	// SAM
 	vector<AxisAlignedBoundingBox>& getBoundsBoxList() { return mBoundsBoxList; }
 	//collisions with bounding spheres
-	const bool collideWith(const BoundingSphere2D& _sphere);
+	/*const bool collideWith(const BoundingSphere2D& _sphere);*/
 protected:
 	ID3DXMesh*					mMesh;//mesh that we are showing
 	D3DXVECTOR3					mPosition;//position
@@ -78,7 +78,7 @@ protected:
 	//has textures
 	bool						bTextured;
 	//collision boxes
-	vector<AxisAlignedBoundingBox2D*> mBoundsAABB;
+	//vector<AxisAlignedBoundingBox2D*> mBoundsAABB;
 	// SAM
 	vector<AxisAlignedBoundingBox>		mBoundsBoxList;
 };

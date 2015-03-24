@@ -245,7 +245,8 @@ void EventProcessLevel1::beginEvent()
 	// load the level info from the file
 	g_levelImp->loadLevel(L"Content\\Levels\\PickUpTest.dlvl");
 	//make level
-	gCurrentLevel = new Level(D3DXVECTOR2(-1500.0f, -1500.0f), 1000);
+	gCurrentLevel = new Level(D3DXVECTOR3(-2000.0f, 0.0f, -2000.0f), 
+		D3DXVECTOR3(4000.0f, 0.0f, 4000.0f));
 	//add ground
  	Mesh* meshGround = new Mesh(L"Content/Models/ground.X", D3DXVECTOR3(0.0f, 0.0f, 0.0f));
  	meshGround->addTexture(L"Content/Textures/tex_grass.dds", L"Content/Textures/tex_grass_n.dds");

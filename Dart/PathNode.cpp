@@ -37,25 +37,26 @@ void AStar::initPathfinding()
 	//set up path nodes for enemy path finding
 	//place path nodes every GRID_SIZE units except
 	//in places where it would collide
-	UINT iterations = gCurrentLevel->getSquareSize() / GRID_SIZE;
-	for (UINT x = 0; x < iterations; ++x)
+	UINT iterationsX = (UINT)gCurrentLevel->getSize().x / GRID_SIZE;
+	UINT iterationsZ = (UINT)gCurrentLevel->getSize().z / GRID_SIZE;
+	for (UINT x = 0; x < iterationsX; ++x)
 	{
-		for (UINT z = 0; z < iterations; ++z)
+		for (UINT z = 0; z < iterationsZ; ++z)
 		{
 			bool canPlace = true;
 			//for each mesh in the current map
 			for (Mesh* M : gCurrentLevel->getWorldGeometry())
 			{
 				//for each AABB in that mesh
-				for (AxisAlignedBoundingBox2D* AABB : M->getAABBs())
+				for (AxisAlignedBoundingBox AABB : M->getBoundsBoxList())
 				{
 					//find the center of the node to compare with
-					D3DXVECTOR2 nodeCenter = D3DXVECTOR2(corner.x + (float)(x * GRID_SIZE),
-						corner.y + (float)(z * GRID_SIZE));
+					D3DXVECTOR3 nodeCenter = D3DXVECTOR3(corner.x + (float)(x * GRID_SIZE),
+						50.0f, corner.y + (float)(z * GRID_SIZE));
 					//make a bounding sphere with it
-					BoundingSphere2D* PS = new BoundingSphere2D(nodeCenter, CLOSE_RADIUS);
+					BoundingSphere PS = BoundingSphere(nodeCenter, CLOSE_RADIUS);
 					//if the AABB collides with that sphere, we can't place one here
-					if (collides(*AABB, *PS))
+					if (collides(AABB, PS))
 					{
 						canPlace = false;
 						break;

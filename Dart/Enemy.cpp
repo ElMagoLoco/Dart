@@ -266,18 +266,18 @@ bool Enemy::noticePlayer()
 	//if they are between max hearing and max sight range, see if they are line of sight to player
 	//make a line segment between enemy and player location
 	//only take into account x and z here since map is flat, will save time
-	LineSegment2D line(D3DXVECTOR2(mPosition.x, mPosition.z), D3DXVECTOR2(playerPos.x, playerPos.z));
+	/*LineSegment3D line(mPosition, playerPos);*/
 	// SAM
-	LineSegment line3D(D3DXVECTOR3(mPosition.x, mPosition.y, mPosition.z), D3DXVECTOR3(playerPos.x, playerPos.y, playerPos.z));
+	LineSegment line3D(mPosition, playerPos);
 	for (Mesh* M : gCurrentLevel->getWorldGeometry())
 	{
-		for (AxisAlignedBoundingBox2D* AABB : M->getAABBs())
+		for (AxisAlignedBoundingBox AABB : M->getBoundsBoxList())
 		{
 			//if further out than sight range, no point in checking it
-			if (D3DXVec2LengthSq(&(AABB->mMin - D3DXVECTOR2(mPosition.x, mPosition.z))) > mSightRangeSq)
+			if (D3DXVec3LengthSq(&(AABB.mMin - mPosition)) > mSightRangeSq)
 				continue;
 			//see if it collides with the line
-			if (collides(*AABB, line))
+			if (collides(AABB, line3D))
 			{
 				bAttackPlayer = false;
 				return returnBool;
@@ -285,7 +285,7 @@ bool Enemy::noticePlayer()
 		}
 
 		// SAM
-		for (UINT i = 0; i < M->getBoundsBoxList().size(); ++i)	{
+		/*for (UINT i = 0; i < M->getBoundsBoxList().size(); ++i)	{
 			//if further out than sight range, no point in checking it
 			if (D3DXVec3LengthSq(&(M->getBoundsBoxList()[i].mMin - D3DXVECTOR3(mPosition.x, mPosition.y, mPosition.z))) > mSightRangeSq)
 				continue;
@@ -295,7 +295,7 @@ bool Enemy::noticePlayer()
 				bAttackPlayer = false;
 				return returnBool;
 			}
-		}
+		}*/
 	}
 	//if it gets through the above checks, then it can see the player
 	mLoseSightPlayer = 0.0f;
@@ -339,18 +339,18 @@ bool Enemy::noticeFollower()
 	//if they are between max hearing and max sight range, see if they are line of sight to player
 	//make a line segment between enemy and player location
 	//only take into account x and z here since map is flat, will save time
-	LineSegment2D line(D3DXVECTOR2(mPosition.x, mPosition.z), D3DXVECTOR2(followerPos.x, followerPos.z));
+	LineSegment line3D(mPosition, followerPos);
 	for (Mesh* M : gCurrentLevel->getWorldGeometry())
 	{
-		for (AxisAlignedBoundingBox2D* AABB : M->getAABBs())
+		for (AxisAlignedBoundingBox AABB : M->getBoundsBoxList())
 		{
 			//if further out than sight range, no point in checking it
-			if (D3DXVec2LengthSq(&(AABB->mMin - D3DXVECTOR2(mPosition.x, mPosition.z))) > mSightRangeSq)
+			if (D3DXVec3LengthSq(&(AABB.mMin - mPosition)) > mSightRangeSq)
 				continue;
 			//see if it collides with the line
-			if (collides(*AABB, line))
+			if (collides(AABB, line3D))
 			{
-				bAttackFollower = false;
+				bAttackPlayer = false;
 				return returnBool;
 			}
 		}
