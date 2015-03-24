@@ -27,6 +27,8 @@ public:
 	void draw();
 	void onTouch(bool _player);
 	bool getIsUsed() { return bUsed; }
+	Mesh* getMesh() { return mMesh; }
+	float getRadius() { return mRadius; }
 protected:
 	Mesh* mMesh;//mesh used to display
 	ePickUpType mType;//type of pickup

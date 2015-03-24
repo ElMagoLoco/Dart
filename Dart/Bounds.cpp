@@ -140,3 +140,10 @@ const bool collides(const AxisAlignedBoundingBox& box, const LineSegment& line)
 	//no separating axis, it intersects
 	return true;
 }
+
+const bool collides(const BoundingSphere& one, const BoundingSphere& two)
+{
+	float totalRadius = one.mRadius + two.mRadius;
+	float distanceSq = D3DXVec3LengthSq(&(one.mCenter - two.mCenter));
+	return (distanceSq < totalRadius * totalRadius);
+}

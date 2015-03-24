@@ -23,7 +23,7 @@ public:
 	bool getJustAttacked()	{ return mAttackTime < mAttackDelay; }//did player just attack
 	D3DXVECTOR3 getPosition()	{ return mPosition; }
 	//add health, add negative to remove health
-	void addHealth(float _amount);
+	bool addHealth(float _amount);
 	//draw the pawn
 	void draw();
 	//update, also call this from child class update functions
@@ -66,8 +66,8 @@ public:
 		D3DXVECTOR3 _meshScale = D3DXVECTOR3(1.0f, 1.0f, 1.0f));
 	void update(float _dt);
 	void addScore(UINT _add) { mScore += _add; }
-	void addAmmoSeeds(UINT _amount){ mAmmoSeeds = min(mAmmoSeedsMax, mAmmoSeeds + _amount); }
-	void addAmmoFire(UINT _amount){ mAmmoSeeds = min(mAmmoFireMax, mAmmoFire + _amount); }
+	bool addAmmoSeeds(UINT _amount);
+	bool addAmmoFire(UINT _amount);
 	UINT getAmmoSeeds() { return mAmmoSeeds; }
 	UINT getAmmoSeedsMax() { return mAmmoSeedsMax; }
 	UINT getAmmoFire() { return mAmmoFire; }
@@ -130,7 +130,7 @@ public:
 	bool getIsAfraid() { return bAfraid; }
 	void setIsAfraid(bool _fear) { bAfraid = _fear;  }
 	//add health, add negative to remove health, additionally will check if becomes afraid
-	void addHealth(float _amount);
+	bool addHealth(float _amount);
 protected:
 	pState mState;//state it is in
 	vector<D3DXVECTOR3> mPath;//path it is currently following

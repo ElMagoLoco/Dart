@@ -24,16 +24,19 @@ Pawn::~Pawn()
 	delete mMesh;
 }
 
-void Pawn::addHealth(float _health)
+bool Pawn::addHealth(float _health)
 {
+	//can't add any if already maxed
+	if (_health > 0 && mHealth == mHealthMax)
+		return false;
 	//set to min of max health or added health
 	mHealth = min(mHealthMax, mHealth + _health);
 	//if health is 0 then set to dead
 	if (mHealth <= 0)
 	{
 		bIsDead = true;
-		return;
 	}
+	return true;
 }
 
 void Pawn::update(float _dt)
@@ -193,6 +196,30 @@ void Player::update(float _dt)
 			mAttackTime = 0.0f;
 		}
 	}
+}
+
+bool Player::addAmmoSeeds(UINT _amount)
+{
+	//can't add past max
+	if (_amount > 0 && mAmmoSeeds == mAmmoSeedsMax)
+		return false;
+	//can't subtract past bottom
+	if (_amount == 0)
+		return false;
+	mAmmoSeeds = min(mAmmoSeedsMax, mAmmoSeeds + _amount);
+	return true;
+}
+
+bool Player::addAmmoFire(UINT _amount)
+{
+	//can't add past max
+	if (_amount > 0 && mAmmoFire == mAmmoFireMax)
+		return false;
+	//can't subtract past bottom
+	if (_amount == 0)
+		return false;
+	mAmmoFire = min(mAmmoFireMax, mAmmoFire + _amount);
+	return true;
 }
 
 Follower::Follower(LPCWSTR _meshName, LPCWSTR _textureName, LPCWSTR _normalTexName,
@@ -378,16 +405,17 @@ void Follower::pointForward(float _dt)
 }
 
 //when an enemy loses health, check if they are afraid
-void Follower::addHealth(float _health)
+bool Follower::addHealth(float _health)
 {
-	Pawn::addHealth(_health);
+	bool boolReturn = Pawn::addHealth(_health);
 	//if health was removed and they are below fear health
-	if (_health < 0 && mHealth < mFearHealth)
+	if (boolReturn &&_health > 0 && mHealth < mFearHealth)
 	{
 		float chance = mHealth / mFearHealth;
 		if (getRandomFloat(0.0f, 1.0f) > chance)
 			bAfraid = true;
 	}
+	return boolReturn;
 }
 
 //find a random flee point and flee there

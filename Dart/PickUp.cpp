@@ -37,10 +37,9 @@ void PickUp::onTouch(bool _player)
 	{
 	case PICKUP_HEAL:
 		if (_player)
-			gPlayer->addHealth(mAmount);
+			bUsed = gPlayer->addHealth(mAmount);
 		else
-			gFollower->addHealth(mAmount);
-		bUsed = true;
+			bUsed = gFollower->addHealth(mAmount);
 		break;
 	case PICKUP_BONUS:
 		//only player can use this one
@@ -54,16 +53,14 @@ void PickUp::onTouch(bool _player)
 		//only player can use this one
 		if (_player)
 		{
-			gPlayer->addAmmoSeeds((UINT)mAmount);
-			bUsed = true;
+			bUsed = gPlayer->addAmmoSeeds((UINT)mAmount);
 		}
 		break;
 	case PICKUP_AMMO_FIRE:
 		//only player can use this one
 		if (_player)
 		{
-			gPlayer->addAmmoFire((UINT)mAmount);
-			bUsed = true;
+			bUsed = gPlayer->addAmmoFire((UINT)mAmount);
 		}
 		break;
 	}
@@ -75,6 +72,17 @@ void PickUpManager::update(float _dt)
 	list<PickUp*>::iterator it = mPickUps.begin();
 	while (it != mPickUps.end())
 	{
+		//is it touching the player?
+		D3DXVECTOR3 position = (*it)->getMesh()->getPosition();
+		BoundingSphere pickupSphere = BoundingSphere(position, (*it)->getRadius());
+		BoundingSphere playerSphere = BoundingSphere(gPlayer->getPosition(), 
+			gPlayer->getRadius());
+		BoundingSphere followerSphere = BoundingSphere(gFollower->getPosition(), 
+			gFollower->getRadius());
+		if (collides(playerSphere, pickupSphere))
+			(*it)->onTouch(true);
+		else if (collides(followerSphere, pickupSphere))
+			(*it)->onTouch(false);
 		bool used = (*it)->getIsUsed();
 		if (used)
 		{

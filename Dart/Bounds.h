@@ -99,6 +99,7 @@ const bool collides(const AxisAlignedBoundingBox2D _box, const BoundingSphere2D 
 const bool collides(const BoundingSphere2D _circle1, const BoundingSphere2D _circle2);
 const bool collides(const AxisAlignedBoundingBox2D _box, const LineSegment2D _line);
 const bool collides(const LineSegment2D _line1, const LineSegment2D _line2);
-// SAM
+
 const bool collides(const AxisAlignedBoundingBox& box, const BoundingSphere& circle);
 const bool collides(const AxisAlignedBoundingBox& box, const LineSegment& line);
+const bool collides(const BoundingSphere& one, const BoundingSphere& two);

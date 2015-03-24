@@ -8,7 +8,7 @@ using std::vector;
 
 //this will draw the path nodes and color them based on how many links they have
 //turning this on can help debug paths, but will massively increase startup time
-#define DEBUG_PATHS
+//#define DEBUG_PATHS
 
 //paths stop at this time length for unimportant paths like wandering
 #define MAX_PATH_TIME_LOW 0.75f
