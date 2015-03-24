@@ -67,5 +67,6 @@ protected:
 	bool		m_bDartCreated;
 public:
 	afx_msg void OnBnClickedBtnFleepoint();
+	afx_msg void OnBnClickedBtnSetlocation();
 };
 

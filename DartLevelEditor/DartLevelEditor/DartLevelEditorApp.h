@@ -31,6 +31,7 @@ public:
 	void createPickUp(const EditorPawn::PawnType type, D3DXVECTOR3& initPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 	void movePawn(UINT idx, float dt);
 	void setPawnToMove(UINT id);
+	void setPawnLocation(UINT id, D3DXVECTOR3& pos);
 	void deletePawn(UINT id);
 
 	DartLevelEditorApp();

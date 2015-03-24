@@ -1,6 +1,7 @@
 #include "DartLevelEditorApp.h"
 #include "DartDlg.h"
 #include "PickUpDlg.h"
+#include "LocParams.h"
 #include "EditorPawn.h"
 #include "resource.h"
 
@@ -22,6 +23,7 @@ ON_BN_CLICKED(IDC_BTN_CREATEWALL, &DartDlg::OnBnClickedBtnCreatewall)
 ON_BN_CLICKED(IDC_BTN_DELETEOBJECT, &DartDlg::OnBnClickedBtnDeleteobject)
 ON_BN_CLICKED(IDC_BTN_PICKUPSPAWN, &DartDlg::OnBnClickedBtnPickupspawn)
 ON_BN_CLICKED(IDC_BTN_FLEEPOINT, &DartDlg::OnBnClickedBtnFleepoint)
+ON_BN_CLICKED(IDC_BTN_SETLOCATION, &DartDlg::OnBnClickedBtnSetlocation)
 END_MESSAGE_MAP()
 
 DartDlg::DartDlg() :
@@ -284,4 +286,22 @@ void DartDlg::OnBnClickedBtnFleepoint()
 	_itow_s(++count, temp1, 10);
 	temp += temp1;
 	insertToPawnList(temp);
+}
+
+
+void DartDlg::OnBnClickedBtnSetlocation()
+{
+	LocParams dlg;
+
+	if (IDOK == dlg.DoModal()) {
+		CComboBox* list = (CComboBox*)GetDlgItem(IDC_LIST_PAWNSELECTOR);
+
+		int selected = list->GetCurSel();
+
+		float x = (float)dlg.m_nX;
+		float y = (float)dlg.m_nY;
+		float z = (float)dlg.m_nZ;
+
+		theApp.setPawnLocation(selected, D3DXVECTOR3(x, y, z));
+	}
 }

@@ -95,7 +95,7 @@ int LevelImporter::loadLevel(wchar_t* fileName)
 			z = (float)_wtof(token);
 
 			EditorPawn newPawn(EditorPawn::PawnType::PT_EnemyType1SpawnLocale, D3DXVECTOR3(x, y, z));
-			newPawn.setSolid((bool)solid);
+			newPawn.setSolid(solid);
 			m_enemyList.push_back(newPawn);
 			++m_nNumPawns;
 			++m_nNumEnemies;
@@ -121,7 +121,7 @@ int LevelImporter::loadLevel(wchar_t* fileName)
 			z = (float)_wtof(token);
 
 			m_dart = EditorPawn(EditorPawn::PawnType::PT_DartSpawnLocale, D3DXVECTOR3(x, y, z));
-			m_dart.setSolid((bool)solid);
+			m_dart.setSolid(solid);
 			++m_nNumPawns;
 		}
 		break;
@@ -140,7 +140,7 @@ int LevelImporter::loadLevel(wchar_t* fileName)
 			z = (float)_wtof(token);
 
 			m_bart = EditorPawn(EditorPawn::PawnType::PT_BartSpawnLocale, D3DXVECTOR3(x, y, z));
-			m_bart.setSolid((bool)solid);
+			m_bart.setSolid(solid);
 			++m_nNumPawns;
 		}
 		break;
@@ -180,7 +180,7 @@ int LevelImporter::loadLevel(wchar_t* fileName)
 			dz = (float)_wtof(token);
 
 			EditorPawn newPawn(EditorPawn::PawnType::PT_Wall, D3DXVECTOR3(x, y, z), D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f), D3DXVECTOR3(dx, dy, dz));
-			newPawn.setSolid((bool)solid);
+			newPawn.setSolid(solid);
 			m_wallList.push_back(newPawn);
 
 			++m_nNumPawns;
@@ -202,7 +202,7 @@ int LevelImporter::loadLevel(wchar_t* fileName)
 			z = (float)_wtof(token);
 
 			EditorPawn newPawn(EditorPawn::PawnType::PT_Pickup_Heal, D3DXVECTOR3(x, y, z));
-			newPawn.setSolid((bool)solid);
+			newPawn.setSolid(solid);
 			m_pickupList.push_back(newPawn);
 			++m_nNumPawns;
 			++m_nNumPickups;
@@ -223,7 +223,7 @@ int LevelImporter::loadLevel(wchar_t* fileName)
 			z = (float)_wtof(token);
 
 			EditorPawn newPawn(EditorPawn::PawnType::PT_Pickup_Bonus, D3DXVECTOR3(x, y, z));
-			newPawn.setSolid((bool)solid);
+			newPawn.setSolid(solid);
 			m_pickupList.push_back(newPawn);
 			++m_nNumPawns;
 			++m_nNumPickups;
@@ -244,7 +244,7 @@ int LevelImporter::loadLevel(wchar_t* fileName)
 			z = (float)_wtof(token);
 
 			EditorPawn newPawn(EditorPawn::PawnType::PT_Pickup_Ammo_Seed, D3DXVECTOR3(x, y, z));
-			newPawn.setSolid((bool)solid);
+			newPawn.setSolid(solid);
 			m_pickupList.push_back(newPawn);
 			++m_nNumPawns;
 			++m_nNumPickups;
@@ -265,7 +265,7 @@ int LevelImporter::loadLevel(wchar_t* fileName)
 			z = (float)_wtof(token);
 
 			EditorPawn newPawn(EditorPawn::PawnType::PT_Pickup_Ammo_Fire, D3DXVECTOR3(x, y, z));
-			newPawn.setSolid((bool)solid);
+			newPawn.setSolid(solid);
 			m_pickupList.push_back(newPawn);
 			++m_nNumPawns;
 			++m_nNumPickups;
@@ -286,7 +286,7 @@ int LevelImporter::loadLevel(wchar_t* fileName)
 			z = (float)_wtof(token);
 
 			EditorPawn newPawn(EditorPawn::PawnType::PT_FleePoint, D3DXVECTOR3(x, y, z));
-			newPawn.setSolid((bool)solid);
+			newPawn.setSolid(solid);
 			m_pickupList.push_back(newPawn);
 			++m_nNumPawns;
 			++m_nNumFleePoints;

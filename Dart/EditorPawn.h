@@ -28,7 +28,7 @@ public:
 	D3DXVECTOR3& getScale() { return m_vScale; }
 	D3DXVECTOR3& getPos() { return m_vPos; }
 	int getMeshID() const { return m_nMeshID; }
-	bool getSolid() const { return m_bSolid; }
+	BOOL getSolid() const { return m_bSolid; }
 
 	// operator overloading
 	bool operator==(const EditorPawn& other)		{ return ((this == &other) ? true : false); }
@@ -39,7 +39,7 @@ public:
 	void setDiffuseColor(D3DXVECTOR4& val) { m_vDiffuseColor = val; }
 	void setPawnType(EditorPawn::PawnType val) { m_ePawnType = val; }	
 	void setPos(D3DXVECTOR3& val) { m_vPos = val; }
-	void setSolid(bool val) { m_bSolid = val; }
+	void setSolid(BOOL val) { m_bSolid = val; }
 	void setScale(D3DXVECTOR3& val) { m_vScale = val; }
 
 	// functionality
@@ -62,6 +62,6 @@ protected:
 	
 	int		m_nMeshID;
 
-	bool m_bSolid;
+	BOOL		m_bSolid;
 };
 

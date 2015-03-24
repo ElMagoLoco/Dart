@@ -795,5 +795,11 @@ void DartLevelEditorApp::createFleePointSpawn(D3DXVECTOR3& initPos /*= D3DXVECTO
 	m_pawnList.push_back(fleePoint);
 }
 
+void DartLevelEditorApp::setPawnLocation(UINT id, D3DXVECTOR3& pos)
+{
+	m_pawnList[id].setPos(pos);
+	m_pawnList[id].update(0.0f);
+}
+
 DartLevelEditorApp theApp; 
 
