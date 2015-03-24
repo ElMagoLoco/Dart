@@ -65,5 +65,7 @@ protected:
 	bool		m_bFloorCreated;
 	bool		m_bBartCreated;
 	bool		m_bDartCreated;
+public:
+	afx_msg void OnBnClickedBtnFleepoint();
 };
 

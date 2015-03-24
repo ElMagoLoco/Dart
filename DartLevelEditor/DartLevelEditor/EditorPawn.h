@@ -17,6 +17,7 @@ public:
 		PT_Pickup_Bonus,
 		PT_Pickup_Ammo_Seed,
 		PT_Pickup_Ammo_Fire,
+		PT_FleePoint,
 		PT_End
 	};
 

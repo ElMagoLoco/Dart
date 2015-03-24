@@ -66,6 +66,9 @@
     <ClCompile Include="PickUpPawn.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="FleePointPawn.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="D3DApp.h">
@@ -123,6 +126,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PickUpPawn.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FleePointPawn.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

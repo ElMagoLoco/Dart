@@ -20,12 +20,14 @@ public:
 	void drawPawns();
 	int createCube(FLOAT width, FLOAT height, FLOAT depth);
 	int createSphere(float radius, UINT slices, UINT stacks);
+	int createTorus(float innerRadius, float outerRadius, UINT sides, UINT rings);
 	void saveLevel(CString filename);
 	void loadLevel(CString filename);
 	void createWall(D3DXVECTOR3& scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f), D3DXVECTOR3& initPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 	void createDartSpawn(D3DXVECTOR3& initPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 	void createBartSpawn(D3DXVECTOR3& initPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 	void createAntzSpawn(D3DXVECTOR3& initPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+	void createFleePointSpawn(D3DXVECTOR3& initPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 	void createPickUp(const EditorPawn::PawnType type, D3DXVECTOR3& initPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 	void movePawn(UINT idx, float dt);
 	void setPawnToMove(UINT id);
@@ -59,6 +61,7 @@ protected:
 	int			m_nLevelShaderID;
 	int			m_nBoxMeshID;
 	int			m_nSphereMeshID;
+	int			m_nTorusMeshID;
 	int			m_nMovePawnID;
 
 	UINT		m_nNumFloorVerts;

@@ -92,6 +92,7 @@
     <ClCompile Include="DXInput.cpp" />
     <ClCompile Include="EditorPawn.cpp" />
     <ClCompile Include="AntzPawn.cpp" />
+    <ClCompile Include="FleePointPawn.cpp" />
     <ClCompile Include="FxManager.cpp" />
     <ClCompile Include="GfxStats.cpp" />
     <ClCompile Include="PickUpDlg.cpp" />
@@ -111,6 +112,7 @@
     <ClInclude Include="DartPawn.h" />
     <ClInclude Include="DXInput.h" />
     <ClInclude Include="EditorPawn.h" />
+    <ClInclude Include="FleePointPawn.h" />
     <ClInclude Include="FxManager.h" />
     <ClInclude Include="GfxStats.h" />
     <ClInclude Include="PickUpDlg.h" />

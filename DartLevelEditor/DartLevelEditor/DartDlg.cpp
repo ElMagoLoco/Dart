@@ -21,6 +21,7 @@ BEGIN_MESSAGE_MAP(DartDlg, CDialog)
 ON_BN_CLICKED(IDC_BTN_CREATEWALL, &DartDlg::OnBnClickedBtnCreatewall)
 ON_BN_CLICKED(IDC_BTN_DELETEOBJECT, &DartDlg::OnBnClickedBtnDeleteobject)
 ON_BN_CLICKED(IDC_BTN_PICKUPSPAWN, &DartDlg::OnBnClickedBtnPickupspawn)
+ON_BN_CLICKED(IDC_BTN_FLEEPOINT, &DartDlg::OnBnClickedBtnFleepoint)
 END_MESSAGE_MAP()
 
 DartDlg::DartDlg() :
@@ -110,9 +111,7 @@ void DartDlg::OnBnClickedBtnMakedartspawn()
 	if (false == m_bDartCreated) {
 		theApp.createDartSpawn();
 
-		CComboBox* list = (CComboBox*)GetDlgItem(IDC_LIST_PAWNSELECTOR);
-		list->InsertString(m_nPawnCount, L"Dart Spawn Point");
-		list->SetCurSel(m_nPawnCount++);
+		insertToPawnList(L"Dart Spawn Point");
 
 		m_bDartCreated = true;
 	}
@@ -127,9 +126,7 @@ void DartDlg::OnBnClickedBtnBartspawn()
 	if (false == m_bBartCreated) {
 		theApp.createBartSpawn();
 
-		CComboBox* list = (CComboBox*)GetDlgItem(IDC_LIST_PAWNSELECTOR);
-		list->InsertString(m_nPawnCount, L"Bart Spawn Point");
-		list->SetCurSel(m_nPawnCount++);
+		insertToPawnList(L"Bart Spawn Point");
 
 		m_bBartCreated = true;
 	}
@@ -150,8 +147,7 @@ void DartDlg::OnBnClickedBtnAntzspawn()
 	wchar_t temp1[32];
 	_itow_s(++count, temp1, 10);
 	temp += temp1;
-	list->InsertString(m_nPawnCount, temp);
-	list->SetCurSel(m_nPawnCount++);
+	insertToPawnList(temp);
 }
 
 void DartDlg::OnCbnSelchangeListPawnselector()
@@ -194,8 +190,7 @@ void DartDlg::OnBnClickedBtnCreatewall()
 	wchar_t temp1[32];
 	_itow_s(++count, temp1, 10);
 	temp += temp1;
-	list->InsertString(m_nPawnCount, temp);
-	list->SetCurSel(m_nPawnCount++);
+	insertToPawnList(temp);
 }
 
 
@@ -233,8 +228,7 @@ void DartDlg::OnBnClickedBtnPickupspawn()
 		wchar_t temp1[32];
 		_itow_s(++count, temp1, 10);
 		temp += temp1;
-		list->InsertString(m_nPawnCount, temp);
-		list->SetCurSel(m_nPawnCount++);
+		insertToPawnList(temp);
 	}
 	break;
 	
@@ -247,8 +241,7 @@ void DartDlg::OnBnClickedBtnPickupspawn()
 		wchar_t temp1[32];
 		_itow_s(++count, temp1, 10);
 		temp += temp1;
-		list->InsertString(m_nPawnCount, temp);
-		list->SetCurSel(m_nPawnCount++);
+		insertToPawnList(temp);
 	}
 	break;
 	case IDC_RADIO_AMMO_SEED: {
@@ -260,8 +253,7 @@ void DartDlg::OnBnClickedBtnPickupspawn()
 		wchar_t temp1[32];
 		_itow_s(++count, temp1, 10);
 		temp += temp1;
-		list->InsertString(m_nPawnCount, temp);
-		list->SetCurSel(m_nPawnCount++);
+		insertToPawnList(temp);
 	}
 	break;
 	case IDC_RADIO_AMMO_FIRE: {
@@ -273,9 +265,23 @@ void DartDlg::OnBnClickedBtnPickupspawn()
 		wchar_t temp1[32];
 		_itow_s(++count, temp1, 10);
 		temp += temp1;
-		list->InsertString(m_nPawnCount, temp);
-		list->SetCurSel(m_nPawnCount++);
+		insertToPawnList(temp);
 	}
 	break;
 	}
+}
+
+void DartDlg::OnBnClickedBtnFleepoint()
+{
+	static int count = -1;
+
+	theApp.createFleePointSpawn();
+
+	CComboBox* list = (CComboBox*)GetDlgItem(IDC_LIST_PAWNSELECTOR);
+
+	CString temp = L"FleePoint_";
+	wchar_t temp1[32];
+	_itow_s(++count, temp1, 10);
+	temp += temp1;
+	insertToPawnList(temp);
 }

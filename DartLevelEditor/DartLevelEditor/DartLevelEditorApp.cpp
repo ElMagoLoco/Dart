@@ -8,6 +8,7 @@
 #include "AntzPawn.h"
 #include "WallPawn.h"
 #include "PickUpPawn.h"
+#include "FleePointPawn.h"
 #include "resource.h"
 
 using namespace Fugui;
@@ -68,6 +69,7 @@ BOOL DartLevelEditorApp::InitInstance()
 
 	m_nBoxMeshID = createCube(1.0f, 1.0f, 1.0f);
 	m_nSphereMeshID = createSphere(3.0f, 12, 10);
+	m_nTorusMeshID = createTorus(2.0f, 4.0f, 10, 20);
 
 	Timer::Get()->setTimer();
 
@@ -251,6 +253,22 @@ int DartLevelEditorApp::createSphere(float radius, UINT slices, UINT stacks)
 }
 
 
+int DartLevelEditorApp::createTorus(float innerRadius, float outerRadius, UINT sides, UINT rings)
+{
+	ID3DXMesh* pMesh = nullptr;
+	ID3DXBuffer* pAdj = nullptr;
+
+	HR(D3DXCreateTorus(gD3DDevice, innerRadius, outerRadius, sides, rings, &pMesh, &pAdj));
+	if (NULL == pMesh)
+		return -1;
+
+	SAFE_RELEASE(pAdj);
+
+	m_meshList.push_back(pMesh);
+
+	return m_meshList.size() - 1;
+}
+
 void DartLevelEditorApp::saveLevel(CString filename)
 {
 	wofstream ofs(filename, std::ios::out | std::ios::trunc);
@@ -270,6 +288,7 @@ void DartLevelEditorApp::saveLevel(CString filename)
 	ofs << L"PickUpBonus:" << EditorPawn::PawnType::PT_Pickup_Bonus << '\n';
 	ofs << L"PickUpAmmoSeed:" << EditorPawn::PawnType::PT_Pickup_Ammo_Seed << '\n';
 	ofs << L"PickUpAmmoFire:" << EditorPawn::PawnType::PT_Pickup_Ammo_Fire << '\n';
+	ofs << L"FleePoint:" << EditorPawn::PawnType::PT_FleePoint << '\n';
 
 	ofs << L"PawnCount:" << m_pawnList.size() << L'\n';
 	for (UINT i = 0; i < m_pawnList.size(); ++i) {
@@ -341,6 +360,13 @@ void DartLevelEditorApp::saveLevel(CString filename)
 		}
 		break;
 		case EditorPawn::PawnType::PT_Pickup_Ammo_Fire:
+		{
+			ofs << i << L":" << L"Type:" << m_pawnList[i].getPawnType() << L'\n';
+			ofs << i << L":" << L"Solid:" << m_pawnList[i].getSolid() << L'\n';
+			ofs << i << L":" << L"Position:" << m_pawnList[i].getPos().x << L"," << m_pawnList[i].getPos().y << L"," << m_pawnList[i].getPos().z << L'\n';
+		}
+		break;
+		case EditorPawn::PawnType::PT_FleePoint:
 		{
 			ofs << i << L":" << L"Type:" << m_pawnList[i].getPawnType() << L'\n';
 			ofs << i << L":" << L"Solid:" << m_pawnList[i].getSolid() << L'\n';
@@ -605,6 +631,29 @@ void DartLevelEditorApp::loadLevel(CString filename)
 			m_dlg.insertToPawnList(temp.GetString());
 		}
 		break;
+		case EditorPawn::PawnType::PT_FleePoint:
+		{
+			ifs.getline(token, 64, L':');
+			ifs.getline(token, 64, L':');
+			ifs.getline(token, 64, L',');
+
+			float x, y, z;
+
+			x = (float)_wtof(token);
+			ifs.getline(token, 64, L',');
+			y = (float)_wtof(token);
+			ifs.getline(token, 64);
+			z = (float)_wtof(token);
+
+			createFleePointSpawn(D3DXVECTOR3(x, y, z));
+
+			CString temp = L"FleePoint_";
+			wchar_t temp1[32];
+			_itow_s(numWalls++, temp1, 10);
+			temp += temp1;
+			m_dlg.insertToPawnList(temp.GetString());
+		}
+		break;
 		} // end switch
 	} // end for
 
@@ -625,6 +674,12 @@ void DartLevelEditorApp::loadLevel(CString filename)
 void DartLevelEditorApp::drawPawns()
 {
 	for (UINT i = 0; i < m_pawnList.size(); ++i) {
+// 		if (EditorPawn::PawnType::PT_FleePoint == m_pawnList[i].getPawnType()) {
+// 			D3DXMATRIX rotMat;
+// 			D3DXMatrixRotationX(&rotMat, D3DXToRadian(-90.0f));
+// 			m_pawnList[i].setMatWorld(rotMat);
+// 		}
+
 		m_fxs.setWVP(m_pawnList[i].getMatWorld() * m_camera.viewProj());
 		m_fxs.setMtrlDiffuse(m_pawnList[i].getDiffuseColor());
 		m_fxs.getFx(m_nLevelShaderID).pFx->CommitChanges();
@@ -723,9 +778,21 @@ void DartLevelEditorApp::createPickUp(const EditorPawn::PawnType type, D3DXVECTO
 	PickUpPawn pickup(type);
 
 	pickup.setPos(initPos);
+	pickup.setSolid(true);
 	pickup.setMeshID(m_nSphereMeshID);
 	pickup.update(0.0f);
 	m_pawnList.push_back(pickup);
+}
+
+void DartLevelEditorApp::createFleePointSpawn(D3DXVECTOR3& initPos /*= D3DXVECTOR3(0.0f, 0.0f, 0.0f)*/)
+{
+	FleePointPawn fleePoint;
+
+	fleePoint.setPos(initPos);
+	fleePoint.setMeshID(m_nSphereMeshID);
+	fleePoint.setSolid(true);
+	fleePoint.update(0.0f);
+	m_pawnList.push_back(fleePoint);
 }
 
 DartLevelEditorApp theApp; 
