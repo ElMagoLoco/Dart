@@ -264,7 +264,7 @@ Level 1
 void EventProcessLevel1::beginEvent()
 {
 	// load the level info from the file
-	g_levelImp->loadLevel(L"Content\\Levels\\PickUpTest.dlvl");
+	g_levelImp->loadLevel(L"Content\\Levels\\TestLevel4.dlvl");
 	//make level
 	gCurrentLevel = new Level(D3DXVECTOR3(-2000.0f, 0.0f, -2000.0f), 
 		D3DXVECTOR3(4000.0f, 0.0f, 4000.0f));
@@ -308,8 +308,8 @@ void EventProcessLevel1::beginEvent()
 	gCurrentLevel->addFleePoint(D3DXVECTOR2(1400, 1400));
 	//add enemies to level
 	for (int i = 0; i < g_levelImp->getNumEnemies(); ++i) {
-		gCurrentLevel->getSpawner()->addEnemy(new EnemyMelee(L"Content/Models/tiny.x", L"Content/Textures/Tiny_skin.dds",
-			L"Content/Textures/Tiny_skin_n.dds",
+		gCurrentLevel->getSpawner()->addEnemy(new EnemyMelee(L"Content/Models/Tiny.x", L"Content/Textures/tex_fire.dds",
+			L"Content/Textures/tex_fire_n.dds",
 			g_levelImp->getEnemyList()[i].getPos() * 10.0f, 30.0f, 40.0f, D3DXVECTOR3(0.50f, 0.50f, 0.50f)));
 	}
 

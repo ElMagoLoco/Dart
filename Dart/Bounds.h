@@ -100,6 +100,12 @@ const bool collides(const BoundingSphere2D _circle1, const BoundingSphere2D _cir
 const bool collides(const AxisAlignedBoundingBox2D _box, const LineSegment2D _line);
 const bool collides(const LineSegment2D _line1, const LineSegment2D _line2);
 
+//true or false collision between box and circle
 const bool collides(const AxisAlignedBoundingBox& box, const BoundingSphere& circle);
+//collision between box and circle with movement that the circle has to do to get out
+const bool collides(const AxisAlignedBoundingBox& box, const BoundingSphere& circle,
+	D3DXVECTOR3 circleMovement);
 const bool collides(const AxisAlignedBoundingBox& box, const LineSegment& line);
 const bool collides(const BoundingSphere& one, const BoundingSphere& two);
+const bool collides(const BoundingSphere& one, const BoundingSphere& two, 
+	D3DXVECTOR3 oneMovement);

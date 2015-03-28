@@ -72,53 +72,82 @@ const bool collides(const LineSegment2D _line1, const LineSegment2D _line2)
 	return true;
 }
 
-// SAM
 const bool collides(const AxisAlignedBoundingBox& _box, const BoundingSphere& _sphere)
-{//Darrell
+{
+	//find closest point on box to sphere
+	D3DXVECTOR3 closest = _sphere.mCenter;
+	if (_sphere.mCenter.x < _box.mMin.x) closest.x = _box.mMin.x;
+	else if (_sphere.mCenter.x > _box.mMax.x) closest.x = _box.mMax.x;
+	if (_sphere.mCenter.y < _box.mMin.y) closest.y = _box.mMin.y;
+	else if (_sphere.mCenter.y > _box.mMax.y) closest.y = _box.mMax.y;
+	if (_sphere.mCenter.z < _box.mMin.z) closest.z = _box.mMin.z;
+	else if (_sphere.mCenter.z > _box.mMax.z) closest.z = _box.mMax.z;
+	//distance from sphere center to closest point squared
+	float distSq = D3DXVec3LengthSq(&(closest - _sphere.mCenter));
+	//radius squared
+	float radiusSq = _sphere.mRadius * _sphere.mRadius;
+	return (distSq < radiusSq);//if there is a collision
+	/*
 	//variables for square root and difference
 	float sqRt = 0.0f;
 	float dist = 0.0f;//initialize distance
 	//if the sphere center x is less than the box position x
 	if (_sphere.mCenter.x < _box.mMin.x)
-	{
 		//then set sqrt to difference between x points
 		sqRt = _sphere.mCenter.x - _box.mMin.x;
-	}
 	//else if the center x is greater
 	else if (_sphere.mCenter.x > (_box.mMax.x))
-	{
 		//then set sqrt between center.x and the box side opposite the x position
 		sqRt = _sphere.mCenter.x - (_box.mMax.x);
-	}
 	//figure square, the distance
 	dist += sqRt * sqRt;
 	//we then do the above for the y and z dimensions and add their squared
 	//distance to the total distance
 	if (_sphere.mCenter.y < _box.mMin.y)
-	{
 		sqRt = _sphere.mCenter.y - _box.mMin.y;
-	}
 	else if (_sphere.mCenter.y > _box.mMax.y)
-	{
 		sqRt = _sphere.mCenter.y - _box.mMax.y;
-	}
 	dist += sqRt * sqRt;
 
 	if (_sphere.mCenter.z < _box.mMin.z)
-	{
 		sqRt = _sphere.mCenter.z - _box.mMin.z;
-	}
 	else if (_sphere.mCenter.z > _box.mMax.z)
-	{
 		sqRt = _sphere.mCenter.z - _box.mMax.z;
-	}
 	dist += sqRt * sqRt;
 	//if total distance is <= square of the radius, then we have
 	//a collision
 	return dist <= (_sphere.mRadius * _sphere.mRadius);
+	*/
 }
 
-
+const bool collides(const AxisAlignedBoundingBox& _box, const BoundingSphere& _sphere,
+	D3DXVECTOR3 sphereMovement)
+{
+	//find closest point on box to sphere
+	D3DXVECTOR3 closest = _sphere.mCenter;
+	if		(_sphere.mCenter.x < _box.mMin.x) closest.x = _box.mMin.x;
+	else if (_sphere.mCenter.x > _box.mMax.x) closest.x = _box.mMax.x;
+	if (_sphere.mCenter.y < _box.mMin.y) closest.y = _box.mMin.y;
+	else if (_sphere.mCenter.y > _box.mMax.y) closest.y = _box.mMax.y;
+	if (_sphere.mCenter.z < _box.mMin.z) closest.z = _box.mMin.z;
+	else if (_sphere.mCenter.z > _box.mMax.z) closest.z = _box.mMax.z;
+	//distance from sphere center to closest point squared
+	float distSq = D3DXVec3LengthSq(&(closest - _sphere.mCenter));
+	//radius squared
+	float radiusSq = _sphere.mRadius * _sphere.mRadius;
+	if (distSq < radiusSq)//if there is a collision
+	{
+		//penetration depth
+		float deep = _sphere.mRadius - sqrt(distSq);
+		//normal (direction to move sphere)
+		D3DXVECTOR3 normal = closest - _sphere.mCenter;
+		D3DXVec3Normalize(&normal, &normal);
+		sphereMovement = normal * deep;
+		return true;
+	}
+	else
+		return false;
+}
 
 const bool collides(const AxisAlignedBoundingBox& box, const LineSegment& line)
 {
@@ -146,4 +175,23 @@ const bool collides(const BoundingSphere& one, const BoundingSphere& two)
 	float totalRadius = one.mRadius + two.mRadius;
 	float distanceSq = D3DXVec3LengthSq(&(one.mCenter - two.mCenter));
 	return (distanceSq < totalRadius * totalRadius);
+}
+
+const bool collides(const BoundingSphere& one, const BoundingSphere& two,
+	D3DXVECTOR3 oneMovement)
+{
+	float totalRadius = one.mRadius + two.mRadius;
+	float distanceSq = D3DXVec3LengthSq(&(one.mCenter - two.mCenter));
+	if (distanceSq < totalRadius * totalRadius)
+	{
+		//penetration depth
+		float deep = totalRadius - sqrt(distanceSq);
+		//normal
+		D3DXVECTOR3 normal = one.mCenter - two.mCenter;
+		D3DXVec3Normalize(&normal, &normal);
+		oneMovement = normal * deep;
+		return true;
+	}
+	else
+		return false;
 }
