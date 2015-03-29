@@ -161,7 +161,22 @@ void State::addEvent(Event* _newEvent)
 {
 	mEvents.push_back(_newEvent);
 }
-
+/*******************************************************************
+Loss Menu
+*******************************************************************/
+void EventDisplayMenuLoss::beginEvent()
+{
+	//main menu background
+	mMenu = new Menu(L"Content/Textures/background_menu.png", 0.0f, 0.0f, 1024, 1024, 1.0f, 1.0f);
+	//button to return to main menu
+	ButtonGoBack* bGoBack = new ButtonGoBack(L"Content/Textures/button_return.png",
+		0.4f, 0.8f, 128, 64, 0.2f, 0.1f);
+	mMenu->addButton(bGoBack);
+	//graphic stating that you lost
+	Texture2D* tLost = new Texture2D(L"Content/Textures/button_loss.png", 0.3f, 0.3f, 256, 128,
+		0.4f, 0.2f);
+	mMenu->addTexture(tLost);
+}
 /*******************************************************************
 Main Menu
 *******************************************************************/
@@ -264,7 +279,7 @@ Level 1
 void EventProcessLevel1::beginEvent()
 {
 	// load the level info from the file
-	g_levelImp->loadLevel(L"Content\\Levels\\Collision2.dlvl");
+	g_levelImp->loadLevel(L"Content\\Levels\\PickUpTest.dlvl");
 	//make level
 	gCurrentLevel = new Level(D3DXVECTOR3(-3000.0f, 0.0f, -3000.0f), 
 		D3DXVECTOR3(6000.0f, 0.0f, 6000.0f));

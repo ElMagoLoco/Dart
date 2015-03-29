@@ -71,8 +71,8 @@ void Player::update(float _dt)
 {
 	//do nothing if dead
 	if (bIsDead)
-	{//will add a more elaborate lose screen later
-		gStateMachine->transitionState(STATE_MAINMENU);
+	{
+		gStateMachine->transitionState(STATE_LOSE);
 		return;
 	}
 
@@ -244,7 +244,7 @@ void Follower::update(float _dt)
 	//do nothing if dead
 	if (bIsDead)
 	{//will add a more elaborate lose screen later
-		gStateMachine->transitionState(STATE_MAINMENU);
+		gStateMachine->transitionState(STATE_LOSE);
 		return;
 	}
 

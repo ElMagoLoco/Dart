@@ -221,6 +221,20 @@ void ProjectApp::initStateMachine()
 	sPlay->addEvent(musPlay);
 	//add state
 	gStateMachine->addState(sPlay);
+	/*******************************************************************
+	Loss Menu
+	*******************************************************************/
+	State* sLoss = new State();
+	//create menu event
+	EventDisplayMenuLoss* eLossMenu = new EventDisplayMenuLoss();
+	//add event to state
+	sLoss->addEvent(eLossMenu);
+	//music
+	EventMusicStart* musLoss = new EventMusicStart("Content/Audio/musicLose.mp3");
+	sLoss->addEvent(musLoss);
+	//add state
+	gStateMachine->addState(sLoss);
+
 
 	//start state machine
 	gStateMachine->turnOn();
