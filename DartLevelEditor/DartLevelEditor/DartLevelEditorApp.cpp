@@ -56,11 +56,12 @@ BOOL DartLevelEditorApp::InitInstance()
 
 	g_input->init(mhMainWnd, AfxGetInstanceHandle(), DISCL_EXCLUSIVE | DISCL_FOREGROUND, DISCL_EXCLUSIVE | DISCL_FOREGROUND);
 
-	m_camera.pos() = D3DXVECTOR3(0.0f, 10.0f, -50.0f);
+	m_camera.pos() = D3DXVECTOR3(0.0f, 3000.0f, -50.0f);
 	RECT client;
 	GetClientRect(mhMainWnd, &client);
 	m_fAspect = (float)client.right / (float)client.bottom;
 	m_camera.setLens(D3DXToRadian(m_fFOV), m_fAspect, m_fNearZ, m_fFarZ);
+	m_camera.lookAt(m_camera.pos(), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 1.0f, 0.0f));
 
 	m_fxs.createFxPool();
 	m_nLevelShaderID = m_fxs.loadFx(L"Effects\\LevelEditorShader.fx", L"LevelEditorTech", L"gWorld");
@@ -669,6 +670,9 @@ void DartLevelEditorApp::loadLevel(CString filename)
 		m_dlg.setFloorLength(_wtoi(token));
 		createFloor();
 	}
+
+	m_camera.lookAt(m_camera.pos(), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 1.0f, 0.0f));
+
 }
 
 void DartLevelEditorApp::drawPawns()
@@ -698,13 +702,13 @@ void DartLevelEditorApp::drawPawns()
 void DartLevelEditorApp::movePawn(UINT idx, float dt)
 {
 	if (g_input->keyDown(DIK_LEFT) && (g_input->keyDown(DIK_LSHIFT) || g_input->keyDown(DIK_RSHIFT)))
-		m_pawnList[idx].update(dt, D3DXVECTOR3(-50.0f, 0.0f, 0.0f));
+		m_pawnList[idx].update(dt, D3DXVECTOR3(-200.0f, 0.0f, 0.0f));
 	if (g_input->keyDown(DIK_RIGHT) && (g_input->keyDown(DIK_LSHIFT) || g_input->keyDown(DIK_RSHIFT)))
-		m_pawnList[idx].update(dt, D3DXVECTOR3(50.0f, 0.0f, 0.0f));
+		m_pawnList[idx].update(dt, D3DXVECTOR3(200.0f, 0.0f, 0.0f));
 	if (g_input->keyDown(DIK_UP) && (g_input->keyDown(DIK_LSHIFT) || g_input->keyDown(DIK_RSHIFT)))
-		m_pawnList[idx].update(dt, D3DXVECTOR3(0.0f, 0.0f, 50.0f));
+		m_pawnList[idx].update(dt, D3DXVECTOR3(0.0f, 0.0f, 200.0f));
 	if (g_input->keyDown(DIK_DOWN) && (g_input->keyDown(DIK_LSHIFT) || g_input->keyDown(DIK_RSHIFT)))
-		m_pawnList[idx].update(dt, D3DXVECTOR3(0.0f, 0.0f, -50.0f));
+		m_pawnList[idx].update(dt, D3DXVECTOR3(0.0f, 0.0f, -200.0f));
 }
 
 void DartLevelEditorApp::setPawnToMove(UINT id)

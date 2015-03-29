@@ -4,7 +4,7 @@
 PickUpPawn::PickUpPawn(const PawnType type, D3DXVECTOR3& initPos /*= D3DXVECTOR3(0.0f, 0.0f, 0.0f)*/)
 {
 	m_ePawnType = type;
-	m_vScale = D3DXVECTOR3(0.5f, 0.5f, 0.5f);
+	m_vScale = D3DXVECTOR3(50.0f, 50.0f, 50.0f);
 	m_vPos = initPos;
 
 	switch (m_ePawnType) {

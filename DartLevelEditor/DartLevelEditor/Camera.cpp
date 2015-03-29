@@ -15,7 +15,7 @@ Camera::Camera()
 	m_lookW = D3DXVECTOR3(0.0f, 0.0f, 1.0f);
 
 	
-	m_fLinearSpeed = 30.0f;
+	m_fLinearSpeed = 300.0f;
 	m_fRotSpeed = 500.0f;
 }
 
