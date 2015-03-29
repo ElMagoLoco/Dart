@@ -13,7 +13,6 @@
 #endif
 #endif
 
-
 //d3d includes and libraries
 #include <d3d9.h>
 #include <d3dx9.h>
@@ -64,3 +63,5 @@ extern UINT					gWindowHeight;
 //some utility functions
 float getRandomFloat(float _low, float _high);
 void CopyString(const char* input, char** output);
+
+

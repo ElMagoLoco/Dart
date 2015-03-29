@@ -266,8 +266,8 @@ void EventProcessLevel1::beginEvent()
 	// load the level info from the file
 	g_levelImp->loadLevel(L"Content\\Levels\\Collision2.dlvl");
 	//make level
-	gCurrentLevel = new Level(D3DXVECTOR3(-2000.0f, 0.0f, -2000.0f), 
-		D3DXVECTOR3(1000.0f, 0.0f, 1000.0f));
+	gCurrentLevel = new Level(D3DXVECTOR3(-3000.0f, 0.0f, -3000.0f), 
+		D3DXVECTOR3(6000.0f, 0.0f, 6000.0f));
 	//add ground
  	Mesh* meshGround = new Mesh(L"Content/Models/ground.X", D3DXVECTOR3(0.0f, 0.0f, 0.0f));
  	meshGround->addTexture(L"Content/Textures/tex_grass.dds", L"Content/Textures/tex_grass_n.dds");
