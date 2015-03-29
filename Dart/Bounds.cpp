@@ -76,17 +76,17 @@ const bool collides(const AxisAlignedBoundingBox& _box, const BoundingSphere& _s
 {
 	//find closest point on box to sphere
 	D3DXVECTOR3 closest = _sphere.mCenter;
-	if (fabs(_sphere.mCenter.x) < fabs(_box.mMin.x))
+	if (/*fabs*/(_sphere.mCenter.x) < /*fabs*/(_box.mMin.x))
 		closest.x = _box.mMin.x;
-	else if (fabs(_sphere.mCenter.x) > fabs(_box.mMax.x)) 
+	else if (/*fabs*/(_sphere.mCenter.x) > /*fabs*/(_box.mMax.x)) 
 		closest.x = _box.mMax.x;
-	if (fabs(_sphere.mCenter.y) < fabs(_box.mMin.y))
+	if (/*fabs*/(_sphere.mCenter.y) < /*fabs*/(_box.mMin.y))
 		closest.y = _box.mMin.y;
-	else if (fabs(_sphere.mCenter.y) > fabs(_box.mMax.y))
+	else if (/*fabs*/(_sphere.mCenter.y) > /*fabs*/(_box.mMax.y))
 		closest.y = _box.mMax.y;
-	if (fabs(_sphere.mCenter.z) < fabs(_box.mMin.z))
+	if (/*fabs*/(_sphere.mCenter.z) < /*fabs*/(_box.mMin.z))
 		closest.z = _box.mMin.z;
-	else if (fabs(_sphere.mCenter.z) > fabs(_box.mMax.z))
+	else if (/*fabs*/(_sphere.mCenter.z) > /*fabs*/(_box.mMax.z))
 		closest.z = _box.mMax.z;
 	//distance from sphere center to closest point squared
 	float distSq = D3DXVec3LengthSq(&(_sphere.mCenter - closest));

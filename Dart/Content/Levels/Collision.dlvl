@@ -15,7 +15,7 @@ PawnCount:3
 0:Type:6
 0:Solid:1
 0:Position:0,0,500
-0:Scale:35,15,500
+0:Scale:500,15,35
 1:Type:2
 1:Solid:0
 1:Position:0,0,10
