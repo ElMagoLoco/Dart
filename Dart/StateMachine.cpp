@@ -264,7 +264,7 @@ Level 1
 void EventProcessLevel1::beginEvent()
 {
 	// load the level info from the file
-	g_levelImp->loadLevel(L"Content\\Levels\\Collision.dlvl");
+	g_levelImp->loadLevel(L"Content\\Levels\\Collision2.dlvl");
 	//make level
 	gCurrentLevel = new Level(D3DXVECTOR3(-2000.0f, 0.0f, -2000.0f), 
 		D3DXVECTOR3(1000.0f, 0.0f, 1000.0f));
