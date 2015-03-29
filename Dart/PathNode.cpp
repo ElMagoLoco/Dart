@@ -52,7 +52,7 @@ void AStar::initPathfinding()
 				{
 					//find the center of the node to compare with
 					D3DXVECTOR3 nodeCenter = D3DXVECTOR3(corner.x + (float)(x * GRID_SIZE),
-						50.0f, corner.y + (float)(z * GRID_SIZE));
+						0.0f, corner.y + (float)(z * GRID_SIZE));
 					//make a bounding sphere with it
 					BoundingSphere PS = BoundingSphere(nodeCenter, CLOSE_RADIUS);
 					//if the AABB collides with that sphere, we can't place one here
@@ -70,7 +70,7 @@ void AStar::initPathfinding()
 			//if no obstruction was found, place the node
 			if (true)
 			{
-				D3DXVECTOR3 position = D3DXVECTOR3(corner.x, 50.0f, corner.y)
+				D3DXVECTOR3 position = D3DXVECTOR3(corner.x, 0.0f/*SAM:50.0f*/, corner.y)
 					+ D3DXVECTOR3((float)(x * GRID_SIZE), 0.0f, (float)(z * GRID_SIZE));
 
 #ifdef DEBUG_PATHS

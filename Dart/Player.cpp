@@ -112,6 +112,9 @@ void Player::update(float _dt)
 	//did we collide with any level geometry?
 	bool colliding = false;
 	//for each colliding mesh in level
+	// SAM: TODO: Hack, this is for testing
+// 	mLastPosition = mPosition;
+// 	mPosition += (mVelocity * _dt);
 	for (Mesh* M : gCurrentLevel->getWorldGeometry())
 	{
 		//for each bounding box in mesh
@@ -452,6 +455,6 @@ void Follower::setPathFlee()
 	else
 		choice = fleePoints[rand() % fleePoints.size()];
 	resetStartNode();
-	mPath = gCurrentLevel->getPaths()->findPath(mPosition, D3DXVECTOR3(choice.x, 50.0f, choice.y));
+	mPath = gCurrentLevel->getPaths()->findPath(mPosition, D3DXVECTOR3(choice.x, 0.0f, choice.y));
 	mLastPathFound = 0.0f;
 }

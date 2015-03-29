@@ -264,17 +264,17 @@ Level 1
 void EventProcessLevel1::beginEvent()
 {
 	// load the level info from the file
-	g_levelImp->loadLevel(L"Content\\Levels\\TestLevel4.dlvl");
+	g_levelImp->loadLevel(L"Content\\Levels\\Collision.dlvl");
 	//make level
 	gCurrentLevel = new Level(D3DXVECTOR3(-2000.0f, 0.0f, -2000.0f), 
-		D3DXVECTOR3(4000.0f, 0.0f, 4000.0f));
+		D3DXVECTOR3(1000.0f, 0.0f, 1000.0f));
 	//add ground
  	Mesh* meshGround = new Mesh(L"Content/Models/ground.X", D3DXVECTOR3(0.0f, 0.0f, 0.0f));
  	meshGround->addTexture(L"Content/Textures/tex_grass.dds", L"Content/Textures/tex_grass_n.dds");
  	gCurrentLevel->addGround(meshGround);
 	//add obstacles
 	for (int i = 0; i < g_levelImp->getNumWalls(); ++i) {
-		Mesh* meshObstacle = new Mesh(L"Content/Models/box.x", g_levelImp->getWallList()[i].getPos() * 10.0f, g_levelImp->getWallList()[i].getScale());
+		Mesh* meshObstacle = new Mesh(L"Content/Models/MyBoxUnscaled.x", g_levelImp->getWallList()[i].getPos(), g_levelImp->getWallList()[i].getScale());
 		meshObstacle->addTexture(L"Content/Textures/tex_rock.dds", L"Content/Textures/tex_rock_n.dds");
 		gCurrentLevel->addObstacle(meshObstacle);
 		// SAM
@@ -284,11 +284,13 @@ void EventProcessLevel1::beginEvent()
 		// 		float minz = g_levelImp->getWallList()[i].getPos().z - (g_levelImp->getWallList()[i].getScale().z * 0.5f);
 		// 		float maxx = g_levelImp->getWallList()[i].getPos().x + (g_levelImp->getWallList()[i].getScale().x * 0.5f);
 		// 		float maxz = g_levelImp->getWallList()[i].getPos().z + (g_levelImp->getWallList()[i].getScale().z * 0.5f);
-		float minx = (g_levelImp->getWallList()[i].getScale().x * 0.5f) + g_levelImp->getWallList()[i].getPos().x;
-		float minz = (g_levelImp->getWallList()[i].getScale().x * 0.5f) + g_levelImp->getWallList()[i].getPos().x;
-		float maxx = (g_levelImp->getWallList()[i].getScale().z * 0.5f) + g_levelImp->getWallList()[i].getPos().z;
-		float maxz = (g_levelImp->getWallList()[i].getScale().z * 0.5f) + g_levelImp->getWallList()[i].getPos().z;
-		AxisAlignedBoundingBox aabbObstacle(D3DXVECTOR3(minx, minz, minx/*50.0f, 50.0f*/), D3DXVECTOR3(maxx, maxz, maxz/*150.0f, 150.0f*/));
+		float minx = g_levelImp->getWallList()[i].getPos().x - (g_levelImp->getWallList()[i].getScale().x * 0.5f);
+		float miny = 0.0f;// g_levelImp->getWallList()[i].getPos().y - (g_levelImp->getWallList()[i].getScale().y * 0.5f);
+		float minz = g_levelImp->getWallList()[i].getPos().z - (g_levelImp->getWallList()[i].getScale().z * 0.5f);
+		float maxx = g_levelImp->getWallList()[i].getPos().x + (g_levelImp->getWallList()[i].getScale().x * 0.5f);
+		float maxy = /*g_levelImp->getWallList()[i].getPos().y + (*/g_levelImp->getWallList()[i].getScale().y;// *0.5f);
+		float maxz = g_levelImp->getWallList()[i].getPos().z + (g_levelImp->getWallList()[i].getScale().z * 0.5f);
+		AxisAlignedBoundingBox aabbObstacle(D3DXVECTOR3(minx, miny, minz/*50.0f, 50.0f*/), D3DXVECTOR3(maxx, maxy, maxz/*150.0f, 150.0f*/));
 		meshObstacle->addBoundsBox(aabbObstacle);
 		gCurrentLevel->addObstacle(meshObstacle);
 	}
@@ -299,13 +301,7 @@ void EventProcessLevel1::beginEvent()
 // 		D3DXVECTOR2(50.0f, 50.0f), D3DXVECTOR2(150.0f, 150.0f));
 // 	meshObstacle->addAABB(aabbObstacle);
 // 	gCurrentLevel->addObstacle(meshObstacle);
-	//always load obstacles before running initialize path finding
-	gCurrentLevel->getPaths()->initPathfinding();
-	//specify points for units to flee to
-	gCurrentLevel->addFleePoint(D3DXVECTOR2(-1400, -1400));
-	gCurrentLevel->addFleePoint(D3DXVECTOR2(1400, -1400));
-	gCurrentLevel->addFleePoint(D3DXVECTOR2(-1400, 1400));
-	gCurrentLevel->addFleePoint(D3DXVECTOR2(1400, 1400));
+
 	//add enemies to level
 	for (int i = 0; i < g_levelImp->getNumEnemies(); ++i) {
 		gCurrentLevel->getSpawner()->addEnemy(new EnemyMelee(L"Content/Models/Tiny.x", L"Content/Textures/tex_fire.dds",
@@ -324,7 +320,7 @@ void EventProcessLevel1::beginEvent()
 									L"Content\\Textures\\tex_heal_berry.dds",
 									L"Content\\Textures\\tex_heal_berry_n.dds",
 									ePickUpType::PICKUP_HEAL,
-									g_levelImp->getPickupList()[i].getPos() * 10.0f, 
+									g_levelImp->getPickupList()[i].getPos(), 
 									D3DXVECTOR3(20.0f, 20.0f, 20.0f),//g_levelImp->getPickupList()[i].getScale(), 
 									25.0f);
 
@@ -338,7 +334,7 @@ void EventProcessLevel1::beginEvent()
 									L"Content\\Textures\\tex_bonus.dds",
 									L"Content\\Textures\\tex_bonus_n.dds",
 									ePickUpType::PICKUP_BONUS,
-									g_levelImp->getPickupList()[i].getPos() * 10.0f,
+									g_levelImp->getPickupList()[i].getPos(),
 									D3DXVECTOR3(20.0f, 20.0f, 20.0f),//g_levelImp->getPickupList()[i].getScale(),
 									25.0f);
 
@@ -352,7 +348,7 @@ void EventProcessLevel1::beginEvent()
 									L"Content\\Textures\\tex_seed.dds",
 									L"Content\\Textures\\tex_seed_n.dds",
 									ePickUpType::PICKUP_AMMO_SEED,
-									g_levelImp->getPickupList()[i].getPos() * 10.0f,
+									g_levelImp->getPickupList()[i].getPos(),
 									D3DXVECTOR3(20.0f, 20.0f, 20.0f),//g_levelImp->getPickupList()[i].getScale(),
 									10.0f);
 
@@ -366,7 +362,7 @@ void EventProcessLevel1::beginEvent()
 									L"Content\\Textures\\tex_fire.dds",
 									L"Content\\Textures\\tex_fire_n.dds",
 									ePickUpType::PICKUP_AMMO_FIRE,
-									g_levelImp->getPickupList()[i].getPos() * 10.f,
+									g_levelImp->getPickupList()[i].getPos(),
 									D3DXVECTOR3(20.0f, 20.0f, 20.0f),//g_levelImp->getPickupList()[i].getScale(),
 									5.0f);
 
@@ -375,4 +371,12 @@ void EventProcessLevel1::beginEvent()
 		break;
 		} // end switch
 	} // end for
+
+	//always load obstacles before running initialize path finding
+	gCurrentLevel->getPaths()->initPathfinding();
+	//specify points for units to flee to
+	gCurrentLevel->addFleePoint(D3DXVECTOR2(-1400, -1400));
+	gCurrentLevel->addFleePoint(D3DXVECTOR2(1400, -1400));
+	gCurrentLevel->addFleePoint(D3DXVECTOR2(-1400, 1400));
+	gCurrentLevel->addFleePoint(D3DXVECTOR2(1400, 1400));
 }

@@ -76,17 +76,27 @@ const bool collides(const AxisAlignedBoundingBox& _box, const BoundingSphere& _s
 {
 	//find closest point on box to sphere
 	D3DXVECTOR3 closest = _sphere.mCenter;
-	if (_sphere.mCenter.x < _box.mMin.x) closest.x = _box.mMin.x;
-	else if (_sphere.mCenter.x > _box.mMax.x) closest.x = _box.mMax.x;
-	if (_sphere.mCenter.y < _box.mMin.y) closest.y = _box.mMin.y;
-	else if (_sphere.mCenter.y > _box.mMax.y) closest.y = _box.mMax.y;
-	if (_sphere.mCenter.z < _box.mMin.z) closest.z = _box.mMin.z;
-	else if (_sphere.mCenter.z > _box.mMax.z) closest.z = _box.mMax.z;
+	if (fabs(_sphere.mCenter.x) < fabs(_box.mMin.x))
+		closest.x = _box.mMin.x;
+	else if (fabs(_sphere.mCenter.x) > fabs(_box.mMax.x)) 
+		closest.x = _box.mMax.x;
+	if (fabs(_sphere.mCenter.y) < fabs(_box.mMin.y))
+		closest.y = _box.mMin.y;
+	else if (fabs(_sphere.mCenter.y) > fabs(_box.mMax.y))
+		closest.y = _box.mMax.y;
+	if (fabs(_sphere.mCenter.z) < fabs(_box.mMin.z))
+		closest.z = _box.mMin.z;
+	else if (fabs(_sphere.mCenter.z) > fabs(_box.mMax.z))
+		closest.z = _box.mMax.z;
 	//distance from sphere center to closest point squared
-	float distSq = D3DXVec3LengthSq(&(closest - _sphere.mCenter));
+	float distSq = D3DXVec3LengthSq(&(_sphere.mCenter - closest));
 	//radius squared
 	float radiusSq = _sphere.mRadius * _sphere.mRadius;
-	return (distSq < radiusSq);//if there is a collision
+
+	if (distSq < radiusSq)
+		return true;
+	else
+		return false;//if there is a collision
 	/*
 	//variables for square root and difference
 	float sqRt = 0.0f;
@@ -159,13 +169,19 @@ const bool collides(const AxisAlignedBoundingBox& box, const LineSegment& line)
 	D3DXVECTOR3 boxExtent = (box.mMax - box.mMin) * 0.5f;
 	//separating axis test
 	//separation vector from box center to line center is lineMid
-	if (fabs(lineMid.x) > boxExtent.x + lineExtent.x) return false;
-	if (fabs(lineMid.y) > boxExtent.y + lineExtent.y) return false;
-	if (fabs(lineMid.z) > boxExtent.z + lineExtent.z) return false;
+	if (fabs(lineMid.x) > boxExtent.x + lineExtent.x) 
+		return false;
+	if (fabs(lineMid.y) > boxExtent.y + lineExtent.y) 
+		return false;
+	if (fabs(lineMid.z) > boxExtent.z + lineExtent.z) 
+		return false;
 	//crossproducts of lines and each axis
-	if (fabs(lineMid.y * lineHalf.z - lineMid.z * lineHalf.y) > (boxExtent.y * lineExtent.z + boxExtent.z * lineExtent.y)) return false;
-	if (fabs(lineMid.x * lineHalf.z - lineMid.z * lineHalf.x) > (boxExtent.x * lineExtent.z + boxExtent.z * lineExtent.x)) return false;
-	if (fabs(lineMid.x * lineHalf.y - lineMid.y * lineHalf.x) > (boxExtent.x * lineExtent.y + boxExtent.y * lineExtent.x)) return false;
+	if (fabs(lineMid.y * lineHalf.z - lineMid.z * lineHalf.y) > (boxExtent.y * lineExtent.z + boxExtent.z * lineExtent.y)) 
+		return false;
+	if (fabs(lineMid.x * lineHalf.z - lineMid.z * lineHalf.x) > (boxExtent.x * lineExtent.z + boxExtent.z * lineExtent.x)) 
+		return false;
+	if (fabs(lineMid.x * lineHalf.y - lineMid.y * lineHalf.x) > (boxExtent.x * lineExtent.y + boxExtent.y * lineExtent.x)) 
+		return false;
 	//no separating axis, it intersects
 	return true;
 }
@@ -174,7 +190,7 @@ const bool collides(const BoundingSphere& one, const BoundingSphere& two)
 {
 	float totalRadius = one.mRadius + two.mRadius;
 	float distanceSq = D3DXVec3LengthSq(&(one.mCenter - two.mCenter));
-	return (distanceSq < totalRadius * totalRadius);
+	return (distanceSq < (totalRadius * totalRadius));
 }
 
 const bool collides(const BoundingSphere& one, const BoundingSphere& two,

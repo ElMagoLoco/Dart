@@ -58,6 +58,7 @@ void Mesh::doWorld()
 	D3DXMatrixTranslation(&Translation, mPosition.x, mPosition.y, mPosition.z);
 	// must multiply in this order to work correctly
 	mWorld = Rotation * Scaling * Translation;
+
 }
 //add textures to mesh, add in diffuse/normal groups
 void Mesh::addTexture(LPCWSTR _texture, LPCWSTR _normal)
