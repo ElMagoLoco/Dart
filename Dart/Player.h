@@ -3,6 +3,7 @@
 #include "D3DUtils.h"
 #include "Mesh.h"
 #include "PathNode.h"
+#include "Sound.h"
 
 //pawn is base class for player, follower, and enemies, so it has the things that are common 
 //to all of them. 
@@ -87,6 +88,10 @@ private:
 	//attacks that are equipped to left and right mouse buttons
 	ePAttack mLeftAttack;
 	ePAttack mRightAttack;
+	Sound* playerAttackFire;
+	Sound* playerAttackMelee;
+	Sound* playerAttackSpeed;
+	Sound* playerDeath;
 };
 extern Player* gPlayer;
 //follower states, also used for enemy.h
@@ -147,5 +152,7 @@ protected:
 	float mAfraidMax;
 	//the health level where we start checking to see if it is afraid, also used for enemies
 	float mFearHealth;
+
+	Sound* followerCry;
 };
 extern Follower* gFollower;

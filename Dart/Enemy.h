@@ -4,6 +4,7 @@ using std::list;
 
 #include "Attack.h"
 #include "Player.h"//pawn and follower
+#include "Sound.h"
 
 //enemy is a child of follower instead of pawn because follower contains a number of things
 //that will be duplicated in enemy, mostly involving path finding
@@ -65,6 +66,9 @@ protected:
 	float mLoseSightFollower;
 	//the attack that the enemy uses. Copy this when they make an attack
 	Attack* mAttack;
+	Sound* enemyAttack;
+	Sound* enemyDeath;
+	Sound* enemyGetHit;
 };
 
 

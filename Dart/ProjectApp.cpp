@@ -244,6 +244,7 @@ void ProjectApp::initGameComponents()
 {
 	//sounds
 	gSound = new SoundSystem();
+
 	//load main effect file for levels
 	gEffectPrimary = new Effect(L"Content/FX/BumpMapping.fx");
 	gEffectAnim = new Effect(L"Content/FX/MultiAnimation.fx");

@@ -47,6 +47,11 @@ private:
 	float mDamage;//damage it causes
 	float mLifetime;//how long it 'lives' if it doesn't collide
 	float mLived;//how long it has lived so far
+
+	Sound HitRock;
+	Sound HitWallMelee;
+	Sound HitWallSeed;
+	Sound HitWood;
 };
 //handles all the projectiles and attacks that are currently in process
 class AttackManager

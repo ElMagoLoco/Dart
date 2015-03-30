@@ -13,6 +13,8 @@ Menu::Menu(LPCWSTR name, float positionX, float positionY, int sizeOrigX, int si
 	float sizeScreenX, float sizeScreenY, D3DCOLOR color) :
 	Texture2D(name, positionX, positionY, sizeOrigX, sizeOrigY, sizeScreenX, sizeScreenY, color)
 {
+	//FR(gSound->getSystem()->createSound("Content/Audio/sndMenuKeyPress", FMOD_DEFAULT, 0, &menuKeyPress); (for later use)
+	FR(gSound->getSystem()->createSound("Content/Audio/sndMenuMouseClick", FMOD_DEFAULT, 0, &menuMouseClick);
 }
 
 Menu::~Menu()
@@ -42,6 +44,7 @@ void Menu::update(float _dt)
 				//see if it triggers
 				//once one triggers, don't bother checking others
 				if (B->tryClick(true))
+				gSound->getSystem()->playSound(FMOD_CHANNEL_FREE, menuMouseClick, false, 0);
 					break;
 			}
 		}

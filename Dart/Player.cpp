@@ -3,6 +3,7 @@
 #include "DirectInput.h"
 #include "Level.h"
 #include "StateMachine.h"
+#include "Sound.h"
 
 Player* gPlayer = 0;
 Follower* gFollower = 0;
@@ -35,6 +36,7 @@ bool Pawn::addHealth(float _health)
 	if (mHealth <= 0)
 	{
 		bIsDead = true;
+		gSound->getSystem()->playSound(FMOD_CHANNEL_FREE, playerDeath, false, 0);
 	}
 	return true;
 }
@@ -65,6 +67,11 @@ Player::Player(LPCWSTR _meshName, LPCWSTR _textureName, LPCWSTR _normalTexName,
 {
 	mSpeed = 400.0f;
 	mAttackDelay = 1.0f;
+
+	FR(gSound->getSystem()->createSound("Content/Audio/sndPlayerAttackFire", FMOD_DEFAULT, 0, &playerAttackFire);
+	FR(gSound->getSystem()->createSound("Content/Audio/sndPlayerAttackMelee", FMOD_DEFAULT, 0, &playerAttackMelee);
+	FR(gSound->getSystem()->createSound("Content/Audio/sndPlayerAttackSeed", FMOD_DEFAULT, 0, &playerAttackSpeed);
+	FR(gSound->getSystem()->createSound("Content/Audio/sndPlayerDeath", FMOD_DEFAULT, 0, &playerDeath); (for later use)
 }
 
 void Player::update(float _dt)
@@ -174,6 +181,7 @@ void Player::update(float _dt)
 			{
 			case A_MELEE:
 				attack = new Attack(L"", 20.0f, 400.0f, 0.1f, true);
+				gSound->getSystem()->playSound(FMOD_CHANNEL_FREE, playerAttackMelee, false, 0);
 				break;
 			case A_SEED:
 				if (mAmmoSeeds > 0)
@@ -182,6 +190,7 @@ void Player::update(float _dt)
 					attack = new Attack(L"Content/Models/ball.x", 15.0f, 600.0f, 8.0f, true, 10.0f,
 						D3DXVECTOR3(4.0f, 4.0f, 4.0f));
 					attack->setTextures(L"Content/Textures/tex_seed.dds", L"Content/Textures/tex_seed_n.dds");
+					gSound->getSystem()->playSound(FMOD_CHANNEL_FREE, playerAttackSpeed, false, 0);
 				}
 				break;
 			case A_FIRE:
@@ -191,6 +200,7 @@ void Player::update(float _dt)
 					attack = new Attack(L"Content/Models/ball.x", 30.0f, 500.0f, 8.0f, true, 10.0f,
 						D3DXVECTOR3(4.0f, 4.0f, 4.0f));
 					attack->setTextures(L"Content/Textures/tex_fire.dds", L"Content/Textures/tex_fire_n.dds");
+					gSound->getSystem()->playSound(FMOD_CHANNEL_FREE, playerAttackFire, false, 0);
 				}
 				break;
 			}
@@ -237,6 +247,8 @@ Follower::Follower(LPCWSTR _meshName, LPCWSTR _textureName, LPCWSTR _normalTexNa
 	mStartNode = new PathNode(_startPosition);
 #endif
 	mSpeed = 375.0f;//slightly less than player's
+
+	FR(gSound->getSystem()->createSound("Content/Audio/sndFollowerCryForHelp", FMOD_DEFAULT, 0, &followerCry);
 }
 
 void Follower::update(float _dt)
@@ -302,6 +314,7 @@ void Follower::update(float _dt)
 				{
 					setPathFlee();
 				}
+				gSound->getSystem()->playSound(FMOD_CHANNEL_FREE, followerCry, false, 0);
 			}
 			break;
 		}
