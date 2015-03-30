@@ -34,11 +34,26 @@ Attack::~Attack()
 void Attack::moveFacingDirection()
 {
 	mPosition = gPlayer->getPosition();
-	//assumes player remains in middle of screen
+	//find direction facing/mouse direction
+	//face towards mouse position
+	float a = (float)gWindowWidth * 0.5f - gDInput->mCursorPos2D.x;
+	float b = (float)gWindowHeight * 0.5f - gDInput->mCursorPos2D.y;
+	float angle = atan2f(b, a) + /*D3DX_PI / 2.0f*/ 1.570796f + gCameraMain->getAngleOffset();
+	//build rotation matrix
+	D3DXMATRIX rot;
+	D3DXMatrixRotationY(&rot, angle);
+	//transform direction by rotation matrix
+/*	//assumes player remains in middle of screen
 	D3DXVECTOR3 direction = D3DXVECTOR3(
-		(gDInput->mCursorPos2D.x) - ((float)gWindowWidth / 2.0f), 
+		(gDInput->mCursorPos2D.x) - ((float)gWindowWidth / 2.0f),
 		0.0f,
-		((float)gWindowHeight / 2.0f) - gDInput->mCursorPos2D.y);
+		((float)gWindowHeight / 2.0f) - gDInput->mCursorPos2D.y);*/
+	D3DXVECTOR3 direction = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
+	D3DXVECTOR4 transform;
+	D3DXVec3Transform(&transform, &direction, &rot);
+	direction = D3DXVECTOR3(transform.x, transform.y, transform.z);
+	
+	
 	D3DXVec3Normalize(&direction, &direction);
 	mVelocity = direction * mSpeed;
 }

@@ -25,8 +25,12 @@ public:
 	void buildView();
 	//follow the player
 	void followPlayer(bool follow)					{ bFollowPlayer = follow; }
+	//change offset angle
+	void setAngleOffset(float offset)	{ mOffsetAngle += offset; }
+	float getAngleOffset()				{ return mOffsetAngle; }
 private:
 	D3DXVECTOR3 mOffset;//offset from target
+	float		mOffsetAngle;//angle offset from standard north facing
 	D3DXVECTOR3 mTarget;//target we are looking at
 	D3DXVECTOR3 mPosition;//present position
 	D3DXMATRIX	mProjection;//projection matrix

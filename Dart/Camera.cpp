@@ -15,6 +15,7 @@ void Camera::init(D3DXVECTOR3 _offset, D3DXVECTOR3 _target)
 	mOffset = _offset;
 	mTarget = _target;
 	bFollowPlayer = true;
+	mOffsetAngle = 0.0f;
 	buildView();
 	buildProjection();
 }
@@ -41,4 +42,8 @@ void Camera::buildView()
 	mPosition = mTarget + mOffset;
 	D3DXVECTOR3 up = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 	D3DXMatrixLookAtLH(&mView, &mPosition, &mTarget, &up);
+
+	D3DXMATRIX rot;
+	D3DXMatrixRotationZ(&rot, mOffsetAngle);
+	mView = mView * rot;
 }

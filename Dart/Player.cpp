@@ -83,6 +83,22 @@ void Player::update(float _dt)
 	}
 
 	Pawn::update(_dt);
+	//facing controls
+	if (gDInput->keyDown(DIK_Q))
+	{
+		gCameraMain->setAngleOffset(1.0f * _dt);
+	}
+	if (gDInput->keyDown(DIK_E))
+	{
+		gCameraMain->setAngleOffset(-1.0f * _dt);
+	}
+
+
+	//face towards mouse position
+	float a = (float)gWindowWidth / 2.0f - gDInput->mCursorPos2D.x;
+	float b = (float)gWindowHeight / 2.0f - gDInput->mCursorPos2D.y;
+	float angle = atan2f(b, a) + D3DX_PI / 2.0f + gCameraMain->getAngleOffset();
+	mRotation.y = angle;
 
 	//direction controls
 	bIsMoving = false;
@@ -107,14 +123,28 @@ void Player::update(float _dt)
 		mVelocity += D3DXVECTOR3(mSpeed, 0.0f, 0.0f);
 		bIsMoving = true;
 	}
+
 	if (mVelocity != D3DXVECTOR3(0.0f, 0.0f, 0.0f))
+	{
+		//face direction that the buttons indicate we're going
 		D3DXVec3Normalize(&mVelocity, &mVelocity);
-	mVelocity *= mSpeed;
-	//face towards mouse position
-	float a = (float)gWindowWidth / 2.0f - gDInput->mCursorPos2D.x;
-	float b = (float)gWindowHeight / 2.0f - gDInput->mCursorPos2D.y;
-	float angle = atan2f(b, a) + D3DX_PI / 2.0f;
-	mRotation.y = angle;
+		float a = (float)gWindowWidth * 0.5f - mVelocity.x;
+		float b = (float)gWindowHeight * 0.5f - mVelocity.z;
+		float angle = atan2f(b, a) + /*D3DX_PI * 1.75f*/5.497787f + 
+			gCameraMain->getAngleOffset();
+
+		//build rotation matrix
+		D3DXMATRIX rot;
+		D3DXMatrixRotationY(&rot, angle);
+		//transform direction by rot matrix
+		D3DXVECTOR4 transform;
+		D3DXVec3Transform(&transform, &mVelocity, &rot);
+		mVelocity = D3DXVECTOR3(transform.x, transform.y, transform.z);
+
+		D3DXVec3Normalize(&mVelocity, &mVelocity);
+		mVelocity *= mSpeed;
+	}
+	
 	//did we collide with any level geometry?
 	bool colliding = false;
 	//for each colliding mesh in level
