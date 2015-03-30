@@ -45,8 +45,10 @@ void Menu::update(float _dt)
 				//see if it triggers
 				//once one triggers, don't bother checking others
 				if (B->tryClick(true))
-					gSound->getSystem()->playSound(FMOD_CHANNEL_FREE,menuMouseClick, false, 0);
+				{
+					gSound->getSystem()->playSound(FMOD_CHANNEL_FREE, menuMouseClick, false, &gSound->mChannel);
 					break;
+				}
 			}
 		}
 		//if right mouse button is clicked
@@ -59,7 +61,10 @@ void Menu::update(float _dt)
 				//see if it triggers
 				//once one triggers, don't bother checking others
 				if (B->tryClick(false))
+				{
+					gSound->getSystem()->playSound(FMOD_CHANNEL_FREE, menuMouseClick, false, &gSound->mChannel);
 					break;
+				}
 			}
 		}
 	}

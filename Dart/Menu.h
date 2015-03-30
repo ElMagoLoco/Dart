@@ -3,6 +3,7 @@
 #include <vector>
 #include "D3DUtils.h"
 #include "Button.h"
+#include "Sound.h"
 
 using std::vector;
 
@@ -24,5 +25,5 @@ protected:
 	vector<Button*> mButtons;
 	vector<Texture2D*> mTextures;
 	//Sound* menuKeyPress; //(for later use)
-	//Sound* menuMouseClick;
+	Sound* menuMouseClick;
 };
