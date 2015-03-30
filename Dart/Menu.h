@@ -23,6 +23,6 @@ public:
 protected:
 	vector<Button*> mButtons;
 	vector<Texture2D*> mTextures;
-	Sound menuKeyPress;
-	Sound menuMouseClick;
+	//Sound* menuKeyPress;
+	//Sound* menuMouseClick;
 };

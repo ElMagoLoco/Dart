@@ -9,9 +9,9 @@ Enemy::Enemy(LPCWSTR _meshName, LPCWSTR _textureName, LPCWSTR _normalTexName,
 {
 	mState = PSTATE_WANDER;
 
-	FR(gSound->getSystem()->createSound("Content/Audio/sndEnemy1Attack", FMOD_DEFAULT, 0, &enemyAttack);
-	FR(gSound->getSystem()->createSound("Content/Audio/sndEnemy1Death", FMOD_DEFAULT, 0, &enemyDeath);
-	FR(gSound->getSystem()->createSound("Content/Audio/sndEnemy1GetHit", FMOD_DEFAULT, 0, &enemyGetHit);
+	FR(gSound->getSystem()->createSound("Content/Audio/sndEnemy1Attack", FMOD_DEFAULT, 0, &enemyAttack));
+	FR(gSound->getSystem()->createSound("Content/Audio/sndEnemy1Death", FMOD_DEFAULT, 0, &enemyDeath));
+	FR(gSound->getSystem()->createSound("Content/Audio/sndEnemy1GetHit", FMOD_DEFAULT, 0, &enemyGetHit));
 }
 
 Enemy::~Enemy()
@@ -60,7 +60,7 @@ void Enemy::update(float _dt)
 				{
 					chooseTarget();
 					mState = PSTATE_PURSUE;
-					gSound->getSystem()->playSound(FMOD_CHANNEL_FREE, enemyAttack, false, 0);
+					gSound->getSystem()->playSound(enemyAttack,NULL, false, 0);
 					break;
 				}
 			}
@@ -79,7 +79,7 @@ void Enemy::update(float _dt)
 				{
 					mState = PSTATE_INJURED;
 					bHealing = false;
-					gSound->getSystem()->playSound(FMOD_CHANNEL_FREE, enemyGetHit, false, 0);
+					gSound->getSystem()->playSound(enemyGetHit, NULL, false, 0);
 					break;
 				}
 			}
@@ -127,7 +127,7 @@ void Enemy::update(float _dt)
 					{
 						attack(gPlayer->getPosition());
 						mAttackTime = 0.0f;
-						gSound->getSystem()->playSound(FMOD_CHANNEL_FREE, enemyAttack, false, 0);
+						gSound->getSystem()->playSound(enemyAttack, NULL, false, 0);
 					}
 				}
 				else
@@ -136,7 +136,7 @@ void Enemy::update(float _dt)
 					{
 						attack(gFollower->getPosition());
 						mAttackTime = 0.0f;
-						gSound->getSystem()->playSound(FMOD_CHANNEL_FREE, enemyAttack, false, 0);
+						gSound->getSystem()->playSound(enemyAttack, NULL, false, 0);
 					}
 				}
 			}
@@ -171,7 +171,7 @@ void Enemy::update(float _dt)
 					{
 						attack(gPlayer->getPosition());
 						mAttackTime = 0.0f;
-						gSound->getSystem()->playSound(FMOD_CHANNEL_FREE, enemyAttack, false, 0);
+						gSound->getSystem()->playSound(enemyAttack, NULL, false, 0);
 					}
 				}
 				else
@@ -180,7 +180,7 @@ void Enemy::update(float _dt)
 					{
 						attack(gFollower->getPosition());
 						mAttackTime = 0.0f;
-						gSound->getSystem()->playSound(FMOD_CHANNEL_FREE, enemyAttack, false, 0);
+						gSound->getSystem()->playSound(enemyAttack, NULL, false, 0);
 					}
 				}
 			}
@@ -200,7 +200,7 @@ void Enemy::update(float _dt)
 				{
 					chooseTarget();
 					mState = PSTATE_PURSUE;
-					gSound->getSystem()->playSound(FMOD_CHANNEL_FREE, enemyAttack, false, 0);
+					gSound->getSystem()->playSound(enemyAttack, NULL, false, 0);
 					break;
 				}
 			}

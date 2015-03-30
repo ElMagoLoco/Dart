@@ -48,6 +48,7 @@ protected:
 	float mRadius;
 	///is moving
 	bool bIsMoving;
+
 };
 
 //attacks that the player can use
@@ -90,7 +91,7 @@ private:
 	ePAttack mRightAttack;
 	Sound* playerAttackFire;
 	Sound* playerAttackMelee;
-	Sound* playerAttackSpeed;
+	Sound* playerAttackSeed;
 	Sound* playerDeath;
 };
 extern Player* gPlayer;
@@ -153,6 +154,6 @@ protected:
 	//the health level where we start checking to see if it is afraid, also used for enemies
 	float mFearHealth;
 
-	Sound* followerCry;
+	//Sound* followerCry;
 };
 extern Follower* gFollower;

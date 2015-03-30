@@ -3,6 +3,7 @@
 #include "Bounds.h"
 #include "Level.h"
 #include "Player.h"
+#include "Sound.h"
 
 Attack::Attack(LPCWSTR _mesh, float _damage, float _speed, float _lifetime, bool _isPlayers, float _radius, D3DXVECTOR3 _scale) :
 	mDamage(_damage), mSpeed(_speed), mLifetime(_lifetime), mLived(0.0f),
@@ -15,10 +16,10 @@ Attack::Attack(LPCWSTR _mesh, float _damage, float _speed, float _lifetime, bool
 		mMesh = NULL;
 	//make sure to set initial speed and direction using one of the movement functions
 
-	FR(gSound->getSystem()->createSound("Content/Audio/sndHitRock", FMOD_DEFAULT, 0, &HitRock);
-	FR(gSound->getSystem()->createSound("Content/Audio/sndHitWallMelee", FMOD_DEFAULT, 0, &HitWallMelee);
-	FR(gSound->getSystem()->createSound("Content/Audio/sndHitWallSeed", FMOD_DEFAULT, 0, &HitWallSeed);
-	FR(gSound->getSystem()->createSound("Content/Audio/sndHitWood", FMOD_DEFAULT, 0, &HitWood);
+	//FR(gSound->getSystem()->createSound("Content/Audio/sndHitRock", FMOD_DEFAULT, 0, &HitRock));
+	//FR(gSound->getSystem()->createSound("Content/Audio/sndHitWallMelee", FMOD_DEFAULT, 0, &HitWallMelee));
+	//FR(gSound->getSystem()->createSound("Content/Audio/sndHitWallSeed", FMOD_DEFAULT, 0, &HitWallSeed));
+	//FR(gSound->getSystem()->createSound("Content/Audio/sndHitWood", FMOD_DEFAULT, 0, &HitWood));
 
 
 }
