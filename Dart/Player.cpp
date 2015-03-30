@@ -36,7 +36,6 @@ bool Pawn::addHealth(float _health)
 	if (mHealth <= 0)
 	{
 		bIsDead = true;
-		//gSound->getSystem()->playSound(NULL, playerDeath, false, 0);
 	}
 	return true;
 }
@@ -181,7 +180,7 @@ void Player::update(float _dt)
 			{
 			case A_MELEE:
 				attack = new Attack(L"", 20.0f, 400.0f, 0.1f, true);
-				gSound->getSystem()->playSound(playerAttackMelee, NULL, false, 0);
+				gSound->getSystem()->playSound(FMOD_CHANNEL_FREE,playerAttackMelee, false, 0);
 				break;
 			case A_SEED:
 				if (mAmmoSeeds > 0)
@@ -190,7 +189,7 @@ void Player::update(float _dt)
 					attack = new Attack(L"Content/Models/ball.x", 15.0f, 600.0f, 8.0f, true, 10.0f,
 						D3DXVECTOR3(4.0f, 4.0f, 4.0f));
 					attack->setTextures(L"Content/Textures/tex_seed.dds", L"Content/Textures/tex_seed_n.dds");
-					gSound->getSystem()->playSound(playerAttackSeed, NULL, false, 0);
+					gSound->getSystem()->playSound(FMOD_CHANNEL_FREE,playerAttackSeed, false, 0);
 				}
 				break;
 			case A_FIRE:
@@ -200,7 +199,7 @@ void Player::update(float _dt)
 					attack = new Attack(L"Content/Models/ball.x", 30.0f, 500.0f, 8.0f, true, 10.0f,
 						D3DXVECTOR3(4.0f, 4.0f, 4.0f));
 					attack->setTextures(L"Content/Textures/tex_fire.dds", L"Content/Textures/tex_fire_n.dds");
-					gSound->getSystem()->playSound(playerAttackFire, NULL, false, 0);
+					gSound->getSystem()->playSound(FMOD_CHANNEL_FREE,playerAttackFire, false, 0);
 				}
 				break;
 			}

@@ -154,6 +154,6 @@ protected:
 	//the health level where we start checking to see if it is afraid, also used for enemies
 	float mFearHealth;
 
-	//Sound* followerCry;
+	Sound* followerCry;
 };
 extern Follower* gFollower;
