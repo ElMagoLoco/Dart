@@ -2,8 +2,10 @@
 #include "D3DUtils.h"
 //fmod
 #pragma comment(lib,"fmodex_vc.lib")
+
 #include <fmod.hpp>
 #include <fmod_errors.h>
+
 // if the above includes aren't being found you need to make sure that you
 // 1) have the fmod dll in the folder with the code
 // 2) have put the fmod library and include files in the project properties

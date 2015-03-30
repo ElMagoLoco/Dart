@@ -1,5 +1,6 @@
 #include "Sound.h"
 
+
 SoundSystem* gSound = 0;
 
 SoundSystem::SoundSystem()
@@ -14,6 +15,7 @@ SoundSystem::~SoundSystem()
 //init fmod
 void SoundSystem::init()
 {
+	
 	//check version of file matches dll
 	UINT version;
 	int numDrivers;
