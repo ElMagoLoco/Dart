@@ -522,8 +522,20 @@ EnemyFire::EnemyFire(LPCWSTR _meshName, LPCWSTR _textureName, LPCWSTR _normalTex
 
 void EnemyGroup::update(float _dt)
 {
-	for (Enemy* E : mEnemies)
-		E->update(_dt);
+	list<Enemy*>::iterator it = mEnemies.begin();
+	while (it != mEnemies.end())
+	{
+		//update
+		(*it)->update(_dt);
+		//remove if dead
+		bool dead = (*it)->getIsDead();
+		if (dead)
+		{
+			mEnemies.erase(it++);
+			break;
+		}
+		++it;
+	}
 }
 
 void EnemyGroup::draw()
@@ -536,8 +548,20 @@ void EnemySpawner::update(float _dt)
 {
 	for (EnemyGroup* EG : mGroups)
 		EG->update(_dt);
-	for (Enemy* E : mEnemies)
-		E->update(_dt);
+	list<Enemy*>::iterator it = mEnemies.begin();
+	while (it != mEnemies.end())
+	{
+		//update
+		(*it)->update(_dt);
+		//remove if dead
+		bool dead = (*it)->getIsDead();
+		if (dead)
+		{
+			mEnemies.erase(it++);
+			break;
+		}
+		++it;
+	}
 }
 
 void EnemySpawner::draw()

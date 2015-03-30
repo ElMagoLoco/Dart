@@ -227,18 +227,18 @@ void EventDisplayUserInterface::beginEvent()
 {
 	//overlay
 	mInterface = new UserInterface(L"Content/Textures/ui_overlay.png", 0.0f, 0.0f, 1024, 1024,
-		1.0f, 1.0f);
+		0.99f, 1.0f);
 	StatBar* sbHealthDart = new StatBar(L"Content/Textures/ui_bar_health_dart.png", 0.0f, 0.85f,
 		64, 16, 0.1f, 0.05f, STAT_HEALTH_PLAYER);
 	mInterface->addStatBar(sbHealthDart);
 	StatBar* sbHealthBart = new StatBar(L"Content/Textures/ui_bar_health_bart.png", 0.0f, 0.9f,
 		64, 16, 0.1f, 0.05f, STAT_HEALTH_FOLLOWER);
 	mInterface->addStatBar(sbHealthBart);
-	StatBar* sbAmmoSeeds = new StatBar(L"Content/Textures/ui_bar_ammo_seed.png", 0.9f, 0.85f,
+	StatBar* sbAmmoSeeds = new StatBar(L"Content/Textures/ui_bar_ammo_seed.png", 0.88f, 0.85f,
 		64, 16, 0.1f, 0.05f, STAT_AMMO_SEED);
 	mInterface->addStatBar(sbAmmoSeeds);
-	StatBar* sbAmmoFire = new StatBar(L"Content/Textures/ui_bar_ammo_fire.png", 0.9f, 0.9f,
-		64, 16, 0.1f, 0.05f, STAT_AMMO_SEED);
+	StatBar* sbAmmoFire = new StatBar(L"Content/Textures/ui_bar_ammo_fire.png", 0.88f, 0.9f,
+		64, 16, 0.1f, 0.05f, STAT_AMMO_FIRE);
 	mInterface->addStatBar(sbAmmoFire);
 	ButtonSetAttackMelee* bMelee = new ButtonSetAttackMelee(L"Content/Textures/ui_icon_beak.png",
 		0.9f, 0.0f, 64, 64, 0.1f, 0.1f);
