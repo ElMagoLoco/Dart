@@ -25,5 +25,5 @@ protected:
 	vector<Button*> mButtons;
 	vector<Texture2D*> mTextures;
 	//Sound* menuKeyPress; //(for later use)
-	Sound* menuMouseClick;
+	static Sound* menuMouseClick;
 };

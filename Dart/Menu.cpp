@@ -8,6 +8,7 @@ using std::to_string;
 using std::copy;
 using stdext::checked_array_iterator;
 
+Sound* Menu::menuMouseClick = NULL;
 
 //menu uses texture2d variables for background image
 Menu::Menu(LPCWSTR name, float positionX, float positionY, int sizeOrigX, int sizeOrigY,
@@ -15,7 +16,8 @@ Menu::Menu(LPCWSTR name, float positionX, float positionY, int sizeOrigX, int si
 	Texture2D(name, positionX, positionY, sizeOrigX, sizeOrigY, sizeScreenX, sizeScreenY, color)
 {
 	//FR(gSound->getSystem()->createSound("Content/Audio/sndMenuKeyPress", FMOD_DEFAULT, 0, &menuKeyPress); (for later use)
-	//FR(gSound->getSystem()->createSound("Content/Audio/sndMenuMouseClick", FMOD_DEFAULT, 0, &menuMouseClick));
+	if (NULL == menuMouseClick)
+		FR(gSound->getSystem()->createSound("Content/Audio/sndMenuMouseClick", FMOD_DEFAULT, 0, &menuMouseClick));
 }
 
 Menu::~Menu()

@@ -1,0 +1,6 @@
+*.obj
+*.lastbuildstate
+*.tlog
+*.exe
+*.pdb
+*.log
