@@ -176,13 +176,13 @@ public:
 		if (gCameraMain == NULL)
 			gCameraMain = new Camera(D3DXVECTOR3(0.0f, 200.0f, -500.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 		else
-			gCameraMain->init(D3DXVECTOR3(0.0f, 1500.0f, 1000.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+			gCameraMain->init(D3DXVECTOR3(0.0f, 200.0f, -500.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 	}
 	void updateEvent(float _dt){ gCameraMain->update(); }
 	//the full screen change will crash if we delete the camera, so just keep it and reinitialize it next time
 	void endEvent(){}
 };
-
+ 
 //event to process follower/protected AI unit
 class EventProcessFollower : public Event
 {
