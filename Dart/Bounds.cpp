@@ -131,7 +131,7 @@ const bool collides(const AxisAlignedBoundingBox& _box, const BoundingSphere& _s
 }
 
 const bool collides(const AxisAlignedBoundingBox& _box, const BoundingSphere& _sphere,
-	D3DXVECTOR3 sphereMovement)
+	D3DXVECTOR3& sphereMovement)
 {
 	//find closest point on box to sphere
 	D3DXVECTOR3 closest = _sphere.mCenter;
@@ -150,7 +150,7 @@ const bool collides(const AxisAlignedBoundingBox& _box, const BoundingSphere& _s
 		//penetration depth
 		float deep = _sphere.mRadius - sqrt(distSq);
 		//normal (direction to move sphere)
-		D3DXVECTOR3 normal = closest - _sphere.mCenter;
+		D3DXVECTOR3 normal = _sphere.mCenter - closest;
 		D3DXVec3Normalize(&normal, &normal);
 		sphereMovement = normal * deep;
 		return true;
@@ -194,7 +194,7 @@ const bool collides(const BoundingSphere& one, const BoundingSphere& two)
 }
 
 const bool collides(const BoundingSphere& one, const BoundingSphere& two,
-	D3DXVECTOR3 oneMovement)
+	D3DXVECTOR3& oneMovement)
 {
 	float totalRadius = one.mRadius + two.mRadius;
 	float distanceSq = D3DXVec3LengthSq(&(one.mCenter - two.mCenter));

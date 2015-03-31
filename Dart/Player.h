@@ -137,6 +137,8 @@ public:
 	void setIsAfraid(bool _fear) { bAfraid = _fear;  }
 	//add health, add negative to remove health, additionally will check if becomes afraid
 	bool addHealth(float _amount);
+	//collide with player and walls
+	void detectCollision();
 protected:
 	pState mState;//state it is in
 	vector<D3DXVECTOR3> mPath;//path it is currently following

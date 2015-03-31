@@ -1,5 +1,6 @@
 #include "Player.h"
 
+#include "Bounds.h"
 #include "DirectInput.h"
 #include "Level.h"
 #include "StateMachine.h"
@@ -348,9 +349,40 @@ void Follower::update(float _dt)
 			break;
 		}
 		mPosition += (mVelocity * aiCheck);//set position based on speed
+		detectCollision();//let the player push the follower, but not into walls
 		pointForward(aiCheck);//set rotation based on direction
 		mMesh->setPosRot(mPosition, mRotation);//set position and rotation of mesh
 		aiCheck = 0.0f;
+	}
+	
+}
+
+void Follower::detectCollision()
+{
+	//bounding sphere for follower
+	BoundingSphere followerSphere = BoundingSphere(mPosition, mRadius);
+	D3DXVECTOR3 movement;
+	bool wall = false;
+	//collision with walls or obstacles in level
+	for (Mesh* M : gCurrentLevel->getWorldGeometry())
+	{
+		for (AxisAlignedBoundingBox AABB : M->getBoundsBoxList())
+		{
+			if (collides(AABB, followerSphere, movement))
+			{
+				mPosition += movement;
+				wall = true;
+			}
+		}
+	}
+	//collide with player unless there is a wall in the way
+	if (!wall)
+	{
+		BoundingSphere playerSphere = BoundingSphere(gPlayer->getPosition(), gPlayer->getRadius());
+		if (collides(followerSphere, playerSphere, movement))
+		{
+			mPosition += movement;
+		}
 	}
 }
 
