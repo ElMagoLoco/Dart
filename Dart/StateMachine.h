@@ -161,7 +161,7 @@ class EventDisplayUserInterface : public Event
 public:
 	void beginEvent();
 	void endEvent()							{ delete mInterface; }
-	void updateEvent(float _dt)				{ mInterface->update(_dt); }
+	void updateEvent(float _dt);
 	void drawEvent2D(ID3DXSprite* _sprite)	{ mInterface->draw(_sprite); }
 	void drawEventText()					{ mInterface->drawText(); }
 	void onLostDevice()						{ mInterface->onLostDevice(); }

@@ -266,6 +266,20 @@ void EventDisplayUserInterface::beginEvent()
 	ButtonSetAttackFire* bFire = new ButtonSetAttackFire(L"Content/Textures/ui_icon_fire.png",
 		0.9f, 0.2f, 64, 64, 0.1f, 0.1f);
 	mInterface->addButton(bFire);
+	Text* scoreText = new Text(L"Times New Roman", 30, 0.002f, 0.0f,
+		D3DCOLOR_ARGB(255, 255, 255, 255));
+	mInterface->addText(scoreText);
+}
+
+void EventDisplayUserInterface::updateEvent(float _dt)
+{
+	//display score
+	int score = (int)gPlayer->getScore();
+	wchar_t buffer[256];
+	wsprintfW(buffer, L"%d", score);
+	mInterface->setText(0, buffer);
+	//update anything else
+	mInterface->update(_dt);
 }
 /*******************************************************************
 Start Music, stop old music

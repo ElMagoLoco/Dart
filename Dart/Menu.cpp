@@ -81,11 +81,13 @@ void Menu::draw(ID3DXSprite* _sprite)
 	//other images
 	for (Texture2D* T : mTextures)
 		T->draw(_sprite);
+
 }
 
 void Menu::drawText()
 {
-//to do, add a vector of texts that can be drawn 
+	for (Text* T : mTexts)
+		T->draw();
 }
 
 void Menu::onLostDevice()
@@ -94,13 +96,11 @@ void Menu::onLostDevice()
 	Texture2D::onLostDevice();
 	//unload textures for buttons
 	for (Button* B : mButtons)
-	{
 		B->onLostDevice();
-	}
 	for (Texture2D* T : mTextures)
-	{
 		T->onLostDevice();
-	}
+	for (Text* T : mTexts)
+		T->onLostDevice();
 }
 
 void Menu::onResetDevice()
@@ -111,6 +111,8 @@ void Menu::onResetDevice()
 	for (Button* B : mButtons)
 		B->onResetDevice();
 	for (Texture2D* T : mTextures)
+		T->onResetDevice();
+	for (Text* T : mTexts)
 		T->onResetDevice();
 }
 //add new button to menu
@@ -123,4 +125,13 @@ void Menu::addTexture(Texture2D* _newTexture)
 {
 	mTextures.push_back(_newTexture);
 }
+//add new text
+void Menu::addText(Text* _newText)
+{
+	mTexts.push_back(_newText);
+}
 
+void Menu::setText(UINT _index, LPCWSTR _text)
+{
+	mTexts[_index]->mText = _text;
+}
