@@ -221,6 +221,23 @@ void EventDisplayMenuOptions::beginEvent()
 }
 
 /*******************************************************************
+Win Menu
+*******************************************************************/
+void EventDisplayMenuWin::beginEvent()
+{
+	//main menu background
+	mMenu = new Menu(L"Content/Textures/background_menu.png", 0.0f, 0.0f, 1024, 1024, 1.0f, 1.0f);
+	//button to return to main menu
+	ButtonGoBack* bGoBack = new ButtonGoBack(L"Content/Textures/button_return.png",
+		0.4f, 0.8f, 128, 64, 0.2f, 0.1f);
+	mMenu->addButton(bGoBack);
+	//graphic stating that you won
+	Texture2D* tLost = new Texture2D(L"Content/Textures/button_win.png", 0.3f, 0.3f, 256, 128,
+		0.4f, 0.2f);
+	mMenu->addTexture(tLost);
+}
+
+/*******************************************************************
 User Interface
 *******************************************************************/
 void EventDisplayUserInterface::beginEvent()

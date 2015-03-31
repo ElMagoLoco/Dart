@@ -15,7 +15,8 @@ enum ePickUpType{
 	PICKUP_HEAL = 0,
 	PICKUP_BONUS,
 	PICKUP_AMMO_SEED,
-	PICKUP_AMMO_FIRE
+	PICKUP_AMMO_FIRE,
+	PICKUP_GOAL
 };
 //this first is the base class for the actual drops
 class PickUp

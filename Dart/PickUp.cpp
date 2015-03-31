@@ -1,6 +1,7 @@
 #include "PickUp.h"
 
 #include "Player.h"
+#include "StateMachine.h"
 //for constructor just set 1the members
 PickUp::PickUp(LPCWSTR _mesh, LPCWSTR _textureName, LPCWSTR _normalName, char* _pickUpSound,
 	ePickUpType _type, D3DXVECTOR3 _position, D3DXVECTOR3 _scale, float _amount, 
@@ -66,6 +67,13 @@ void PickUp::onTouch(bool _player)
 			bUsed = gPlayer->addAmmoFire((UINT)mAmount);
 		}
 		break;
+	case PICKUP_GOAL:
+		//only for player, finishes the level
+		if (_player)
+		{
+			bUsed = true;
+			gStateMachine->transitionState(STATE_WIN);
+		}
 	}
 	if (bUsed)
 		gSound->getSystem()->playSound(FMOD_CHANNEL_FREE, sndUsed, false, 0);
