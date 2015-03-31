@@ -17,7 +17,7 @@ Menu::Menu(LPCWSTR name, float positionX, float positionY, int sizeOrigX, int si
 {
 	//FR(gSound->getSystem()->createSound("Content/Audio/sndMenuKeyPress", FMOD_DEFAULT, 0, &menuKeyPress); (for later use)
 	if (NULL == menuMouseClick)
-		FR(gSound->getSystem()->createSound("Content/Audio/sndMenuMouseClick", FMOD_DEFAULT, 0, &menuMouseClick));
+		FR(gSound->getSystem()->createSound("Content/Audio/sndMenuMouseClick.wav", FMOD_DEFAULT, 0, &menuMouseClick));
 }
 
 Menu::~Menu()
@@ -48,7 +48,7 @@ void Menu::update(float _dt)
 				//once one triggers, don't bother checking others
 				if (B->tryClick(true))
 				{
-					gSound->getSystem()->playSound(FMOD_CHANNEL_FREE, menuMouseClick, false, &gSound->mChannel);
+					gSound->getSystem()->playSound(FMOD_CHANNEL_FREE, menuMouseClick, false, NULL);
 					break;
 				}
 			}
@@ -64,7 +64,7 @@ void Menu::update(float _dt)
 				//once one triggers, don't bother checking others
 				if (B->tryClick(false))
 				{
-					gSound->getSystem()->playSound(FMOD_CHANNEL_FREE, menuMouseClick, false, &gSound->mChannel);
+					gSound->getSystem()->playSound(FMOD_CHANNEL_FREE, menuMouseClick, false, NULL);
 					break;
 				}
 			}

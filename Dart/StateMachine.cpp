@@ -264,8 +264,9 @@ void EventMusicStart::beginEvent()
 	FR(gSound->getSystem()->createStream(mFile, FMOD_DEFAULT, 0, &mMusic));
 	gSound->mChannel->stop();
 	FR(gSound->mSystem->playSound(FMOD_CHANNEL_FREE, mMusic, false, &gSound->mChannel))
-	FR(gSound->mChannel->setMode(FMOD_LOOP_NORMAL));
+	FR(gSound->mChannel->setMode(FMOD_LOOP_NORMAL));	
 	FR(gSound->mChannel->setLoopCount(-1));
+	FR(gSound->mChannel->setVolume(0.4f));
 }
 
 void EventMusicStart::endEvent()
@@ -320,7 +321,8 @@ void EventProcessLevel1::beginEvent()
 	//add enemies to level
 	for (int i = 0; i < g_levelImp->getNumEnemies(); ++i) {
 		gCurrentLevel->getSpawner()->addEnemy(new EnemyMelee(L"Content/Models/Tiny.x", L"Content/Textures/tex_fire.dds",
-			L"Content/Textures/tex_fire_n.dds",
+			L"Content/Textures/tex_fire_n.dds", "Content/Audio/sndEnemy1Attack.wav", 
+			"Content/Audio/sndEnemy1Death.wav", "Content/Audio/sndEnemy1GetHit.wav",
 			g_levelImp->getEnemyList()[i].getPos(), 30.0f, 40.0f, D3DXVECTOR3(0.50f, 0.50f, 0.50f)));
 	}
 

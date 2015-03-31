@@ -67,10 +67,10 @@ Player::Player(LPCWSTR _meshName, LPCWSTR _textureName, LPCWSTR _normalTexName,
 	mSpeed = 400.0f;
 	mAttackDelay = 1.0f;
 
-	FR(gSound->getSystem()->createSound("Content/Audio/sndPlayerAttackFire", FMOD_DEFAULT, 0, &playerAttackFire));
-	FR(gSound->getSystem()->createSound("Content/Audio/sndPlayerAttackMelee", FMOD_DEFAULT, 0, &playerAttackMelee));
-	FR(gSound->getSystem()->createSound("Content/Audio/sndPlayerAttackSeed", FMOD_DEFAULT, 0, &playerAttackSeed));
-	FR(gSound->getSystem()->createSound("Content/Audio/sndPlayerDeath", FMOD_DEFAULT, 0, &playerDeath)); //(for later use)
+	FR(gSound->getSystem()->createSound("Content/Audio/sndPlayerAttackFire.wav", FMOD_DEFAULT, 0, &playerAttackFire));
+	FR(gSound->getSystem()->createSound("Content/Audio/sndPlayerAttackMelee.wav", FMOD_DEFAULT, 0, &playerAttackMelee));
+	FR(gSound->getSystem()->createSound("Content/Audio/sndPlayerAttackSeed.wav", FMOD_DEFAULT, 0, &playerAttackSeed));
+	FR(gSound->getSystem()->createSound("Content/Audio/sndPlayerDeath.wav", FMOD_DEFAULT, 0, &playerDeath)); //(for later use)
 }
 
 void Player::update(float _dt)

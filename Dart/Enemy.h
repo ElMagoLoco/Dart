@@ -15,6 +15,7 @@ class Enemy : public Follower
 {
 public:
 	Enemy(LPCWSTR _meshName, LPCWSTR _textureName, LPCWSTR _normalTexName,
+		char* _attackSound, char* _deathSound, char* _getHitSound,
 		D3DXVECTOR3 _startPosition, float _healthMax, float _radius, 
 		D3DXVECTOR3 _meshScale = D3DXVECTOR3(1.0f, 1.0f, 1.0f));
 	~Enemy();
@@ -32,6 +33,8 @@ public:
 	void setPathHealing();
 	//choose target, either player or follower
 	void chooseTarget();
+
+	bool addHealth(float _amount);
 protected:
 	//has the enemy seen the player. When it sees the player, it's point value 
 	//starts to decrease
@@ -80,6 +83,7 @@ class EnemyMelee : public Enemy
 {
 public:
 	EnemyMelee(LPCWSTR _meshName, LPCWSTR _textureName, LPCWSTR _normalTexName,
+		char* _attackSound, char* _deathSound, char* _getHitSound,
 		D3DXVECTOR3 _startPosition, float _healthMax, float _radius,
 		D3DXVECTOR3 _meshScale = D3DXVECTOR3(1.0f, 1.0f, 1.0f));
 	void attack(D3DXVECTOR3 _position);//attack towards a position
@@ -91,6 +95,7 @@ class EnemySeeds : public Enemy
 {
 public:
 	EnemySeeds(LPCWSTR _meshName, LPCWSTR _textureName, LPCWSTR _normalTexName,
+		char* _attackSound, char* _deathSound, char* _getHitSound,
 		D3DXVECTOR3 _startPosition, float _healthMax, float _radius,
 		D3DXVECTOR3 _meshScale = D3DXVECTOR3(1.0f, 1.0f, 1.0f));
 	void attack(D3DXVECTOR3 _position);//attack towards a position
@@ -102,6 +107,7 @@ class EnemyFire : public Enemy
 {
 public:
 	EnemyFire(LPCWSTR _meshName, LPCWSTR _textureName, LPCWSTR _normalTexName,
+		char* _attackSound, char* _deathSound, char* _getHitSound,
 		D3DXVECTOR3 _startPosition, float _healthMax, float _radius,
 		D3DXVECTOR3 _meshScale = D3DXVECTOR3(1.0f, 1.0f, 1.0f));
 	void attack(D3DXVECTOR3 _position);//attack towards a position

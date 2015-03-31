@@ -3,15 +3,16 @@
 #include "Level.h"
 
 Enemy::Enemy(LPCWSTR _meshName, LPCWSTR _textureName, LPCWSTR _normalTexName,
+	char* _attackSound, char* _deathSound, char* _getHitSound,
 	D3DXVECTOR3 _startPosition, float _healthMax, float _radius, D3DXVECTOR3 _meshScale) :
 	Follower(_meshName, _textureName, _normalTexName, _startPosition, _healthMax,
 	_radius, _meshScale), mLoseSightPlayer(10.0f), mLoseSightFollower(10.0f)
 {
 	mState = PSTATE_WANDER;
 
-	FR(gSound->getSystem()->createSound("Content/Audio/sndEnemy1Attack", FMOD_DEFAULT, 0, &enemyAttack));
-	FR(gSound->getSystem()->createSound("Content/Audio/sndEnemy1Death", FMOD_DEFAULT, 0, &enemyDeath));
-	FR(gSound->getSystem()->createSound("Content/Audio/sndEnemy1GetHit", FMOD_DEFAULT, 0, &enemyGetHit));
+	FR(gSound->getSystem()->createSound(_attackSound, FMOD_DEFAULT, 0, &enemyAttack));
+	FR(gSound->getSystem()->createSound(_deathSound, FMOD_DEFAULT, 0, &enemyDeath));
+	FR(gSound->getSystem()->createSound(_getHitSound, FMOD_DEFAULT, 0, &enemyGetHit));
 }
 
 Enemy::~Enemy()
@@ -21,10 +22,20 @@ Enemy::~Enemy()
 		delete mAttack;
 }
 
+bool Enemy::addHealth(float amount)
+{
+	if (amount < 0)
+		gSound->getSystem()->playSound(FMOD_CHANNEL_FREE, enemyGetHit, false, NULL);
+	return Follower::addHealth(amount);
+}
+
 void Enemy::update(float _dt)
 {
-	if (bIsDead == true)
+	if (bIsDead)
+	{
+		gSound->getSystem()->playSound(FMOD_CHANNEL_FREE, enemyDeath, false, NULL);
 		return;
+	}
 	Pawn::update(_dt);
 	//if it has seen the player/follower, decrease its point value over time
 	if (bSeenPlayer && mPoints > mMinPoints)
@@ -429,6 +440,7 @@ void Enemy::attack(D3DXVECTOR3 _position)
 	Attack* attack = new Attack(*mAttack);
 	attack->moveTowardPoint(mPosition, _position);
 	gCurrentLevel->getAttackManager()->addAttack(attack);
+	gSound->getSystem()->playSound(FMOD_CHANNEL_FREE, enemyAttack, false, NULL);
 }
 
 void Enemy::chooseTarget()
@@ -452,9 +464,10 @@ void Enemy::chooseTarget()
 
 
 EnemyMelee::EnemyMelee(LPCWSTR _meshName, LPCWSTR _textureName, LPCWSTR _normalTexName,
+	char* _attackSound, char* _deathSound, char* _getHitSound,
 	D3DXVECTOR3 _startPosition, float _healthMax, float _radius, D3DXVECTOR3 _meshScale) :
-	Enemy(_meshName, _textureName, _normalTexName, _startPosition, _healthMax,
-	_radius, _meshScale)
+	Enemy(_meshName, _textureName, _normalTexName, _attackSound, _deathSound, _getHitSound,
+	_startPosition, _healthMax,	_radius, _meshScale)
 {
 	mRanged = false;
 	mAttackDistanceSq = 10000.0f;//100
@@ -475,9 +488,10 @@ EnemyMelee::EnemyMelee(LPCWSTR _meshName, LPCWSTR _textureName, LPCWSTR _normalT
 }
 
 EnemySeeds::EnemySeeds(LPCWSTR _meshName, LPCWSTR _textureName, LPCWSTR _normalTexName,
+	char* _attackSound, char* _deathSound, char* _getHitSound,
 	D3DXVECTOR3 _startPosition, float _healthMax, float _radius, D3DXVECTOR3 _meshScale) :
-	Enemy(_meshName, _textureName, _normalTexName, _startPosition, _healthMax,
-	_radius, _meshScale)
+	Enemy(_meshName, _textureName, _normalTexName, _attackSound, _deathSound, _getHitSound, 
+	_startPosition, _healthMax,	_radius, _meshScale)
 {
 	mRanged = true;
 	mAttackDistanceSq = 4000000.0f;//2000
@@ -498,9 +512,10 @@ EnemySeeds::EnemySeeds(LPCWSTR _meshName, LPCWSTR _textureName, LPCWSTR _normalT
 }
 
 EnemyFire::EnemyFire(LPCWSTR _meshName, LPCWSTR _textureName, LPCWSTR _normalTexName,
+	char* _attackSound, char* _deathSound, char* _getHitSound,
 	D3DXVECTOR3 _startPosition, float _healthMax, float _radius, D3DXVECTOR3 _meshScale) :
-	Enemy(_meshName, _textureName, _normalTexName, _startPosition, _healthMax,
-	_radius, _meshScale)
+	Enemy(_meshName, _textureName, _normalTexName, _attackSound, _deathSound, _getHitSound, 
+	_startPosition, _healthMax,	_radius, _meshScale)
 {
 	mRanged = true;
 	mAttackDistanceSq = 4000000.0f;//2000
