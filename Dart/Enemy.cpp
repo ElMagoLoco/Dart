@@ -246,7 +246,41 @@ void Enemy::update(float _dt)
 		pointForward(_dt);
 		//update position
 		mPosition += mVelocity * _dt;
+		detectCollision();
 		mMesh->setPosRot(mPosition, mRotation);
+	}
+}
+
+void Enemy::detectCollision()
+{
+	//bounding sphere for follower
+	BoundingSphere mySphere = BoundingSphere(mPosition, mRadius);
+	D3DXVECTOR3 movement;
+	bool wall = false;
+	//collision with walls or obstacles in level
+	for (Mesh* M : gCurrentLevel->getWorldGeometry())
+	{
+		for (AxisAlignedBoundingBox AABB : M->getBoundsBoxList())
+		{
+			if (collides(AABB, mySphere, movement))
+			{
+				mPosition += movement;
+				wall = true;
+			}
+		}
+	}
+	//collide with other enemies unless there is was wall in the way
+	if (!wall)
+	{
+		for (Enemy* E : gCurrentLevel->getSpawner()->getEnemies())
+		{
+			BoundingSphere otherSphere = BoundingSphere(E->getPosition(), E->getRadius());
+			if (collides(mySphere, otherSphere, movement))
+			{
+				mPosition += (movement / 2);
+				E->move(-(movement / 2));
+			}
+		}
 	}
 }
 

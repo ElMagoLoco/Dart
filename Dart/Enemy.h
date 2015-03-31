@@ -35,6 +35,8 @@ public:
 	void chooseTarget();
 
 	bool addHealth(float _amount);
+	void detectCollision();
+	void move(D3DXVECTOR3 _move) { mPosition += _move; }
 protected:
 	//has the enemy seen the player. When it sees the player, it's point value 
 	//starts to decrease
