@@ -176,6 +176,7 @@ class EventMusicStart : public Event
 public:
 	EventMusicStart(char* _music);
 	void beginEvent();
+	void updateEvent(float _dt)				{ gSound->mSystem->update(); }
 	void endEvent();
 private:
 	char* mFile;

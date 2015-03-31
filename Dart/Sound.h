@@ -28,7 +28,7 @@ using FMOD::System;
 //    FR(gSound->getSystem()->createStream("file/location", FMOD_DEFAULT, 0, &soundVariable);
 // 4) end previous music and begin the new one
 //    gSound->getChannel()->stop();
-//    FR(gSound->getSystem()->playSound(FMOD_CHANNEL_FREE, soundVariable, false, gSound->getChannel()));
+//    FR(gSound->getSystem()->playSound(FMOD_CHANNEL_FREE, soundVariable, false, NULL);
 
 // 5) release sound or stream in destructor
 //    FR(soundVariable->release());

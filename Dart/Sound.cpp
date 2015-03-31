@@ -28,6 +28,7 @@ void SoundSystem::init()
 	FR(System_Create(&mSystem));
 	//check version
 	FR(mSystem->getVersion(&version));
+
 	if (version < FMOD_VERSION)
 	{
 		OutputDebugString(L"ERROR: Version of FMOD is older than dll version.\n");
