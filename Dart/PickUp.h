@@ -6,6 +6,7 @@ using std::list;
 #include "D3DUtils.h"
 
 #include "Mesh.h"
+#include "Sound.h"
 
 //this represents items that either drop from enemies or are otherwise on the ground waiting
 //to be picked up
@@ -20,8 +21,9 @@ enum ePickUpType{
 class PickUp
 {
 public:
-	PickUp(LPCWSTR _mesh, LPCWSTR _textureName, LPCWSTR _normalName, ePickUpType _type, 
-		D3DXVECTOR3 _position, D3DXVECTOR3 _scale, float _amount, float _radius = 32.0f);
+	PickUp(LPCWSTR _mesh, LPCWSTR _textureName, LPCWSTR _normalName, char* _pickUpSound,
+		ePickUpType _type, 	D3DXVECTOR3 _position, D3DXVECTOR3 _scale, float _amount, 
+		float _radius = 32.0f);
 	//when the item is touched. _player determines if it was the player or follower that touched
 	~PickUp();
 	void draw();
@@ -40,6 +42,8 @@ protected:
 	float mRadius;
 	//if it has been picked up, this will tell the pickup organizer when to remove it from the list
 	bool bUsed;
+	//sound played when picked up
+	Sound* sndUsed;
 };
 
 //manages a list of pickups for the level

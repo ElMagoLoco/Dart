@@ -2,13 +2,15 @@
 
 #include "Player.h"
 //for constructor just set 1the members
-PickUp::PickUp(LPCWSTR _mesh, LPCWSTR _textureName, LPCWSTR _normalName, ePickUpType _type, 
-	D3DXVECTOR3 _position, D3DXVECTOR3 _scale, float _amount, float _radius) :
+PickUp::PickUp(LPCWSTR _mesh, LPCWSTR _textureName, LPCWSTR _normalName, char* _pickUpSound,
+	ePickUpType _type, D3DXVECTOR3 _position, D3DXVECTOR3 _scale, float _amount, 
+	float _radius) :
 mType(_type), mAmount(_amount), mRadius(_radius), bUsed(false)
 {
 	mMesh = new Mesh(_mesh, _position, _scale);
 	mMesh->addTexture(_textureName, _normalName);
 	mMesh->setPosRot(_position, D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+	FR(gSound->getSystem()->createSound(_pickUpSound, FMOD_DEFAULT, 0, &sndUsed));
 }
 
 PickUp::~PickUp()
@@ -17,6 +19,7 @@ PickUp::~PickUp()
 		delete mMesh;
 		mMesh = NULL;
 	}
+	sndUsed->release();
 }
 
 void PickUp::draw()
@@ -64,6 +67,9 @@ void PickUp::onTouch(bool _player)
 		}
 		break;
 	}
+	if (bUsed)
+		gSound->getSystem()->playSound(FMOD_CHANNEL_FREE, sndUsed, false, 0);
+
 }
 
 void PickUpManager::update(float _dt)

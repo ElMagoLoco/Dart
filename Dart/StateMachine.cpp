@@ -280,7 +280,7 @@ Level 1
 void EventProcessLevel1::beginEvent()
 {
 	// load the level info from the file
-	g_levelImp->loadLevel(L"Content\\Levels\\RealV4.dlvl");
+	g_levelImp->loadLevel(L"Content\\Levels\\RealV0D.dlvl");
 	//make level
 	gCurrentLevel = new Level(D3DXVECTOR3(-3000.0f, 0.0f, -3000.0f), 
 		D3DXVECTOR3(6000.0f, 0.0f, 6000.0f));
@@ -336,10 +336,11 @@ void EventProcessLevel1::beginEvent()
 			PickUp* newPickup = new PickUp(L"Content\\Models\\ball.x",
 									L"Content\\Textures\\tex_heal_berry.dds",
 									L"Content\\Textures\\tex_heal_berry_n.dds",
+									"Content\\Audio\\sndMenuKeyPress.wav",
 									ePickUpType::PICKUP_HEAL,
 									g_levelImp->getPickupList()[i].getPos(), 
-									D3DXVECTOR3(20.0f, 20.0f, 20.0f),//g_levelImp->getPickupList()[i].getScale(), 
-									25.0f);
+									D3DXVECTOR3(5.0f, 5.0f, 5.0f),//g_levelImp->getPickupList()[i].getScale(), 
+									2.5f);
 
 			gCurrentLevel->getPickUps()->addPickUp(newPickup);
 		}
@@ -350,10 +351,11 @@ void EventProcessLevel1::beginEvent()
 			PickUp* newPickup = new PickUp(L"Content\\Models\\ball.x",
 									L"Content\\Textures\\tex_bonus.dds",
 									L"Content\\Textures\\tex_bonus_n.dds",
+									"Content\\Audio\\sndMenuKeyPress.wav",
 									ePickUpType::PICKUP_BONUS,
 									g_levelImp->getPickupList()[i].getPos(),
-									D3DXVECTOR3(20.0f, 20.0f, 20.0f),//g_levelImp->getPickupList()[i].getScale(),
-									25.0f);
+									D3DXVECTOR3(5.0f, 5.0f, 5.0f),//g_levelImp->getPickupList()[i].getScale(),
+									2.5f);
 
 			gCurrentLevel->getPickUps()->addPickUp(newPickup);
 		}
@@ -364,10 +366,11 @@ void EventProcessLevel1::beginEvent()
 			PickUp* newPickup = new PickUp(L"Content\\Models\\ball.x",
 									L"Content\\Textures\\tex_seed.dds",
 									L"Content\\Textures\\tex_seed_n.dds",
+									"Content\\Audio\\sndMenuKeyPress.wav",
 									ePickUpType::PICKUP_AMMO_SEED,
 									g_levelImp->getPickupList()[i].getPos(),
-									D3DXVECTOR3(20.0f, 20.0f, 20.0f),//g_levelImp->getPickupList()[i].getScale(),
-									10.0f);
+									D3DXVECTOR3(5.0f, 5.0f, 5.0f),//g_levelImp->getPickupList()[i].getScale(),
+									2.5f);
 
 			gCurrentLevel->getPickUps()->addPickUp(newPickup);
 		}
@@ -378,10 +381,11 @@ void EventProcessLevel1::beginEvent()
 			PickUp* newPickup = new PickUp(L"Content\\Models\\ball.x",
 									L"Content\\Textures\\tex_fire.dds",
 									L"Content\\Textures\\tex_fire_n.dds",
+									"Content\\Audio\\sndMenuKeyPress.wav",
 									ePickUpType::PICKUP_AMMO_FIRE,
 									g_levelImp->getPickupList()[i].getPos(),
-									D3DXVECTOR3(20.0f, 20.0f, 20.0f),//g_levelImp->getPickupList()[i].getScale(),
-									5.0f);
+									D3DXVECTOR3(5.0f, 5.0f, 5.0f),//g_levelImp->getPickupList()[i].getScale(),
+									2.5f);
 
 			gCurrentLevel->getPickUps()->addPickUp(newPickup);
 		}
