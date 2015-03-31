@@ -454,7 +454,7 @@ bool Follower::addHealth(float _health)
 {
 	bool boolReturn = Pawn::addHealth(_health);
 	//if health was removed and they are below fear health
-	if (boolReturn &&_health > 0 && mHealth < mFearHealth)
+	if (boolReturn && (_health < 0) && (mHealth < mFearHealth))
 	{
 		float chance = mHealth / mFearHealth;
 		if (getRandomFloat(0.0f, 1.0f) > chance)
