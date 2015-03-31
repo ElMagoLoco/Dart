@@ -130,7 +130,7 @@ void Player::update(float _dt)
 		D3DXVec3Normalize(&mVelocity, &mVelocity);
 		float a = (float)gWindowWidth * 0.5f - mVelocity.x;
 		float b = (float)gWindowHeight * 0.5f - mVelocity.z;
-		float angle = atan2f(b, a) + /*D3DX_PI * 1.75f*/5.497787f + 
+		float angle = atan2f(b, a) + /*D3DX_PI * 1.795f + */5.6391588f + 
 			gCameraMain->getAngleOffset();
 
 		//build rotation matrix
