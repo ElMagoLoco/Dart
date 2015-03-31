@@ -280,7 +280,7 @@ Level 1
 void EventProcessLevel1::beginEvent()
 {
 	// load the level info from the file
-	g_levelImp->loadLevel(L"Content\\Levels\\RealV3.dlvl");
+	g_levelImp->loadLevel(L"Content\\Levels\\RealV4.dlvl");
 	//make level
 	gCurrentLevel = new Level(D3DXVECTOR3(-3000.0f, 0.0f, -3000.0f), 
 		D3DXVECTOR3(6000.0f, 0.0f, 6000.0f));
@@ -392,8 +392,11 @@ void EventProcessLevel1::beginEvent()
 	//always load obstacles before running initialize path finding
 	gCurrentLevel->getPaths()->initPathfinding();
 	//specify points for units to flee to
-	gCurrentLevel->addFleePoint(D3DXVECTOR2(-1400, -1400));
-	gCurrentLevel->addFleePoint(D3DXVECTOR2(1400, -1400));
-	gCurrentLevel->addFleePoint(D3DXVECTOR2(-1400, 1400));
-	gCurrentLevel->addFleePoint(D3DXVECTOR2(1400, 1400));
+	for (int i = 0; i < g_levelImp->getNumFleePoints(); ++i) {
+		gCurrentLevel->addFleePoint(D3DXVECTOR2(g_levelImp->getFleePointList()[i].getPos().x, g_levelImp->getFleePointList()[i].getPos().z));
+	}
+// 	gCurrentLevel->addFleePoint(D3DXVECTOR2(-1400, -1400));
+// 	gCurrentLevel->addFleePoint(D3DXVECTOR2(1400, -1400));
+// 	gCurrentLevel->addFleePoint(D3DXVECTOR2(-1400, 1400));
+// 	gCurrentLevel->addFleePoint(D3DXVECTOR2(1400, 1400));
 }

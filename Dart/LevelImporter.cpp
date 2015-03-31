@@ -287,7 +287,7 @@ int LevelImporter::loadLevel(wchar_t* fileName)
 
 			EditorPawn newPawn(EditorPawn::PawnType::PT_FleePoint, D3DXVECTOR3(x, y, z));
 			newPawn.setSolid(solid);
-			m_pickupList.push_back(newPawn);
+			m_fleePointList.push_back(newPawn);
 			++m_nNumPawns;
 			++m_nNumFleePoints;
 		}

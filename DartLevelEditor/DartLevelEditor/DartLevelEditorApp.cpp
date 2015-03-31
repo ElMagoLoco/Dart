@@ -56,7 +56,7 @@ BOOL DartLevelEditorApp::InitInstance()
 
 	g_input->init(mhMainWnd, AfxGetInstanceHandle(), DISCL_EXCLUSIVE | DISCL_FOREGROUND, DISCL_EXCLUSIVE | DISCL_FOREGROUND);
 
-	m_camera.pos() = D3DXVECTOR3(0.0f, 3000.0f, -50.0f);
+	m_camera.pos() = D3DXVECTOR3(0.0f, 7000.0f, -50.0f);
 	RECT client;
 	GetClientRect(mhMainWnd, &client);
 	m_fAspect = (float)client.right / (float)client.bottom;
