@@ -17,7 +17,11 @@ Pawn::Pawn(LPCWSTR _meshName, LPCWSTR _textureName, LPCWSTR _normalTexName,
 {
 	//mMesh = new Mesh(_meshName, _startPosition, _meshScale, D3DXVECTOR3(0.0f, 0.0f, 0.0f), 1);
 	//mMesh->addTexture(_textureName, _normalTexName);
-	mMesh = new AnimMesh(_meshName, _textureName, _normalTexName,_startPosition, _meshScale, 
+	mMeshName = _meshName;
+	mTexName = _textureName;
+	mNormTex = _normalTexName;
+
+	mMesh = new AnimMesh(mMeshName.c_str(), mTexName.c_str(), mNormTex.c_str(), _startPosition, _meshScale,
 		D3DXVECTOR3(0.0f, 0.0f, 0.0f), 1);
 }
 

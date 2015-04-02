@@ -351,10 +351,10 @@ void EventProcessLevel1::beginEvent()
 
 	//add enemies to level
 	for (int i = 0; i < g_levelImp->getNumEnemies(); ++i) {
-		gCurrentLevel->getSpawner()->addEnemy(new EnemyMelee(L"Content/Models/Tiny.x", L"Content/Textures/tex_fire.dds",
+		gCurrentLevel->getSpawner()->addEnemy(new EnemyMelee(L"Content/Models/BeeZ.X", L"Content/Textures/tex_fire.dds",
 			L"Content/Textures/tex_fire_n.dds", "Content/Audio/sndEnemy1Attack.wav", 
 			"Content/Audio/sndEnemy1Death.wav", "Content/Audio/sndEnemy1GetHit.wav",
-			g_levelImp->getEnemyList()[i].getPos(), 30.0f, 40.0f, D3DXVECTOR3(0.50f, 0.50f, 0.50f)));
+			g_levelImp->getEnemyList()[i].getPos(), 30.0f, 40.0f, D3DXVECTOR3(2.50f, 2.50f, 2.50f)));
 	}
 
 	// add pickups

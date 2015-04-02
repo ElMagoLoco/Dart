@@ -1,5 +1,5 @@
 #pragma once
-
+#include <string>
 #include "D3DUtils.h"
 #include "Mesh.h"
 #include "PathNode.h"
@@ -17,6 +17,10 @@ public:
 	~Pawn();
 
 	//get functions
+	std::wstring& getNormTex() { return mNormTex; }
+	std::wstring& getTexName()  { return mTexName; }
+	std::wstring& getMeshName() { return mMeshName; }
+
 	float getHealth()		{ return mHealth; }
 	float getHealthMax()	{ return mHealthMax; }
 	float getIsDead()		{ return bIsDead; }
@@ -30,17 +34,23 @@ public:
 	//update, also call this from child class update functions
 	void update(float _dt);
 protected:
+	std::wstring	mMeshName;
+	std::wstring	mTexName;
+	std::wstring	mNormTex;
+
+	D3DXVECTOR3 mPosition;//where it is
+	D3DXVECTOR3 mLastPosition;//where it was
+	D3DXVECTOR3 mVelocity;//direction of movement
+	D3DXVECTOR3 mRotation;//rotation
+
 	AnimMesh* mMesh;
 	//health
 	float mHealth;
 	float mHealthMax;
 	bool bIsDead;
 	//movement
-	D3DXVECTOR3 mPosition;//where it is
-	D3DXVECTOR3 mLastPosition;//where it was
-	D3DXVECTOR3 mVelocity;//direction of movement
+
 	float mSpeed;//speed in velocity direction, multiplied by normalized velocity to get actual movement
-	D3DXVECTOR3 mRotation;//rotation
 	//attacks
 	float mAttackTime; //time since they last attacked
 	float mAttackDelay;//how often can attack
