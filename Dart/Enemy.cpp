@@ -602,10 +602,11 @@ void EnemySpawner::update(float _dt)
 	{
 		//update
 		(*it)->update(_dt);
-		//remove if dead
+		//give player score and remove if dead
 		bool dead = (*it)->getIsDead();
 		if (dead)
 		{
+			gPlayer->addScore((*it)->getPoints());
 			mEnemies.erase(it++);
 			break;
 		}

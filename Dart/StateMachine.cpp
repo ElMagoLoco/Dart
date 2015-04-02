@@ -266,21 +266,11 @@ void EventDisplayUserInterface::beginEvent()
 	ButtonSetAttackFire* bFire = new ButtonSetAttackFire(L"Content/Textures/ui_icon_fire.png",
 		0.9f, 0.2f, 64, 64, 0.1f, 0.1f);
 	mInterface->addButton(bFire);
-	Text* scoreText = new Text(L"Times New Roman", 30, 0.002f, 0.0f,
-		D3DCOLOR_ARGB(255, 255, 255, 255));
-	mInterface->addText(scoreText);
+	/*Text* scoreText = new Text(L"Times New Roman", 30, 0.002f, 0.0f,
+		D3DCOLOR_ARGB(255, 255, 0, 0));
+	mInterface->addText(scoreText);*/
 }
 
-void EventDisplayUserInterface::updateEvent(float _dt)
-{
-	//display score
-	int score = (int)gPlayer->getScore();
-	wchar_t buffer[256];
-	wsprintfW(buffer, L"%d", score);
-	mInterface->setText(0, buffer);
-	//update anything else
-	mInterface->update(_dt);
-}
 /*******************************************************************
 Start Music, stop old music
 *******************************************************************/
@@ -371,7 +361,7 @@ void EventProcessLevel1::beginEvent()
 									ePickUpType::PICKUP_HEAL,
 									g_levelImp->getPickupList()[i].getPos(), 
 									D3DXVECTOR3(5.0f, 5.0f, 5.0f),//g_levelImp->getPickupList()[i].getScale(), 
-									2.5f);
+									20.0f);
 
 			gCurrentLevel->getPickUps()->addPickUp(newPickup);
 		}
@@ -386,7 +376,7 @@ void EventProcessLevel1::beginEvent()
 									ePickUpType::PICKUP_BONUS,
 									g_levelImp->getPickupList()[i].getPos(),
 									D3DXVECTOR3(5.0f, 5.0f, 5.0f),//g_levelImp->getPickupList()[i].getScale(),
-									2.5f);
+									50.0f);
 
 			gCurrentLevel->getPickUps()->addPickUp(newPickup);
 		}
@@ -401,7 +391,7 @@ void EventProcessLevel1::beginEvent()
 									ePickUpType::PICKUP_AMMO_SEED,
 									g_levelImp->getPickupList()[i].getPos(),
 									D3DXVECTOR3(5.0f, 5.0f, 5.0f),//g_levelImp->getPickupList()[i].getScale(),
-									2.5f);
+									10.0f);
 
 			gCurrentLevel->getPickUps()->addPickUp(newPickup);
 		}
@@ -416,7 +406,7 @@ void EventProcessLevel1::beginEvent()
 									ePickUpType::PICKUP_AMMO_FIRE,
 									g_levelImp->getPickupList()[i].getPos(),
 									D3DXVECTOR3(5.0f, 5.0f, 5.0f),//g_levelImp->getPickupList()[i].getScale(),
-									2.5f);
+									10.0f);
 
 			gCurrentLevel->getPickUps()->addPickUp(newPickup);
 		}

@@ -22,7 +22,7 @@ Text::Text(LPCWSTR _faceName, UINT _height, float _x, float _y, D3DCOLOR _color)
 	mX = _x;
 	mY = _y;
 	mColor = _color;
-	mText = L"0";
+	mText = L"7";
 }
 //destructor
 Text::~Text()
@@ -51,3 +51,9 @@ void Text::draw()
 	delete rect;
 }
 
+void Text::setText(UINT _text)
+{
+	LPWSTR y = new wchar_t[15];
+	_itow(_text, y, 10);
+	mText = y;
+}

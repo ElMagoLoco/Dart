@@ -23,11 +23,12 @@ public:
 	void addButton(Button* _newButton);//add a new button
 	void addTexture(Texture2D* _newTexture);//add a non-button texture
 	void addText(Text* _newText); //add text
-	void setText(UINT _index, LPCWSTR _text);
+
 protected:
+	vector<Text*> mTexts;
 	vector<Button*> mButtons;
 	vector<Texture2D*> mTextures;
-	vector<Text*> mTexts;
+
 	//Sound* menuKeyPress; //(for later use)
 	static Sound* menuMouseClick;
 };

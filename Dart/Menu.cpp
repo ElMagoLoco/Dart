@@ -131,7 +131,3 @@ void Menu::addText(Text* _newText)
 	mTexts.push_back(_newText);
 }
 
-void Menu::setText(UINT _index, LPCWSTR _text)
-{
-	mTexts[_index]->mText = _text;
-}
