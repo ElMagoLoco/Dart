@@ -1,6 +1,7 @@
 #include "DartLevelEditorApp.h"
 #include "DartDlg.h"
 #include "PickUpDlg.h"
+#include "EnemyTypeDlg.h"
 #include "LocParams.h"
 #include "EditorPawn.h"
 #include "resource.h"
@@ -142,14 +143,57 @@ void DartDlg::OnBnClickedBtnAntzspawn()
 	// TODO: fix so that this count gets reduced when Antz is deleted
 	static int count = -1;
 
-	theApp.createAntzSpawn();
+	EnemyTypeDlg dlg;
 
-	CComboBox* list = (CComboBox*)GetDlgItem(IDC_LIST_PAWNSELECTOR);
-	CString temp = L"Antz Spawn Point_";
-	wchar_t temp1[32];
-	_itow_s(++count, temp1, 10);
-	temp += temp1;
-	insertToPawnList(temp);
+	int selected = -1;
+	if (IDOK == dlg.DoModal()) {
+		selected = dlg.m_nSelected;
+	}
+
+	switch (selected) {
+	case IDC_RADIO_ENEMYMELEE: 
+	{
+		theApp.createEnemySpawn(EditorPawn::PawnType::PT_EnemyMeleeSpawnLocale);
+		CComboBox* list = (CComboBox*)GetDlgItem(IDC_LIST_PAWNSELECTOR);
+		CString temp = L"Melee Spawn Point_";
+		wchar_t temp1[32];
+		_itow_s(++count, temp1, 10);
+		temp += temp1;
+		insertToPawnList(temp);
+	}
+	break;
+	case IDC_RADIO_ENEMYFIRE:
+	{
+		theApp.createEnemySpawn(EditorPawn::PawnType::PT_EnemyFireSpawnLocale);
+		CComboBox* list = (CComboBox*)GetDlgItem(IDC_LIST_PAWNSELECTOR);
+		CString temp = L"Fire Spawn Point_";
+		wchar_t temp1[32];
+		_itow_s(++count, temp1, 10);
+		temp += temp1;
+		insertToPawnList(temp);
+	}
+	break;
+	case IDC_RADIO_ENEMYSEED:
+	{
+		theApp.createEnemySpawn(EditorPawn::PawnType::PT_EnemySeedSpawnLocale);
+		CComboBox* list = (CComboBox*)GetDlgItem(IDC_LIST_PAWNSELECTOR);
+		CString temp = L"Seed Spawn Point_";
+		wchar_t temp1[32];
+		_itow_s(++count, temp1, 10);
+		temp += temp1;
+		insertToPawnList(temp);
+	}
+	break;
+	}
+
+// 	theApp.createEnemySpawn();
+// 
+// 	CComboBox* list = (CComboBox*)GetDlgItem(IDC_LIST_PAWNSELECTOR);
+// 	CString temp = L"Antz Spawn Point_";
+// 	wchar_t temp1[32];
+// 	_itow_s(++count, temp1, 10);
+// 	temp += temp1;
+// 	insertToPawnList(temp);
 }
 
 void DartDlg::OnCbnSelchangeListPawnselector()

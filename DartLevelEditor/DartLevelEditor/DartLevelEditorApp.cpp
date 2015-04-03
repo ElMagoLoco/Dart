@@ -5,7 +5,7 @@
 #include "Timer.h"
 #include "BartPawn.h"
 #include "DartPawn.h"
-#include "AntzPawn.h"
+#include "EnemyPawn.h"
 #include "WallPawn.h"
 #include "PickUpPawn.h"
 #include "FleePointPawn.h"
@@ -211,26 +211,6 @@ int DartLevelEditorApp::createCube(FLOAT width, FLOAT height, FLOAT depth)
 	if (NULL == pMesh)
 		return -1;
 
-// 	DWORD fvf = pMesh->GetFVF();
-// 	if (!(fvf & D3DFVF_DIFFUSE)) {
-// 		fvf |= D3DFVF_DIFFUSE;
-// 		ID3DXMesh* clone = nullptr;
-// 
-// 		HR(pMesh->CloneMeshFVF(0, fvf, gD3DDevice, &clone));
-// 
-// 		SAFE_RELEASE(pMesh);
-// 		pMesh = clone;
-// 	}
-// 
-// 	VertexCol *pVerts = nullptr;
-// 	HR(pMesh->LockVertexBuffer(D3DLOCK_DISCARD, (VOID**)&pVerts));
-// 	
-// 	for (DWORD i = 0; i < pMesh->GetNumVertices(); ++i){
-// 		pVerts[i].mPosition = pVerts[i].mPosition;
-// 		pVerts[i].mColor = 0xffffffff;
-// 	}
-// 	HR(pMesh->UnlockVertexBuffer());
-
 	SAFE_RELEASE(pAdj);
 	
 	m_meshList.push_back(pMesh);
@@ -278,8 +258,9 @@ void DartLevelEditorApp::saveLevel(CString filename)
 		return;
 	
 	ofs << L"PawnNumTypes:" << EditorPawn::PawnType::PT_End << '\n';
-	ofs << L"EnemyType1SpawnLocale:" << EditorPawn::PawnType::PT_EnemyType1SpawnLocale << L'\n';
-	ofs << L"EnemyType2SpawnLocale:" << EditorPawn::PawnType::PT_EnemyType2SpawnLocale << L'\n';
+	ofs << L"EnemyMeleeSpawnLocale:" << EditorPawn::PawnType::PT_EnemyMeleeSpawnLocale << L'\n';
+	ofs << L"EnemyFireSpawnLocale:" << EditorPawn::PawnType::PT_EnemyFireSpawnLocale << L'\n';
+	ofs << L"EnemySeedSpawnLocale:" << EditorPawn::PawnType::PT_EnemySeedSpawnLocale << L'\n';
 	ofs << L"DartSpawnLocale:" << EditorPawn::PawnType::PT_DartSpawnLocale << L'\n';
 	ofs << L"BartSpawnLocale:" << EditorPawn::PawnType::PT_BartSpawnLocale << L'\n';
 	ofs << L"PointOfLevelLocale:" << EditorPawn::PawnType::PT_PointOfLevelLocale << L'\n';
@@ -295,16 +276,25 @@ void DartLevelEditorApp::saveLevel(CString filename)
 	for (UINT i = 0; i < m_pawnList.size(); ++i) {
 		switch (m_pawnList[i].getPawnType())
 		{
-		case EditorPawn::PawnType::PT_EnemyType1SpawnLocale:
+		case EditorPawn::PawnType::PT_EnemyMeleeSpawnLocale:
 		{
 			ofs << i << L":" << L"Type:" << m_pawnList[i].getPawnType() << L'\n';
 			ofs << i << L":" << L"Solid:" << m_pawnList[i].getSolid() << L'\n';
 			ofs << i << L":" << L"Position:" << m_pawnList[i].getPos().x << L"," << m_pawnList[i].getPos().y << L"," << m_pawnList[i].getPos().z << L'\n';
 		}
 		break;
-		case EditorPawn::PawnType::PT_EnemyType2SpawnLocale:
+		case EditorPawn::PawnType::PT_EnemyFireSpawnLocale:
 		{
-
+			ofs << i << L":" << L"Type:" << m_pawnList[i].getPawnType() << L'\n';
+			ofs << i << L":" << L"Solid:" << m_pawnList[i].getSolid() << L'\n';
+			ofs << i << L":" << L"Position:" << m_pawnList[i].getPos().x << L"," << m_pawnList[i].getPos().y << L"," << m_pawnList[i].getPos().z << L'\n';
+		}
+		break;
+		case EditorPawn::PawnType::PT_EnemySeedSpawnLocale:
+		{
+			ofs << i << L":" << L"Type:" << m_pawnList[i].getPawnType() << L'\n';
+			ofs << i << L":" << L"Solid:" << m_pawnList[i].getSolid() << L'\n';
+			ofs << i << L":" << L"Position:" << m_pawnList[i].getPos().x << L"," << m_pawnList[i].getPos().y << L"," << m_pawnList[i].getPos().z << L'\n';
 		}
 		break;
 		case EditorPawn::PawnType::PT_DartSpawnLocale:
@@ -434,7 +424,7 @@ void DartLevelEditorApp::loadLevel(CString filename)
 
 		switch (type)
 		{
-		case EditorPawn::PawnType::PT_EnemyType1SpawnLocale:
+		case EditorPawn::PawnType::PT_EnemyMeleeSpawnLocale:
 		{
 			ifs.getline(token, 64, L':');
 			ifs.getline(token, 64, L':');
@@ -447,17 +437,54 @@ void DartLevelEditorApp::loadLevel(CString filename)
 			y = (float)_wtof(token);
 			ifs.getline(token, 64);
 			z = (float)_wtof(token);
-			createAntzSpawn(D3DXVECTOR3(x, y, z));
-			CString temp = L"Antz Spawn Point_";
+			createEnemySpawn(EditorPawn::PawnType::PT_EnemyMeleeSpawnLocale, D3DXVECTOR3(x, y, z));
+			CString temp = L"Melee Spawn Point_";
 			wchar_t temp1[32];
 			_itow_s(numAntz++, temp1, 10);
 			temp += temp1;
 			m_dlg.insertToPawnList(temp.GetString());
 		}
 		break;
-		case EditorPawn::PawnType::PT_EnemyType2SpawnLocale:
+		case EditorPawn::PawnType::PT_EnemyFireSpawnLocale:
 		{
+			ifs.getline(token, 64, L':');
+			ifs.getline(token, 64, L':');
+			ifs.getline(token, 64, L',');
 
+			float x, y, z;
+
+			x = (float)_wtof(token);
+			ifs.getline(token, 64, L',');
+			y = (float)_wtof(token);
+			ifs.getline(token, 64);
+			z = (float)_wtof(token);
+			createEnemySpawn(EditorPawn::PawnType::PT_EnemyFireSpawnLocale, D3DXVECTOR3(x, y, z));
+			CString temp = L"Fire Spawn Point_";
+			wchar_t temp1[32];
+			_itow_s(numAntz++, temp1, 10);
+			temp += temp1;
+			m_dlg.insertToPawnList(temp.GetString());
+		}
+		break;
+		case EditorPawn::PawnType::PT_EnemySeedSpawnLocale:
+		{
+			ifs.getline(token, 64, L':');
+			ifs.getline(token, 64, L':');
+			ifs.getline(token, 64, L',');
+
+			float x, y, z;
+
+			x = (float)_wtof(token);
+			ifs.getline(token, 64, L',');
+			y = (float)_wtof(token);
+			ifs.getline(token, 64);
+			z = (float)_wtof(token);
+			createEnemySpawn(EditorPawn::PawnType::PT_EnemySeedSpawnLocale, D3DXVECTOR3(x, y, z));
+			CString temp = L"Seed Spawn Point_";
+			wchar_t temp1[32];
+			_itow_s(numAntz++, temp1, 10);
+			temp += temp1;
+			m_dlg.insertToPawnList(temp.GetString());
 		}
 		break;
 		case EditorPawn::PawnType::PT_DartSpawnLocale:
@@ -755,9 +782,9 @@ void DartLevelEditorApp::createBartSpawn(D3DXVECTOR3& initPos /*= D3DXVECTOR3(0.
 	m_pawnList.push_back(bart);
 }
 
-void DartLevelEditorApp::createAntzSpawn(D3DXVECTOR3& initPos /*= D3DXVECTOR3(0.0f, 0.0f, 0.0f)*/)
+void DartLevelEditorApp::createEnemySpawn(const EditorPawn::PawnType type, D3DXVECTOR3& initPos /*= D3DXVECTOR3(0.0f, 0.0f, 0.0f)*/)
 {
-	AntzPawn antz;
+	EnemyPawn antz(type);
 
 	antz.setMeshID(m_nBoxMeshID);
 	antz.setPos(initPos);

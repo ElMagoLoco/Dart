@@ -91,7 +91,8 @@
     <ClCompile Include="DartPawn.cpp" />
     <ClCompile Include="DXInput.cpp" />
     <ClCompile Include="EditorPawn.cpp" />
-    <ClCompile Include="AntzPawn.cpp" />
+    <ClCompile Include="EnemyPawn.cpp" />
+    <ClCompile Include="EnemyTypeDlg.cpp" />
     <ClCompile Include="FleePointPawn.cpp" />
     <ClCompile Include="FxManager.cpp" />
     <ClCompile Include="GfxStats.cpp" />
@@ -103,7 +104,7 @@
     <ClCompile Include="WallPawn.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AntzPawn.h" />
+    <ClInclude Include="EnemyPawn.h" />
     <ClInclude Include="BartPawn.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="D3DApp.h" />
@@ -113,6 +114,7 @@
     <ClInclude Include="DartPawn.h" />
     <ClInclude Include="DXInput.h" />
     <ClInclude Include="EditorPawn.h" />
+    <ClInclude Include="EnemyTypeDlg.h" />
     <ClInclude Include="FleePointPawn.h" />
     <ClInclude Include="FxManager.h" />
     <ClInclude Include="GfxStats.h" />

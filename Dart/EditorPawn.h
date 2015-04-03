@@ -6,8 +6,9 @@ class EditorPawn
 public:
 	enum PawnType {
 		PT_Undefined = -1,
-		PT_EnemyType1SpawnLocale,
-		PT_EnemyType2SpawnLocale,
+		PT_EnemyMeleeSpawnLocale,
+		PT_EnemyFireSpawnLocale,
+		PT_EnemySeedSpawnLocale,
 		PT_DartSpawnLocale,
 		PT_BartSpawnLocale,
 		PT_PointOfLevelLocale,

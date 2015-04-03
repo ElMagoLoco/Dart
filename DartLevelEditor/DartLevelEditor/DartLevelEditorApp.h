@@ -26,7 +26,7 @@ public:
 	void createWall(D3DXVECTOR3& scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f), D3DXVECTOR3& initPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 	void createDartSpawn(D3DXVECTOR3& initPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 	void createBartSpawn(D3DXVECTOR3& initPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f));
-	void createAntzSpawn(D3DXVECTOR3& initPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+	void createEnemySpawn(const EditorPawn::PawnType type, D3DXVECTOR3& initPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 	void createFleePointSpawn(D3DXVECTOR3& initPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 	void createPickUp(const EditorPawn::PawnType type, D3DXVECTOR3& initPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 	void movePawn(UINT idx, float dt);

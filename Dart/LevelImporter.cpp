@@ -80,7 +80,7 @@ int LevelImporter::loadLevel(wchar_t* fileName)
 
 		switch (type)
 		{
-		case EditorPawn::PawnType::PT_EnemyType1SpawnLocale:
+		case EditorPawn::PawnType::PT_EnemyMeleeSpawnLocale:
 		{
 			ifs.getline(token, 64, L':');
 			ifs.getline(token, 64, L':');
@@ -94,16 +94,53 @@ int LevelImporter::loadLevel(wchar_t* fileName)
 			ifs.getline(token, 64);
 			z = (float)_wtof(token);
 
-			EditorPawn newPawn(EditorPawn::PawnType::PT_EnemyType1SpawnLocale, D3DXVECTOR3(x, y, z));
+			EditorPawn newPawn(EditorPawn::PawnType::PT_EnemyMeleeSpawnLocale, D3DXVECTOR3(x, y, z));
 			newPawn.setSolid(solid);
 			m_enemyList.push_back(newPawn);
 			++m_nNumPawns;
 			++m_nNumEnemies;
 		}
 		break;
-		case EditorPawn::PawnType::PT_EnemyType2SpawnLocale:
+		case EditorPawn::PawnType::PT_EnemyFireSpawnLocale:
 		{
+			ifs.getline(token, 64, L':');
+			ifs.getline(token, 64, L':');
+			ifs.getline(token, 64, L',');
 
+			float x, y, z;
+
+			x = (float)_wtof(token);
+			ifs.getline(token, 64, L',');
+			y = (float)_wtof(token);
+			ifs.getline(token, 64);
+			z = (float)_wtof(token);
+
+			EditorPawn newPawn(EditorPawn::PawnType::PT_EnemyFireSpawnLocale, D3DXVECTOR3(x, y, z));
+			newPawn.setSolid(solid);
+			m_enemyList.push_back(newPawn);
+			++m_nNumPawns;
+			++m_nNumEnemies;
+		}
+		break;
+		case EditorPawn::PawnType::PT_EnemySeedSpawnLocale:
+		{
+			ifs.getline(token, 64, L':');
+			ifs.getline(token, 64, L':');
+			ifs.getline(token, 64, L',');
+
+			float x, y, z;
+
+			x = (float)_wtof(token);
+			ifs.getline(token, 64, L',');
+			y = (float)_wtof(token);
+			ifs.getline(token, 64);
+			z = (float)_wtof(token);
+
+			EditorPawn newPawn(EditorPawn::PawnType::PT_EnemySeedSpawnLocale, D3DXVECTOR3(x, y, z));
+			newPawn.setSolid(solid);
+			m_enemyList.push_back(newPawn);
+			++m_nNumPawns;
+			++m_nNumEnemies;
 		}
 		break;
 		case EditorPawn::PawnType::PT_DartSpawnLocale:

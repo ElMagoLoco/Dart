@@ -54,9 +54,6 @@
     <ClCompile Include="BartPawn.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AntzPawn.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="WallPawn.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -70,6 +67,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="LocParams.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyTypeDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyPawn.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -116,9 +119,6 @@
     <ClInclude Include="BartPawn.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AntzPawn.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -135,6 +135,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="LocParams.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyTypeDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyPawn.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

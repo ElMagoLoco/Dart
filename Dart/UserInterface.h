@@ -42,4 +42,5 @@ public:
 	void addStatBar(StatBar* _stat) { mStatBars.push_back(_stat); }
 private:
 	vector<StatBar*> mStatBars;
+	Text* mScoreText;
 };
