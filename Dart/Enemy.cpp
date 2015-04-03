@@ -509,7 +509,7 @@ EnemyMelee::EnemyMelee(LPCWSTR _meshName, LPCWSTR _textureName, LPCWSTR _normalT
 	mAttackDistanceSq = 10000.0f;//100
 	mClosestDistanceSq = 6500.0f;//80
 	mAttackDelay = 1.0f;
-	mFearHealth = mHealthMax;// *.667f;
+	mFearHealth = mHealthMax *.667f;
 	mPoints = 100.0f;
 	mPointDrain = 1.0f;
 	mMinPoints = 50.0f;
@@ -531,7 +531,7 @@ EnemySeeds::EnemySeeds(LPCWSTR _meshName, LPCWSTR _textureName, LPCWSTR _normalT
 {
 	mRanged = true;
 	mAttackDistanceSq = 4000000.0f;//2000
-	mClosestDistanceSq = 6500.0f;//80
+	mClosestDistanceSq = 160000.0f;//400
 	mAttackDelay = 1.0f;
 	mFearHealth = mHealthMax * .667f;
 	mPoints = 200.0f;
@@ -543,7 +543,7 @@ EnemySeeds::EnemySeeds(LPCWSTR _meshName, LPCWSTR _textureName, LPCWSTR _normalT
 	mLoseSightPlayer = 1.0f;
 	mLoseSightFollower = 1.0f;
 	mSpeed = 250.0f;
-	mAttack = new Attack(L"Content/Models/ball.x", 15.0f, 400.0f, 0.1f, false);
+	mAttack = new Attack(L"Content/Models/ball.x", 15.0f, 400.0f, 10.0f, false, 10.0f, D3DXVECTOR3(5.0f, 5.0f, 5.0f));
 	mAttack->setTextures(L"Content/Textures/tex_seed.dds", L"Content/Textures/tex_seed_n.dds");
 }
 
@@ -555,7 +555,7 @@ EnemyFire::EnemyFire(LPCWSTR _meshName, LPCWSTR _textureName, LPCWSTR _normalTex
 {
 	mRanged = true;
 	mAttackDistanceSq = 4000000.0f;//2000
-	mClosestDistanceSq = 6500.0f;//80
+	mClosestDistanceSq = 160000.0f;//400
 	mAttackDelay = 1.0f;
 	mFearHealth = mHealthMax * .667f;
 	mPoints = 300.0f;
@@ -567,7 +567,7 @@ EnemyFire::EnemyFire(LPCWSTR _meshName, LPCWSTR _textureName, LPCWSTR _normalTex
 	mLoseSightPlayer = 1.0f;
 	mLoseSightFollower = 1.0f;
 	mSpeed = 300.0f;
-	mAttack = new Attack(L"Content/Models/ball.x", 20.0f, 400.0f, 0.1f, false);
+	mAttack = new Attack(L"Content/Models/ball.x", 20.0f, 400.0f, 10.0f, false, 10.0f, D3DXVECTOR3(5.0f, 5.0f, 5.0f));
 	mAttack->setTextures(L"Content/Textures/tex_fire.dds", L"Content/Textures/tex_fire_n.dds");
 }
 

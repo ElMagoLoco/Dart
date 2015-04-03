@@ -301,7 +301,7 @@ Level 1
 void EventProcessLevel1::beginEvent()
 {
 	// load the level info from the file
-	g_levelImp->loadLevel(L"Content\\Levels\\RealV0D.dlvl");
+	g_levelImp->loadLevel(L"Content\\Levels\\NewGoalTest.dlvl");
 	//make level
 	gCurrentLevel = new Level(D3DXVECTOR3(-3000.0f, 0.0f, -3000.0f), 
 		D3DXVECTOR3(6000.0f, 0.0f, 6000.0f));
@@ -341,12 +341,46 @@ void EventProcessLevel1::beginEvent()
 
 	//add enemies to level
 	for (int i = 0; i < g_levelImp->getNumEnemies(); ++i) {
-		gCurrentLevel->getSpawner()->addEnemy(new EnemyMelee(L"Content/Models/BeeZV2.X", L"Content/Textures/tex_fire.dds",
-			L"Content/Textures/tex_fire_n.dds", "Content/Audio/sndEnemy1Attack.wav", 
-			"Content/Audio/sndEnemy1Death.wav", "Content/Audio/sndEnemy1GetHit.wav",
-			g_levelImp->getEnemyList()[i].getPos(), 30.0f, 40.0f, D3DXVECTOR3(1.50f, 1.50f, 1.50f)));
+		switch (g_levelImp->getEnemyList()[i].getPawnType())
+		{
+		case EditorPawn::PawnType::PT_EnemyMeleeSpawnLocale:
+		{
+			gCurrentLevel->getSpawner()->addEnemy(new EnemyMelee(
+				L"Content/Models/BeeZV2.X", L"Content/Textures/tex_snail.dds",
+				L"Content/Textures/tex_snail_n.dds", "Content/Audio/sndEnemy1Attack.wav",
+				"Content/Audio/sndEnemy1Death.wav", "Content/Audio/sndEnemy1GetHit.wav",
+				g_levelImp->getEnemyList()[i].getPos(), 30.0f, 40.0f, D3DXVECTOR3(1.50f, 1.50f, 1.50f)));
+			break;
+		}
+		case EditorPawn::PawnType::PT_EnemySeedSpawnLocale:
+		{
+			gCurrentLevel->getSpawner()->addEnemy(new EnemySeeds(
+				L"Content/Models/BeeZV2.X", L"Content/Textures/tex_bee.dds",
+				L"Content/Textures/tex_bee_n.dds", "Content/Audio/sndEnemy1Attack.wav",
+				"Content/Audio/sndEnemy1Death.wav", "Content/Audio/sndEnemy1GetHit.wav",
+				g_levelImp->getEnemyList()[i].getPos(), 30.0f, 40.0f, D3DXVECTOR3(1.50f, 1.50f, 1.50f)));
+			break;
+		}
+		case EditorPawn::PawnType::PT_EnemyFireSpawnLocale:
+		{
+			gCurrentLevel->getSpawner()->addEnemy(new EnemyFire(
+				L"Content/Models/BeeZV2.X", L"Content/Textures/tex_ant.dds",
+				L"Content/Textures/tex_ant_n.dds", "Content/Audio/sndEnemy1Attack.wav",
+				"Content/Audio/sndEnemy1Death.wav", "Content/Audio/sndEnemy1GetHit.wav",
+				g_levelImp->getEnemyList()[i].getPos(), 30.0f, 40.0f, D3DXVECTOR3(1.50f, 1.50f, 1.50f)));
+			break;
+		}
+		}
 	}
-
+	//add goal
+	PickUp* goalPickup = new PickUp(L"Content\\Models\\ball.x",
+		L"Content\\Textures\\tex_bart.dds",
+		L"Content\\Textures\\tex_bart_n.dds",
+		"Content\\Audio\\sndMenuKeyPress.wav",
+		ePickUpType::PICKUP_GOAL,
+		g_levelImp->getGoal().getPos(),
+		D3DXVECTOR3(5.0f, 5.0f, 5.0f),//g_levelImp->getPickupList()[i].getScale(), 
+		20.0f);
 	// add pickups
 	for (int i = 0; i < g_levelImp->getNumPickups(); ++i) {
 		switch (g_levelImp->getPickupList()[i].getPawnType()) 

@@ -12,8 +12,14 @@ PickUpBonus:9
 PickUpAmmoSeed:10
 PickUpAmmoFire:11
 FleePoint:12
-PawnCount:1
+PawnCount:3
 0:Type:5
 0:Solid:0
-0:Position:0,0,0
+0:Position:-1132.49,0,0
+1:Type:3
+1:Solid:0
+1:Position:0,0,0
+2:Type:4
+2:Solid:0
+2:Position:290.412,0,-21.2857
 FloorCreated:0
