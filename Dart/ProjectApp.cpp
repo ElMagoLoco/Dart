@@ -239,7 +239,7 @@ void ProjectApp::initStateMachine()
 	*******************************************************************/
 	State* sWin = new State();
 	//create menu event
-	EventDisplayMenuLoss* eWinMenu = new EventDisplayMenuLoss();
+	EventDisplayMenuWin* eWinMenu = new EventDisplayMenuWin();
 	//add event to state
 	sWin->addEvent(eWinMenu);
 	//music

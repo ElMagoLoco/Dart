@@ -301,7 +301,7 @@ Level 1
 void EventProcessLevel1::beginEvent()
 {
 	// load the level info from the file
-	g_levelImp->loadLevel(L"Content\\Levels\\NewGoalTest.dlvl");
+	g_levelImp->loadLevel(L"Content\\Levels\\FinalLevelV0.dlvl");
 	//make level
 	gCurrentLevel = new Level(D3DXVECTOR3(-3000.0f, 0.0f, -3000.0f), 
 		D3DXVECTOR3(6000.0f, 0.0f, 6000.0f));
@@ -381,6 +381,7 @@ void EventProcessLevel1::beginEvent()
 		g_levelImp->getGoal().getPos(),
 		D3DXVECTOR3(5.0f, 5.0f, 5.0f),//g_levelImp->getPickupList()[i].getScale(), 
 		20.0f);
+	gCurrentLevel->getPickUps()->addPickUp(goalPickup);
 	// add pickups
 	for (int i = 0; i < g_levelImp->getNumPickups(); ++i) {
 		switch (g_levelImp->getPickupList()[i].getPawnType()) 
