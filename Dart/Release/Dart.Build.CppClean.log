@@ -1,28 +1,35 @@
-c:\users\kene\desktop\dart demo project\gamedemo\dart\dart\release\vc120.pdb
-c:\users\kene\desktop\dart demo project\gamedemo\dart\dart\release\projectapp.obj
-c:\users\kene\desktop\dart demo project\gamedemo\dart\dart\release\player.obj
-c:\users\kene\desktop\dart demo project\gamedemo\dart\dart\release\pickup.obj
-c:\users\kene\desktop\dart demo project\gamedemo\dart\dart\release\pathnode.obj
-c:\users\kene\desktop\dart demo project\gamedemo\dart\dart\release\mesh.obj
-c:\users\kene\desktop\dart demo project\gamedemo\dart\dart\release\levelimporter.obj
-c:\users\kene\desktop\dart demo project\gamedemo\dart\dart\release\level.obj
-c:\users\kene\desktop\dart demo project\gamedemo\dart\dart\release\framestats.obj
-c:\users\kene\desktop\dart demo project\gamedemo\dart\dart\release\enemy.obj
-c:\users\kene\desktop\dart demo project\gamedemo\dart\dart\release\effect.obj
-c:\users\kene\desktop\dart demo project\gamedemo\dart\dart\release\editorpawn.obj
-c:\users\kene\desktop\dart demo project\gamedemo\dart\dart\release\directinput.obj
-c:\users\kene\desktop\dart demo project\gamedemo\dart\dart\release\d3dutils.obj
-c:\users\kene\desktop\dart demo project\gamedemo\dart\dart\release\d3dapp.obj
-c:\users\kene\desktop\dart demo project\gamedemo\dart\dart\release\camera.obj
-c:\users\kene\desktop\dart demo project\gamedemo\dart\dart\release\button.obj
-c:\users\kene\desktop\dart demo project\gamedemo\dart\dart\release\bounds.obj
-c:\users\kene\desktop\dart demo project\gamedemo\dart\dart\release\attack.obj
-c:\users\kene\desktop\dart demo project\gamedemo\dart\dart\release\animation.obj
-c:\users\kene\desktop\dart demo project\gamedemo\dart\dart\release\vertex.obj
-c:\users\kene\desktop\dart demo project\gamedemo\dart\dart\release\userinterface.obj
-c:\users\kene\desktop\dart demo project\gamedemo\dart\dart\release\texture2d.obj
-c:\users\kene\desktop\dart demo project\gamedemo\dart\dart\release\statemachine.obj
-c:\users\kene\desktop\dart demo project\gamedemo\dart\dart\release\sound.obj
-c:\users\kene\desktop\dart demo project\gamedemo\dart\dart\release\dart.tlog\cl.command.1.tlog
-c:\users\kene\desktop\dart demo project\gamedemo\dart\dart\release\dart.tlog\cl.read.1.tlog
-c:\users\kene\desktop\dart demo project\gamedemo\dart\dart\release\dart.tlog\cl.write.1.tlog
+d:\dart\dart\dart\dart\release\vc120.pdb
+d:\dart\dart\dart\dart\release\projectapp.obj
+d:\dart\dart\dart\dart\release\player.obj
+d:\dart\dart\dart\dart\release\pickup.obj
+d:\dart\dart\dart\dart\release\pathnode.obj
+d:\dart\dart\dart\dart\release\mesh.obj
+d:\dart\dart\dart\dart\release\menu.obj
+d:\dart\dart\dart\dart\release\levelimporter.obj
+d:\dart\dart\dart\dart\release\level.obj
+d:\dart\dart\dart\dart\release\framestats.obj
+d:\dart\dart\dart\dart\release\enemy.obj
+d:\dart\dart\dart\dart\release\effect.obj
+d:\dart\dart\dart\dart\release\editorpawn.obj
+d:\dart\dart\dart\dart\release\directinput.obj
+d:\dart\dart\dart\dart\release\d3dutils.obj
+d:\dart\dart\dart\dart\release\d3dapp.obj
+d:\dart\dart\dart\dart\release\camera.obj
+d:\dart\dart\dart\dart\release\button.obj
+d:\dart\dart\dart\dart\release\bounds.obj
+d:\dart\dart\dart\dart\release\attack.obj
+d:\dart\dart\dart\dart\release\animation.obj
+d:\dart\dart\dart\dart\release\vertex.obj
+d:\dart\dart\dart\dart\release\userinterface.obj
+d:\dart\dart\dart\dart\release\texture2d.obj
+d:\dart\dart\dart\dart\release\statemachine.obj
+d:\dart\dart\dart\dart\release\sound.obj
+d:\dart\dart\dart\dart\release\text.obj
+d:\dart\dart\dart\release\dart.exe
+d:\dart\dart\dart\release\dart.pdb
+d:\dart\dart\dart\dart\release\dart.tlog\cl.command.1.tlog
+d:\dart\dart\dart\dart\release\dart.tlog\cl.read.1.tlog
+d:\dart\dart\dart\dart\release\dart.tlog\cl.write.1.tlog
+d:\dart\dart\dart\dart\release\dart.tlog\link.command.1.tlog
+d:\dart\dart\dart\dart\release\dart.tlog\link.read.1.tlog
+d:\dart\dart\dart\dart\release\dart.tlog\link.write.1.tlog

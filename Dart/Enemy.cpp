@@ -9,10 +9,12 @@ Enemy::Enemy(LPCWSTR _meshName, LPCWSTR _textureName, LPCWSTR _normalTexName,
 	_radius, _meshScale), mLoseSightPlayer(10.0f), mLoseSightFollower(10.0f)
 {
 	mState = PSTATE_WANDER;
-
+	// TODO BUG: As far as I know, this is causing a memory every time an enemy is created
 	FR(gSound->getSystem()->createSound(_attackSound, FMOD_DEFAULT, 0, &enemyAttack));
 	FR(gSound->getSystem()->createSound(_deathSound, FMOD_DEFAULT, 0, &enemyDeath));
 	FR(gSound->getSystem()->createSound(_getHitSound, FMOD_DEFAULT, 0, &enemyGetHit));
+	// TODO: this needs to be moved to a point where the enemy begins to move or is still
+	bIsMoving = true;
 }
 
 Enemy::~Enemy()

@@ -165,8 +165,8 @@ AnimMesh::AnimMesh(LPCWSTR _mesh, LPCWSTR _texture, LPCWSTR _normal, D3DXVECTOR3
 {
 	// Create frame hierarchy
 	AllocMeshHierarchy allocMeshHierarchy;
-	D3DXLoadMeshHierarchyFromX(_mesh, D3DXMESH_SYSTEMMEM, gD3DDevice, &allocMeshHierarchy,
-		0, &mRoot, &mAnimController);
+	HR(D3DXLoadMeshHierarchyFromX(_mesh, D3DXMESH_SYSTEMMEM, gD3DDevice, &allocMeshHierarchy,
+		0, &mRoot, &mAnimController));
 
 
 	// we assume that the input .x file contains only one mesh.  

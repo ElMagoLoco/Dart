@@ -1,6 +1,1 @@
-﻿  LevelImporter.cpp
-  StateMachine.cpp
-StateMachine.cpp(394): error C2109: subscript requires array or pointer type
-StateMachine.cpp(394): error C2228: left of '.getPos' must have class/struct/union
-StateMachine.cpp(394): error C2228: left of '.x' must have class/struct/union
-StateMachine.cpp(394): error C2228: left of '.z' must have class/struct/union
+﻿
