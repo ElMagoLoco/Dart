@@ -9,6 +9,7 @@
 #include "WallPawn.h"
 #include "PickUpPawn.h"
 #include "FleePointPawn.h"
+#include "GoalPawn.h"
 #include "resource.h"
 
 using namespace Fugui;
@@ -263,7 +264,7 @@ void DartLevelEditorApp::saveLevel(CString filename)
 	ofs << L"EnemySeedSpawnLocale:" << EditorPawn::PawnType::PT_EnemySeedSpawnLocale << L'\n';
 	ofs << L"DartSpawnLocale:" << EditorPawn::PawnType::PT_DartSpawnLocale << L'\n';
 	ofs << L"BartSpawnLocale:" << EditorPawn::PawnType::PT_BartSpawnLocale << L'\n';
-	ofs << L"PointOfLevelLocale:" << EditorPawn::PawnType::PT_PointOfLevelLocale << L'\n';
+	ofs << L"GoalSpawnLocale:" << EditorPawn::PawnType::PT_PointOfLevelLocale << L'\n';
 	ofs << L"RockLocale:" << EditorPawn::PawnType::PT_RockLocale << L'\n';
 	ofs << L"Wall:" << EditorPawn::PawnType::PT_Wall << L'\n';
 	ofs << L"PickUpHeal:" << EditorPawn::PawnType::PT_Pickup_Heal << L'\n';
@@ -313,7 +314,9 @@ void DartLevelEditorApp::saveLevel(CString filename)
 		break;
 		case EditorPawn::PawnType::PT_PointOfLevelLocale:
 		{
-
+			ofs << i << L":" << L"Type:" << m_pawnList[i].getPawnType() << L'\n';
+			ofs << i << L":" << L"Solid:" << m_pawnList[i].getSolid() << L'\n';
+			ofs << i << L":" << L"Position:" << m_pawnList[i].getPos().x << L"," << m_pawnList[i].getPos().y << L"," << m_pawnList[i].getPos().z << L'\n';
 		}
 		break;
 		case EditorPawn::PawnType::PT_RockLocale:
@@ -525,7 +528,20 @@ void DartLevelEditorApp::loadLevel(CString filename)
 		break;
 		case EditorPawn::PawnType::PT_PointOfLevelLocale:
 		{
+			ifs.getline(token, 64, L':');
+			ifs.getline(token, 64, L':');
+			ifs.getline(token, 64, L',');
 
+			float x, y, z;
+
+			x = (float)_wtof(token);
+			ifs.getline(token, 64, L',');
+			y = (float)_wtof(token);
+			ifs.getline(token, 64);
+			z = (float)_wtof(token);
+			createGoalSpawn(D3DXVECTOR3(x, y, z));
+			m_dlg.insertToPawnList(L"Goal Spawn Point");
+			m_dlg.setGoalCreated(true);
 		}
 		break;
 		case EditorPawn::PawnType::PT_RockLocale:
@@ -830,6 +846,16 @@ void DartLevelEditorApp::setPawnLocation(UINT id, D3DXVECTOR3& pos)
 {
 	m_pawnList[id].setPos(pos);
 	m_pawnList[id].update(0.0f);
+}
+
+void DartLevelEditorApp::createGoalSpawn(D3DXVECTOR3& initPos /*= D3DXVECTOR3(0.0f, 0.0f, 0.0f)*/)
+{
+	GoalPawn goal;
+
+	goal.setMeshID(m_nSphereMeshID);
+	goal.setPos(initPos);
+	goal.update(0.0f);
+	m_pawnList.push_back(goal);
 }
 
 DartLevelEditorApp theApp; 

@@ -96,6 +96,7 @@
     <ClCompile Include="FleePointPawn.cpp" />
     <ClCompile Include="FxManager.cpp" />
     <ClCompile Include="GfxStats.cpp" />
+    <ClCompile Include="GoalPawn.cpp" />
     <ClCompile Include="LocParams.cpp" />
     <ClCompile Include="PickUpDlg.cpp" />
     <ClCompile Include="PickUpPawn.cpp" />
@@ -118,6 +119,7 @@
     <ClInclude Include="FleePointPawn.h" />
     <ClInclude Include="FxManager.h" />
     <ClInclude Include="GfxStats.h" />
+    <ClInclude Include="GoalPawn.h" />
     <ClInclude Include="LocParams.h" />
     <ClInclude Include="PickUpDlg.h" />
     <ClInclude Include="PickUpPawn.h" />

@@ -75,6 +75,9 @@
     <ClCompile Include="EnemyPawn.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GoalPawn.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="D3DApp.h">
@@ -141,6 +144,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="EnemyPawn.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GoalPawn.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -25,6 +25,7 @@ ON_BN_CLICKED(IDC_BTN_DELETEOBJECT, &DartDlg::OnBnClickedBtnDeleteobject)
 ON_BN_CLICKED(IDC_BTN_PICKUPSPAWN, &DartDlg::OnBnClickedBtnPickupspawn)
 ON_BN_CLICKED(IDC_BTN_FLEEPOINT, &DartDlg::OnBnClickedBtnFleepoint)
 ON_BN_CLICKED(IDC_BTN_SETLOCATION, &DartDlg::OnBnClickedBtnSetlocation)
+ON_BN_CLICKED(IDC_BTN_GOALSPWAN, &DartDlg::OnBnClickedBtnGoalspwan)
 END_MESSAGE_MAP()
 
 DartDlg::DartDlg() :
@@ -33,6 +34,7 @@ m_nFloorLength(0),
 m_bFloorCreated(false),
 m_bBartCreated(false),
 m_bDartCreated(false),
+m_bGoalCreated(false),
 m_nWallWidth(0),
 m_nWallLength(0),
 m_nWallHeigth(0)
@@ -185,15 +187,6 @@ void DartDlg::OnBnClickedBtnAntzspawn()
 	}
 	break;
 	}
-
-// 	theApp.createEnemySpawn();
-// 
-// 	CComboBox* list = (CComboBox*)GetDlgItem(IDC_LIST_PAWNSELECTOR);
-// 	CString temp = L"Antz Spawn Point_";
-// 	wchar_t temp1[32];
-// 	_itow_s(++count, temp1, 10);
-// 	temp += temp1;
-// 	insertToPawnList(temp);
 }
 
 void DartDlg::OnCbnSelchangeListPawnselector()
@@ -347,5 +340,20 @@ void DartDlg::OnBnClickedBtnSetlocation()
 		float z = (float)dlg.m_nZ;
 
 		theApp.setPawnLocation(selected, D3DXVECTOR3(x, y, z));
+	}
+}
+
+
+void DartDlg::OnBnClickedBtnGoalspwan()
+{
+	if (false == m_bGoalCreated) {
+		theApp.createGoalSpawn();
+
+		insertToPawnList(L"Goal Spawn Point");
+
+		m_bGoalCreated = true;
+	}
+	else {
+		MessageBox(L"Goal Spawn Point already created", L"ERROR!", MB_OK | MB_ICONERROR);
 	}
 }

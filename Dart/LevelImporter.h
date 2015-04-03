@@ -17,6 +17,7 @@ public:
 	EditorPawn getDart() const { return m_dart; }
 	//void setDart(EditorPawn val) { m_dart = val; }
 	EditorPawn getBart() const { return m_bart; }
+	EditorPawn getGoal() const { return m_goal; }
 	//void setBart(EditorPawn val) { m_bart = val; }
 	int getNumPawns() const { return m_nNumPawns; }
 	//void setNumPawns(int val) { m_nNumPawns = val; }
@@ -37,6 +38,7 @@ protected:
 
 	EditorPawn		m_dart;
 	EditorPawn		m_bart;
+	EditorPawn		m_goal;
 
 	int		m_nNumPawns;
 	int		m_nNumWalls;

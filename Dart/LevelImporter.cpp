@@ -183,7 +183,21 @@ int LevelImporter::loadLevel(wchar_t* fileName)
 		break;
 		case EditorPawn::PawnType::PT_PointOfLevelLocale:
 		{
+			ifs.getline(token, 64, L':');
+			ifs.getline(token, 64, L':');
+			ifs.getline(token, 64, L',');
 
+			float x, y, z;
+
+			x = (float)_wtof(token);
+			ifs.getline(token, 64, L',');
+			y = (float)_wtof(token);
+			ifs.getline(token, 64);
+			z = (float)_wtof(token);
+
+			m_goal = EditorPawn(EditorPawn::PawnType::PT_PointOfLevelLocale, D3DXVECTOR3(x, y, z));
+			m_goal.setSolid(solid);
+			++m_nNumPawns;
 		}
 		break;
 		case EditorPawn::PawnType::PT_RockLocale:

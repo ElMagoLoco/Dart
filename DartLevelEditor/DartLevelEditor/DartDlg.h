@@ -37,6 +37,8 @@ public:
 	int getWallLength() const { return m_nWallLength; }
 	void setWallLength(int val) { m_nWallLength = val; }
 	int getSelectedPowerUp() const { return m_nSelectedPowerUp; }
+	bool getGoalCreated() const { return m_bGoalCreated; }
+	void setGoalCreated(bool val) { m_bGoalCreated = val; }
 
 	DartDlg();
 	~DartDlg();
@@ -65,8 +67,11 @@ protected:
 	bool		m_bFloorCreated;
 	bool		m_bBartCreated;
 	bool		m_bDartCreated;
+	bool		m_bGoalCreated;
+
 public:
 	afx_msg void OnBnClickedBtnFleepoint();
 	afx_msg void OnBnClickedBtnSetlocation();
+	afx_msg void OnBnClickedBtnGoalspwan();
 };
 
