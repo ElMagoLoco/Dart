@@ -22,6 +22,7 @@ public:
 	void onResetDevice();
 	void addButton(Button* _newButton);//add a new button
 	void addTexture(Texture2D* _newTexture);//add a non-button texture
+	void moveTexture(UINT _index, float _x, float _y);
 	void addText(Text* _newText); //add text
 
 protected:

@@ -125,6 +125,11 @@ void Menu::addTexture(Texture2D* _newTexture)
 {
 	mTextures.push_back(_newTexture);
 }
+
+void Menu::moveTexture(UINT _index, float _x, float _y)
+{
+	mTextures[_index]->setPosition(_x, _y);
+}
 //add new text
 void Menu::addText(Text* _newText)
 {
