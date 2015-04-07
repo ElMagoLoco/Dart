@@ -509,7 +509,7 @@ EnemyMelee::EnemyMelee(LPCWSTR _meshName, LPCWSTR _textureName, LPCWSTR _normalT
 	mAttackDistanceSq = 10000.0f;//100
 	mClosestDistanceSq = 6500.0f;//80
 	mAttackDelay = 1.0f;
-	mFearHealth = mHealthMax *.667f;
+	mFearHealth = mHealthMax * .6;
 	mPoints = 100.0f;
 	mPointDrain = 1.0f;
 	mMinPoints = 50.0f;
@@ -518,7 +518,7 @@ EnemyMelee::EnemyMelee(LPCWSTR _meshName, LPCWSTR _textureName, LPCWSTR _normalT
 	mHearRangeSq = 10000.0f;//100
 	mLoseSightPlayer = 1.0f;
 	mLoseSightFollower = 1.0f;
-	mSpeed = 300.0f;
+	mSpeed = 275.0f;
 	mAttack = new Attack(L"Content/Models/ball.x", 10.0f, 400.0f, 0.1f, false);
 	mAttack->setTextures(L"Content/Textures/tex_fire.dds", L"Content/Textures/tex_fire_n.dds");
 }
@@ -533,7 +533,7 @@ EnemySeeds::EnemySeeds(LPCWSTR _meshName, LPCWSTR _textureName, LPCWSTR _normalT
 	mAttackDistanceSq = 4000000.0f;//2000
 	mClosestDistanceSq = 160000.0f;//400
 	mAttackDelay = 1.0f;
-	mFearHealth = mHealthMax * .667f;
+	mFearHealth = mHealthMax * .7f;
 	mPoints = 200.0f;
 	mPointDrain = 1.5f;
 	mMinPoints = 75.0f;
@@ -542,7 +542,7 @@ EnemySeeds::EnemySeeds(LPCWSTR _meshName, LPCWSTR _textureName, LPCWSTR _normalT
 	mHearRangeSq = 10000.0f;//100
 	mLoseSightPlayer = 1.0f;
 	mLoseSightFollower = 1.0f;
-	mSpeed = 250.0f;
+	mSpeed = 235.0f;
 	mAttack = new Attack(L"Content/Models/ball.x", 15.0f, 400.0f, 10.0f, false, 10.0f, D3DXVECTOR3(5.0f, 5.0f, 5.0f));
 	mAttack->setTextures(L"Content/Textures/tex_seed.dds", L"Content/Textures/tex_seed_n.dds");
 }
@@ -557,7 +557,7 @@ EnemyFire::EnemyFire(LPCWSTR _meshName, LPCWSTR _textureName, LPCWSTR _normalTex
 	mAttackDistanceSq = 4000000.0f;//2000
 	mClosestDistanceSq = 160000.0f;//400
 	mAttackDelay = 1.0f;
-	mFearHealth = mHealthMax * .667f;
+	mFearHealth = mHealthMax * .9f;
 	mPoints = 300.0f;
 	mPointDrain = 2.0f;
 	mMinPoints = 100.0f;
@@ -566,7 +566,7 @@ EnemyFire::EnemyFire(LPCWSTR _meshName, LPCWSTR _textureName, LPCWSTR _normalTex
 	mHearRangeSq = 10000.0f;//100
 	mLoseSightPlayer = 1.0f;
 	mLoseSightFollower = 1.0f;
-	mSpeed = 300.0f;
+	mSpeed = 275.0f;
 	mAttack = new Attack(L"Content/Models/ball.x", 20.0f, 400.0f, 10.0f, false, 10.0f, D3DXVECTOR3(5.0f, 5.0f, 5.0f));
 	mAttack->setTextures(L"Content/Textures/tex_fire.dds", L"Content/Textures/tex_fire_n.dds");
 }

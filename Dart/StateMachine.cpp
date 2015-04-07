@@ -266,9 +266,31 @@ void EventDisplayUserInterface::beginEvent()
 	ButtonSetAttackFire* bFire = new ButtonSetAttackFire(L"Content/Textures/ui_icon_fire.png",
 		0.9f, 0.2f, 64, 64, 0.1f, 0.1f);
 	mInterface->addButton(bFire);
-	/*Text* scoreText = new Text(L"Times New Roman", 30, 0.002f, 0.0f,
-		D3DCOLOR_ARGB(255, 255, 0, 0));
-	mInterface->addText(scoreText);*/
+	Texture2D* tLeftChoice = new Texture2D(L"Content/Textures/ui_icon_left_mouse_choice.png",
+		0.9f, 0.0f, 64, 64, 0.1f, 0.1f);
+	mInterface->addTexture(tLeftChoice);
+	Texture2D* tRightChoice = new Texture2D(L"Content/Textures/ui_icon_right_mouse_choice.png",
+		0.9f, 0.0f, 64, 64, 0.1f, 0.1f);
+	mInterface->addTexture(tRightChoice);
+}
+
+void EventDisplayUserInterface::updateEvent(float _dt)
+{
+	switch (gPlayer->getLeftAttack())
+	{
+	case A_NONE:	mInterface->moveTexture(0, 0.9f, -0.1f); break;
+	case A_MELEE:	mInterface->moveTexture(0, 0.9f, 0.0f);  break;
+	case A_SEED:	mInterface->moveTexture(0, 0.9f, 0.1f);  break;
+	case A_FIRE:	mInterface->moveTexture(0, 0.9f, 0.2f);  break;
+	}
+	switch (gPlayer->getRightAttack())
+	{
+	case A_NONE:	mInterface->moveTexture(1, 0.9f, -0.1f); break;
+	case A_MELEE:	mInterface->moveTexture(1, 0.9f, 0.0f);  break;
+	case A_SEED:	mInterface->moveTexture(1, 0.9f, 0.1f);  break;
+	case A_FIRE:	mInterface->moveTexture(1, 0.9f, 0.2f);  break;
+	}
+	mInterface->update(_dt);
 }
 
 /*******************************************************************
@@ -301,7 +323,7 @@ Level 1
 void EventProcessLevel1::beginEvent()
 {
 	// load the level info from the file
-	g_levelImp->loadLevel(L"Content\\Levels\\FinalLevelV0.dlvl");
+	g_levelImp->loadLevel(L"Content\\Levels\\FinalLevelV1.dlvl");
 	//make level
 	gCurrentLevel = new Level(D3DXVECTOR3(-3000.0f, 0.0f, -3000.0f), 
 		D3DXVECTOR3(6000.0f, 0.0f, 6000.0f));
@@ -346,7 +368,7 @@ void EventProcessLevel1::beginEvent()
 		case EditorPawn::PawnType::PT_EnemyMeleeSpawnLocale:
 		{
 			gCurrentLevel->getSpawner()->addEnemy(new EnemyMelee(
-				L"Content/Models/BeeZV2.X", L"Content/Textures/tex_snail.dds",
+				L"Content/Models/BeeZFinal.X", L"Content/Textures/tex_snail.dds",
 				L"Content/Textures/tex_snail_n.dds", "Content/Audio/sndEnemy1Attack.wav",
 				"Content/Audio/sndEnemy1Death.wav", "Content/Audio/sndEnemy1GetHit.wav",
 				g_levelImp->getEnemyList()[i].getPos(), 30.0f, 40.0f, D3DXVECTOR3(1.50f, 1.50f, 1.50f)));
@@ -355,7 +377,7 @@ void EventProcessLevel1::beginEvent()
 		case EditorPawn::PawnType::PT_EnemySeedSpawnLocale:
 		{
 			gCurrentLevel->getSpawner()->addEnemy(new EnemySeeds(
-				L"Content/Models/BeeZV2.X", L"Content/Textures/tex_bee.dds",
+				L"Content/Models/BeeZFinal.X", L"Content/Textures/tex_bee.dds",
 				L"Content/Textures/tex_bee_n.dds", "Content/Audio/sndEnemy1Attack.wav",
 				"Content/Audio/sndEnemy1Death.wav", "Content/Audio/sndEnemy1GetHit.wav",
 				g_levelImp->getEnemyList()[i].getPos(), 30.0f, 40.0f, D3DXVECTOR3(1.50f, 1.50f, 1.50f)));
@@ -364,7 +386,7 @@ void EventProcessLevel1::beginEvent()
 		case EditorPawn::PawnType::PT_EnemyFireSpawnLocale:
 		{
 			gCurrentLevel->getSpawner()->addEnemy(new EnemyFire(
-				L"Content/Models/BeeZV2.X", L"Content/Textures/tex_ant.dds",
+				L"Content/Models/BeeZFinal.X", L"Content/Textures/tex_ant.dds",
 				L"Content/Textures/tex_ant_n.dds", "Content/Audio/sndEnemy1Attack.wav",
 				"Content/Audio/sndEnemy1Death.wav", "Content/Audio/sndEnemy1GetHit.wav",
 				g_levelImp->getEnemyList()[i].getPos(), 30.0f, 40.0f, D3DXVECTOR3(1.50f, 1.50f, 1.50f)));
@@ -396,7 +418,7 @@ void EventProcessLevel1::beginEvent()
 									ePickUpType::PICKUP_HEAL,
 									g_levelImp->getPickupList()[i].getPos(), 
 									D3DXVECTOR3(5.0f, 5.0f, 5.0f),//g_levelImp->getPickupList()[i].getScale(), 
-									20.0f);
+									25.0f);
 
 			gCurrentLevel->getPickUps()->addPickUp(newPickup);
 		}
@@ -426,7 +448,7 @@ void EventProcessLevel1::beginEvent()
 									ePickUpType::PICKUP_AMMO_SEED,
 									g_levelImp->getPickupList()[i].getPos(),
 									D3DXVECTOR3(5.0f, 5.0f, 5.0f),//g_levelImp->getPickupList()[i].getScale(),
-									10.0f);
+									20.0f);
 
 			gCurrentLevel->getPickUps()->addPickUp(newPickup);
 		}
@@ -441,7 +463,7 @@ void EventProcessLevel1::beginEvent()
 									ePickUpType::PICKUP_AMMO_FIRE,
 									g_levelImp->getPickupList()[i].getPos(),
 									D3DXVECTOR3(5.0f, 5.0f, 5.0f),//g_levelImp->getPickupList()[i].getScale(),
-									10.0f);
+									20.0f);
 
 			gCurrentLevel->getPickUps()->addPickUp(newPickup);
 		}

@@ -66,11 +66,11 @@ Player::Player(LPCWSTR _meshName, LPCWSTR _textureName, LPCWSTR _normalTexName,
 	Pawn(_meshName, _textureName, _normalTexName, _startPosition, _healthMax, _radius,
 	_meshScale), 
 	//starting with full ammo here, but that won't be the case in the actual game
-	mAmmoSeeds(100), mAmmoSeedsMax(100), mAmmoFire(100), mAmmoFireMax(100), mScore(0),
+	mAmmoSeeds(0), mAmmoSeedsMax(100), mAmmoFire(0), mAmmoFireMax(100), mScore(0),
 	mLeftAttack(A_MELEE), mRightAttack(A_SEED)
 {
 	mSpeed = 400.0f;
-	mAttackDelay = 1.0f;
+	mAttackDelay = 0.9f;
 
 	FR(gSound->getSystem()->createSound("Content/Audio/sndPlayerAttackFire.wav", FMOD_DEFAULT, 0, &playerAttackFire));
 	FR(gSound->getSystem()->createSound("Content/Audio/sndPlayerAttackMelee.wav", FMOD_DEFAULT, 0, &playerAttackMelee));
