@@ -513,7 +513,7 @@ EnemyMelee::EnemyMelee(LPCWSTR _meshName, LPCWSTR _textureName, LPCWSTR _normalT
 	mPoints = 100.0f;
 	mPointDrain = 1.0f;
 	mMinPoints = 50.0f;
-	mSightRangeSq = 1000000.0f;//1000
+	mSightRangeSq = 810000.0f;//900
 	mHearAttackRangeSq = 62500.0f;//250
 	mHearRangeSq = 10000.0f;//100
 	mLoseSightPlayer = 1.0f;
@@ -530,14 +530,14 @@ EnemySeeds::EnemySeeds(LPCWSTR _meshName, LPCWSTR _textureName, LPCWSTR _normalT
 	_startPosition, _healthMax,	_radius, _meshScale)
 {
 	mRanged = true;
-	mAttackDistanceSq = 4000000.0f;//2000
+	mAttackDistanceSq = 1000000.0f;//1000
 	mClosestDistanceSq = 160000.0f;//400
 	mAttackDelay = 1.0f;
 	mFearHealth = mHealthMax * .7f;
 	mPoints = 200.0f;
 	mPointDrain = 1.5f;
 	mMinPoints = 75.0f;
-	mSightRangeSq = 1000000.0f;//1000
+	mSightRangeSq = 810000.0f;//900
 	mHearAttackRangeSq = 62500.0f;//250
 	mHearRangeSq = 10000.0f;//100
 	mLoseSightPlayer = 1.0f;
@@ -554,14 +554,14 @@ EnemyFire::EnemyFire(LPCWSTR _meshName, LPCWSTR _textureName, LPCWSTR _normalTex
 	_startPosition, _healthMax,	_radius, _meshScale)
 {
 	mRanged = true;
-	mAttackDistanceSq = 4000000.0f;//2000
+	mAttackDistanceSq = 1000000.0f;//1000
 	mClosestDistanceSq = 160000.0f;//400
 	mAttackDelay = 1.0f;
 	mFearHealth = mHealthMax * .9f;
 	mPoints = 300.0f;
 	mPointDrain = 2.0f;
 	mMinPoints = 100.0f;
-	mSightRangeSq = 1000000.0f;//1000
+	mSightRangeSq = 810000.0f;//900
 	mHearAttackRangeSq = 62500.0f;//250
 	mHearRangeSq = 10000.0f;//100
 	mLoseSightPlayer = 1.0f;

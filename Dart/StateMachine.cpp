@@ -272,6 +272,18 @@ void EventDisplayUserInterface::beginEvent()
 	Texture2D* tRightChoice = new Texture2D(L"Content/Textures/ui_icon_right_mouse_choice.png",
 		0.9f, 0.0f, 64, 64, 0.1f, 0.1f);
 	mInterface->addTexture(tRightChoice);
+	Texture2D* tHealthDart = new Texture2D(L"Content/Textures/ui_bar_health_dart_text.png", 0.0f, 0.85f,
+		64, 16, 0.1f, 0.05f);
+	mInterface->addTexture(tHealthDart);
+	Texture2D* tHealthBart = new Texture2D(L"Content/Textures/ui_bar_health_bart_text.png", 0.0f, 0.9f,
+		64, 16, 0.1f, 0.05f);
+	mInterface->addTexture(tHealthBart);
+	Texture2D* tSeedAmmo = new Texture2D(L"Content/Textures/ui_bar_ammo_seed_text.png",
+		0.88f, 0.85f, 64, 16, 0.1f, 0.05f);
+	mInterface->addTexture(tSeedAmmo);
+	Texture2D* tFireAmmo = new Texture2D(L"Content/Textures/ui_bar_ammo_fire_text.png",
+		0.88f, 0.9f, 64, 16, 0.1f, 0.05f);
+	mInterface->addTexture(tFireAmmo);
 }
 
 void EventDisplayUserInterface::updateEvent(float _dt)

@@ -207,6 +207,7 @@ void Player::update(float _dt)
 		else
 			attackType = A_NONE;
 
+		bool attacked = false;
 		if (attackType != A_NONE)
 		{
 			Attack* attack;
@@ -216,6 +217,7 @@ void Player::update(float _dt)
 			case A_MELEE:
 				attack = new Attack(L"", 20.0f, 400.0f, 0.1f, true);
 				gSound->getSystem()->playSound(FMOD_CHANNEL_FREE,playerAttackMelee, false, 0);
+				attacked = true;
 				break;
 			case A_SEED:
 				if (mAmmoSeeds > 0)
@@ -225,6 +227,7 @@ void Player::update(float _dt)
 						D3DXVECTOR3(4.0f, 4.0f, 4.0f));
 					attack->setTextures(L"Content/Textures/tex_seed.dds", L"Content/Textures/tex_seed_n.dds");
 					gSound->getSystem()->playSound(FMOD_CHANNEL_FREE,playerAttackSeed, false, 0);
+					attacked = true;
 				}
 				break;
 			case A_FIRE:
@@ -235,11 +238,15 @@ void Player::update(float _dt)
 						D3DXVECTOR3(4.0f, 4.0f, 4.0f));
 					attack->setTextures(L"Content/Textures/tex_fire.dds", L"Content/Textures/tex_fire_n.dds");
 					gSound->getSystem()->playSound(FMOD_CHANNEL_FREE,playerAttackFire, false, 0);
+					attacked = true;
 				}
 				break;
 			}
-			attack->moveFacingDirection();
-			gCurrentLevel->getAttackManager()->addAttack(attack);
+			if (attacked)
+			{
+				attack->moveFacingDirection();
+				gCurrentLevel->getAttackManager()->addAttack(attack);
+			}
 			mAttackTime = 0.0f;
 		}
 	}

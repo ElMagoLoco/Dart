@@ -54,8 +54,15 @@ void UserInterface::update(float _dt)
 
 void UserInterface::draw(ID3DXSprite* _sprite)
 {
-	Menu::draw(_sprite);
+	Texture2D::draw(_sprite);//background
+	//button
+	for (Button* B : mButtons)
+		B->draw(_sprite);
+	//stat bars
 	for (StatBar* S : mStatBars)
 		S->draw(_sprite);
+	//other images
+	for (Texture2D* T : mTextures)
+		T->draw(_sprite);
 	mScoreText->draw();
 }
