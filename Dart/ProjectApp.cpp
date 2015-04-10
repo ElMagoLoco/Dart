@@ -249,6 +249,13 @@ void ProjectApp::initStateMachine()
 	sWin->addEvent(musWin);
 	//add state
 	gStateMachine->addState(sWin);
+	/*******************************************************************
+	Game Intro
+	*******************************************************************/
+	State* sIntro = new State();
+	EventDisplayMenuStory* eStory = new EventDisplayMenuStory();
+	sIntro->addEvent(eStory);
+	gStateMachine->addState(sIntro);
 
 	//start state machine
 	gStateMachine->turnOn();

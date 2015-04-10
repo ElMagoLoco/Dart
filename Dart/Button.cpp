@@ -186,3 +186,19 @@ void ButtonSetAttackFire::onClickRight()
 {
 	gPlayer->setRightAttack(A_FIRE);
 }
+
+/***********************************************************
+View Story
+***********************************************************/
+//call parent constructor
+ButtonViewStory::ButtonViewStory(LPCWSTR _texture, float _positionX, float _positionY, int _sizeOX, int _sizeOY,
+	float _sizeSX, float _sizeSY, D3DCOLOR _color) :
+	Button(_texture, _positionX, _positionY, _sizeOX, _sizeOY, _sizeSX, _sizeSY, _color)
+{
+}
+//go to the options menu
+void ButtonViewStory::onClickLeft()
+{
+	Button::onClickLeft();
+	gStateMachine->transitionState(STATE_INTRO);
+}

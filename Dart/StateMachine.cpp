@@ -185,7 +185,7 @@ void EventDisplayMenuMain::beginEvent()
 	//main menu background
 	mMenu = new Menu(L"Content/Textures/background_menu.png", 0.0f, 0.0f, 1024, 1024, 1.0f, 1.0f);
 	//button to start game
-	ButtonNewGame* bNewGame = new ButtonNewGame(L"Content/Textures/button_new_game.png",
+	ButtonViewStory* bNewGame = new ButtonViewStory(L"Content/Textures/button_new_game.png",
 		0.4f, 0.4f, 128, 64, 0.2f, 0.1f);
 	mMenu->addButton(bNewGame);
 	//button to exit game
@@ -218,6 +218,16 @@ void EventDisplayMenuOptions::beginEvent()
 	ButtonGoBack* bGoBack = new ButtonGoBack(L"Content/Textures/button_return.png",
 		0.4f, 0.8f, 128, 64, 0.2f, 0.1f);
 	mMenu->addButton(bGoBack);
+}
+/*******************************************************************
+Story Screen
+*******************************************************************/
+void EventDisplayMenuStory::beginEvent()
+{
+	mMenu = new Menu(L"Content/Textures/background_menu.png", 0.0f, 0.0f, 1024, 1024, 1.0f, 1.0f);
+	ButtonNewGame* bStartGame = new ButtonNewGame(L"Content/Textures/background_story.png",
+		0.0f, 0.0f, 1024, 1024, 1.0f, 1.0f);
+	mMenu->addButton(bStartGame);
 }
 
 /*******************************************************************

@@ -23,7 +23,7 @@ enum eState
 	STATE_PLAY,
 	STATE_LOSE,
 	STATE_WIN,
-	STATE_HIGHSCORE,
+	STATE_INTRO,
 	STATE_INPUTNAME
 };
 
@@ -140,6 +140,20 @@ private:
 
 //event to display options menu
 class EventDisplayMenuOptions : public Event
+{
+public:
+	void beginEvent();
+	void endEvent()							{ delete mMenu; }
+	void updateEvent(float _dt)				{ mMenu->update(_dt); }
+	void drawEvent2D(ID3DXSprite* _sprite)	{ mMenu->draw(_sprite); }
+	void drawEventText()					{ mMenu->drawText(); }
+	void onLostDevice()						{ mMenu->onLostDevice(); }
+	void onResetDevice()					{ mMenu->onResetDevice(); }
+private:
+	Menu* mMenu;
+};
+
+class EventDisplayMenuStory : public Event
 {
 public:
 	void beginEvent();
