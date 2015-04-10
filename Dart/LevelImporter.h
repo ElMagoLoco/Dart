@@ -7,6 +7,7 @@ class LevelImporter
 {
 public:
 	int loadLevel(wchar_t* fileName);
+	void makeLevel();
 	void clearData();
 
 	std::vector<EditorPawn>& getEnemyList() { return m_enemyList; }

@@ -27,6 +27,8 @@ enum eState
 	STATE_INPUTNAME
 };
 
+#define LEVEL_INDEX 0//which event the level load event is in the play state
+
 class Event
 {
 public:
@@ -42,6 +44,8 @@ public:
 	virtual void drawEventText()					{}//draw text on screen
 	virtual void onLostDevice()						{}//do this on lost device
 	virtual void onResetDevice()					{}//do this on reset device
+	virtual void setLevel(wchar_t* _name)			{}//for EventProcessLevel only
+	virtual wchar_t* getNextLevel()					{ return L""; }//for EventProcessLevel only
 };
 
 //base state class to be overridden
@@ -61,6 +65,7 @@ public:
 	void	onResetDevice();
 
 	void	addEvent(Event* newEvent);
+	Event*  getEvent(UINT _index)		{ return mEvents[_index]; }
 	void	setTransitioning(bool _bTrans) { bTransitioning = _bTrans; }
 private:
 	vector<Event*>	mEvents;
@@ -89,6 +94,13 @@ public:
 	void	turnOn();//initialize
 	bool	getReset() { return bReset; }
 	void	setReset(bool _reset) { bReset = _reset; }
+	//changes loaded level
+	//the file name is the level AFTER the one that's loading, the event
+	//already has the one we're loading name
+	//use "" if there is no level after
+	void changeLevel(wchar_t* _newNextFile);
+	wchar_t* getNextLevelFile(); 
+
 private:
 	vector<State*>	mStates;
 	eState			mCurrentState;
@@ -213,14 +225,27 @@ public:
 };
 
 //event to display a given game level
-class EventProcessLevel1 : public Event
+class EventProcessLevel : public Event
 {
 public:
+	EventProcessLevel();
+	EventProcessLevel(wchar_t* _fileName, wchar_t* _nextFile, UINT _levelNum): 
+		mLevelName(_fileName), mNextLevelName(_nextFile), mLevelNumber(_levelNum){}
 	void beginEvent();
 	void updateEvent(float _dt)				{ gCurrentLevel->update(_dt); }
 	void drawEvent3D()						{ gCurrentLevel->draw(); }
 	void onLostDevice()						{ gCurrentLevel->onLostDevice(); }
 	void onResetDevice()					{ gCurrentLevel->onResetDevice(); }
+	void setLevel(wchar_t* _name)			{ 
+		mLevelName = mNextLevelName; 
+		mNextLevelName = _name;
+		++mLevelNumber;
+	}
+	wchar_t* getNextLevel(){ return mNextLevelName; }
+private:
+	wchar_t* mLevelName;
+	wchar_t* mNextLevelName;
+	UINT mLevelNumber;
 };
 
 class EventProcessPlayer : public Event

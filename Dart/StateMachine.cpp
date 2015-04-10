@@ -330,167 +330,28 @@ void EventMusicStart::endEvent()
 }
 
 /*******************************************************************
-Level 1
+Levels
 *******************************************************************/
-void EventProcessLevel1::beginEvent()
+void EventProcessLevel::beginEvent()
 {
+	g_levelImp->clearData();
+	if (gCurrentLevel) delete gCurrentLevel;
 	// load the level info from the file
-	g_levelImp->loadLevel(L"Content\\Levels\\FinalLevelV1.dlvl");
-	//make level
-	gCurrentLevel = new Level(D3DXVECTOR3(-3000.0f, 0.0f, -3000.0f), 
-		D3DXVECTOR3(6000.0f, 0.0f, 6000.0f));
-	//add ground
- 	Mesh* meshGround = new Mesh(L"Content/Models/ground.X", D3DXVECTOR3(0.0f, 0.0f, 0.0f));
- 	meshGround->addTexture(L"Content/Textures/tex_grass.dds", L"Content/Textures/tex_grass_n.dds");
- 	gCurrentLevel->addGround(meshGround);
-	//add obstacles
-	for (int i = 0; i < g_levelImp->getNumWalls(); ++i) {
-		Mesh* meshObstacle = new Mesh(L"Content/Models/MyBoxUnscaled.x", g_levelImp->getWallList()[i].getPos(), g_levelImp->getWallList()[i].getScale());
-		meshObstacle->addTexture(L"Content/Textures/tex_rock.dds", L"Content/Textures/tex_rock_n.dds");
-		gCurrentLevel->addObstacle(meshObstacle);
-		// SAM
-		// TODO: most figure out the dimensions of the AABB using the position and scale of the current wall
-		///////////////////////////////////////////////////////////////////////////////////////////////////////////
-		// 		float minx = g_levelImp->getWallList()[i].getPos().x - (g_levelImp->getWallList()[i].getScale().x * 0.5f);
-		// 		float minz = g_levelImp->getWallList()[i].getPos().z - (g_levelImp->getWallList()[i].getScale().z * 0.5f);
-		// 		float maxx = g_levelImp->getWallList()[i].getPos().x + (g_levelImp->getWallList()[i].getScale().x * 0.5f);
-		// 		float maxz = g_levelImp->getWallList()[i].getPos().z + (g_levelImp->getWallList()[i].getScale().z * 0.5f);
-		float minx = g_levelImp->getWallList()[i].getPos().x - (g_levelImp->getWallList()[i].getScale().x * 0.5f);
-		float miny = 0.0f;// g_levelImp->getWallList()[i].getPos().y - (g_levelImp->getWallList()[i].getScale().y * 0.5f);
-		float minz = g_levelImp->getWallList()[i].getPos().z - (g_levelImp->getWallList()[i].getScale().z * 0.5f);
-		float maxx = g_levelImp->getWallList()[i].getPos().x + (g_levelImp->getWallList()[i].getScale().x * 0.5f);
-		float maxy = /*g_levelImp->getWallList()[i].getPos().y + (*/g_levelImp->getWallList()[i].getScale().y;// *0.5f);
-		float maxz = g_levelImp->getWallList()[i].getPos().z + (g_levelImp->getWallList()[i].getScale().z * 0.5f);
-		AxisAlignedBoundingBox aabbObstacle(D3DXVECTOR3(minx, miny, minz/*50.0f, 50.0f*/), D3DXVECTOR3(maxx, maxy, maxz/*150.0f, 150.0f*/));
-		meshObstacle->addBoundsBox(aabbObstacle);
-		gCurrentLevel->addObstacle(meshObstacle);
-	}
-	
-// 	Mesh* meshObstacle = new Mesh(L"Content/Models/box.x", D3DXVECTOR3(100.0f, 50.0f, 100.0f));
-// 	meshObstacle->addTexture(L"Content/Textures/tex_rock.dds", L"Content/Textures/tex_rock_n.dds");
-// 	AxisAlignedBoundingBox2D* aabbObstacle = new AxisAlignedBoundingBox2D(
-// 		D3DXVECTOR2(50.0f, 50.0f), D3DXVECTOR2(150.0f, 150.0f));
-// 	meshObstacle->addAABB(aabbObstacle);
-// 	gCurrentLevel->addObstacle(meshObstacle);
+	g_levelImp->loadLevel(mLevelName);
+	g_levelImp->makeLevel();
+	gCurrentLevel->setLevelNumber(mLevelNumber);
+}
+//changes loaded level
+//the file name is the level AFTER the one that's loading, the event
+//already has the one we're loading name
+//use "" if there is no level after
+void StateMachine::changeLevel(wchar_t* _newNextFile)
+{
+	mStates[STATE_PLAY]->getEvent(LEVEL_INDEX)->setLevel(_newNextFile);
+	mStates[STATE_PLAY]->getEvent(LEVEL_INDEX)->beginEvent();
+}
 
-	//add enemies to level
-	for (int i = 0; i < g_levelImp->getNumEnemies(); ++i) {
-		switch (g_levelImp->getEnemyList()[i].getPawnType())
-		{
-		case EditorPawn::PawnType::PT_EnemyMeleeSpawnLocale:
-		{
-			gCurrentLevel->getSpawner()->addEnemy(new EnemyMelee(
-				L"Content/Models/BeeZFinal.X", L"Content/Textures/tex_snail.dds",
-				L"Content/Textures/tex_snail_n.dds", "Content/Audio/sndEnemy1Attack.wav",
-				"Content/Audio/sndEnemy1Death.wav", "Content/Audio/sndEnemy1GetHit.wav",
-				g_levelImp->getEnemyList()[i].getPos(), 30.0f, 40.0f, D3DXVECTOR3(1.50f, 1.50f, 1.50f)));
-			break;
-		}
-		case EditorPawn::PawnType::PT_EnemySeedSpawnLocale:
-		{
-			gCurrentLevel->getSpawner()->addEnemy(new EnemySeeds(
-				L"Content/Models/BeeZFinal.X", L"Content/Textures/tex_bee.dds",
-				L"Content/Textures/tex_bee_n.dds", "Content/Audio/sndEnemy1Attack.wav",
-				"Content/Audio/sndEnemy1Death.wav", "Content/Audio/sndEnemy1GetHit.wav",
-				g_levelImp->getEnemyList()[i].getPos(), 30.0f, 40.0f, D3DXVECTOR3(1.50f, 1.50f, 1.50f)));
-			break;
-		}
-		case EditorPawn::PawnType::PT_EnemyFireSpawnLocale:
-		{
-			gCurrentLevel->getSpawner()->addEnemy(new EnemyFire(
-				L"Content/Models/BeeZFinal.X", L"Content/Textures/tex_ant.dds",
-				L"Content/Textures/tex_ant_n.dds", "Content/Audio/sndEnemy1Attack.wav",
-				"Content/Audio/sndEnemy1Death.wav", "Content/Audio/sndEnemy1GetHit.wav",
-				g_levelImp->getEnemyList()[i].getPos(), 30.0f, 40.0f, D3DXVECTOR3(1.50f, 1.50f, 1.50f)));
-			break;
-		}
-		}
-	}
-	//add goal
-	PickUp* goalPickup = new PickUp(L"Content\\Models\\ball.x",
-		L"Content\\Textures\\tex_bart.dds",
-		L"Content\\Textures\\tex_bart_n.dds",
-		"Content\\Audio\\sndMenuKeyPress.wav",
-		ePickUpType::PICKUP_GOAL,
-		g_levelImp->getGoal().getPos(),
-		D3DXVECTOR3(5.0f, 5.0f, 5.0f),//g_levelImp->getPickupList()[i].getScale(), 
-		20.0f);
-	gCurrentLevel->getPickUps()->addPickUp(goalPickup);
-	// add pickups
-	for (int i = 0; i < g_levelImp->getNumPickups(); ++i) {
-		switch (g_levelImp->getPickupList()[i].getPawnType()) 
-		{
-		case EditorPawn::PawnType::PT_Pickup_Heal:
-		{
-			//g_levelImp->getPickupList()[i].getPos().y += 350.0f;
-			PickUp* newPickup = new PickUp(L"Content\\Models\\ball.x",
-									L"Content\\Textures\\tex_heal_berry.dds",
-									L"Content\\Textures\\tex_heal_berry_n.dds",
-									"Content\\Audio\\sndMenuKeyPress.wav",
-									ePickUpType::PICKUP_HEAL,
-									g_levelImp->getPickupList()[i].getPos(), 
-									D3DXVECTOR3(5.0f, 5.0f, 5.0f),//g_levelImp->getPickupList()[i].getScale(), 
-									25.0f);
-
-			gCurrentLevel->getPickUps()->addPickUp(newPickup);
-		}
-		break;
-		case EditorPawn::PawnType::PT_Pickup_Bonus:
-		{
-		//	g_levelImp->getPickupList()[i].getPos().y += 50.0f;
-			PickUp* newPickup = new PickUp(L"Content\\Models\\ball.x",
-									L"Content\\Textures\\tex_bonus.dds",
-									L"Content\\Textures\\tex_bonus_n.dds",
-									"Content\\Audio\\sndMenuKeyPress.wav",
-									ePickUpType::PICKUP_BONUS,
-									g_levelImp->getPickupList()[i].getPos(),
-									D3DXVECTOR3(5.0f, 5.0f, 5.0f),//g_levelImp->getPickupList()[i].getScale(),
-									50.0f);
-
-			gCurrentLevel->getPickUps()->addPickUp(newPickup);
-		}
-		break;
-		case EditorPawn::PawnType::PT_Pickup_Ammo_Seed:
-		{
-		//	g_levelImp->getPickupList()[i].getPos().y += 50.0f;
-			PickUp* newPickup = new PickUp(L"Content\\Models\\ball.x",
-									L"Content\\Textures\\tex_seed.dds",
-									L"Content\\Textures\\tex_seed_n.dds",
-									"Content\\Audio\\sndMenuKeyPress.wav",
-									ePickUpType::PICKUP_AMMO_SEED,
-									g_levelImp->getPickupList()[i].getPos(),
-									D3DXVECTOR3(5.0f, 5.0f, 5.0f),//g_levelImp->getPickupList()[i].getScale(),
-									20.0f);
-
-			gCurrentLevel->getPickUps()->addPickUp(newPickup);
-		}
-		break;
-		case EditorPawn::PawnType::PT_Pickup_Ammo_Fire:
-		{
-		//	g_levelImp->getPickupList()[i].getPos().y += 50.0f;
-			PickUp* newPickup = new PickUp(L"Content\\Models\\ball.x",
-									L"Content\\Textures\\tex_fire.dds",
-									L"Content\\Textures\\tex_fire_n.dds",
-									"Content\\Audio\\sndMenuKeyPress.wav",
-									ePickUpType::PICKUP_AMMO_FIRE,
-									g_levelImp->getPickupList()[i].getPos(),
-									D3DXVECTOR3(5.0f, 5.0f, 5.0f),//g_levelImp->getPickupList()[i].getScale(),
-									20.0f);
-
-			gCurrentLevel->getPickUps()->addPickUp(newPickup);
-		}
-		break;
-		} // end switch
-	} // end for
-
-	//always load obstacles before running initialize path finding
-	gCurrentLevel->getPaths()->initPathfinding();
-	//specify points for units to flee to
-	for (int i = 0; i < g_levelImp->getNumFleePoints(); ++i) {
-		gCurrentLevel->addFleePoint(D3DXVECTOR2(g_levelImp->getFleePointList()[i].getPos().x, g_levelImp->getFleePointList()[i].getPos().z));
-	}
-// 	gCurrentLevel->addFleePoint(D3DXVECTOR2(-1400, -1400));
-// 	gCurrentLevel->addFleePoint(D3DXVECTOR2(1400, -1400));
-// 	gCurrentLevel->addFleePoint(D3DXVECTOR2(-1400, 1400));
-// 	gCurrentLevel->addFleePoint(D3DXVECTOR2(1400, 1400));
+wchar_t* StateMachine::getNextLevelFile()
+{
+	return mStates[STATE_PLAY]->getEvent(LEVEL_INDEX)->getNextLevel();
 }

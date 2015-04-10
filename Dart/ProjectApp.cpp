@@ -199,6 +199,11 @@ void ProjectApp::initStateMachine()
 	GamePlay Level 1
 	*******************************************************************/
 	State* sPlay = new State();
+	//Always process level first!!
+	//level////////////////////////////////////////////////////////////
+	EventProcessLevel* eLevel = new EventProcessLevel(L"Content/Levels/NewGoalTest.dlvl",
+		L"Content/Levels/FinalLevelV1.dlvl", 1);
+	sPlay->addEvent(eLevel);
 	//user interface///////////////////////////////////////////////////
 	//Always process user interface before player so we'll know if they
 	//clicked a button during that frame
@@ -207,9 +212,6 @@ void ProjectApp::initStateMachine()
 	//camera///////////////////////////////////////////////////////////
 	EventProcessCamera* eCam = new EventProcessCamera();
 	sPlay->addEvent(eCam);
-	//level////////////////////////////////////////////////////////////
-	EventProcessLevel1* eLevel = new EventProcessLevel1();
-	sPlay->addEvent(eLevel);
 	//player///////////////////////////////////////////////////////////
 	EventProcessPlayer* ePlayer = new EventProcessPlayer();
 	sPlay->addEvent(ePlayer);

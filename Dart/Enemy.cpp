@@ -509,7 +509,7 @@ EnemyMelee::EnemyMelee(LPCWSTR _meshName, LPCWSTR _textureName, LPCWSTR _normalT
 	mAttackDistanceSq = 10000.0f;//100
 	mClosestDistanceSq = 6500.0f;//80
 	mAttackDelay = 1.0f;
-	mFearHealth = mHealthMax * .6;
+	mFearHealth = mHealthMax * 0.6f;
 	mPoints = 100.0f;
 	mPointDrain = 1.0f;
 	mMinPoints = 50.0f;

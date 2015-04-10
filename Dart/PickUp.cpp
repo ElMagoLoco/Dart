@@ -71,13 +71,39 @@ void PickUp::onTouch(bool _player)
 		//only for player, finishes the level
 		if (_player)
 		{
-			bUsed = true;
-			gStateMachine->transitionState(STATE_WIN);
+			if (gStateMachine->getNextLevelFile() == L"")
+			{
+				gStateMachine->transitionState(STATE_WIN);
+			}
+			else
+			{
+				switch (gCurrentLevel->getLevelNumber())
+				{
+				case 1:
+					gStateMachine->changeLevel(L"");
+					break;
+				case 2:
+					break;
+				}
+				//position player and follower
+				gPlayer->setPosition(g_levelImp->getDart().getPos());
+				gFollower->setPosition(g_levelImp->getDart().getPos());
+			}
+			return;
 		}
 	}
 	if (bUsed)
 		gSound->getSystem()->playSound(FMOD_CHANNEL_FREE, sndUsed, false, 0);
 
+}
+
+PickUpManager::~PickUpManager()
+{
+	for (PickUp* P : mPickUps)
+	{
+		delete P;
+	}
+	mPickUps.clear();
 }
 
 void PickUpManager::update(float _dt)
@@ -93,11 +119,18 @@ void PickUpManager::update(float _dt)
 			gPlayer->getRadius());
 		BoundingSphere followerSphere = BoundingSphere(gFollower->getPosition(), 
 			gFollower->getRadius());
+		bool lastPickup = ((*it)->getType() == PICKUP_GOAL);
 		if (collides(playerSphere, pickupSphere))
 			(*it)->onTouch(true);
 		else if (collides(followerSphere, pickupSphere))
 			(*it)->onTouch(false);
-		bool used = (*it)->getIsUsed();
+		bool used;
+		if (lastPickup)
+		{
+			break;
+		}
+		else
+			used = (*it)->getIsUsed();
 		if (used)
 		{
 			mPickUps.erase(it++);

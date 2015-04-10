@@ -16,9 +16,17 @@ mNegCorner(_negCorner), mSize(_squareSize)
 
 Level::~Level()
 {
+	for (Mesh* M : mGround)
+		delete M;
+	vector<Mesh*>().swap(mGround);
+	for (Mesh* M : mObstacle)
+		delete M;
+	vector<Mesh*>().swap(mObstacle);
+	vector<D3DXVECTOR2>().swap(mFleePoints);
 	delete mPaths;
 	delete mSpawner;
 	delete mAttacks;
+	vector<D3DXVECTOR2>().swap(mHealPoints);
 	delete mPickUps;
 }
 

@@ -52,7 +52,10 @@ public:
 	//get attack manager
 	AttackManager* getAttackManager() { return mAttacks;  }
 	PickUpManager* getPickUps() const { return mPickUps; }
-
+	//level number
+	UINT getLevelNumber() { return mLevelNumber; }
+	void setLevelNumber(UINT _num) { mLevelNumber = _num; }
+	void incrementLevelNumber() { ++mLevelNumber; }
 private:
 	//world geometry
 	vector<Mesh*> mGround;
@@ -73,6 +76,8 @@ private:
 	vector<D3DXVECTOR2> mHealPoints;
 	//keep track of pickups
 	PickUpManager* mPickUps;
+	//level number
+	UINT mLevelNumber;
 };
 
 extern Level* gCurrentLevel;

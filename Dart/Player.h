@@ -27,6 +27,7 @@ public:
 	float getRadius()		{ return mRadius; }
 	bool getJustAttacked()	{ return mAttackTime < mAttackDelay; }//did player just attack
 	D3DXVECTOR3 getPosition()	{ return mPosition; }
+	void setPosition(D3DXVECTOR3 _pos) { mPosition = _pos; }
 	//add health, add negative to remove health
 	bool addHealth(float _amount);
 	//draw the pawn

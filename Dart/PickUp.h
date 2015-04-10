@@ -32,6 +32,7 @@ public:
 	bool getIsUsed() { return bUsed; }
 	Mesh* getMesh() { return mMesh; }
 	float getRadius() { return mRadius; }
+	ePickUpType getType() { return mType; }
 protected:
 	Mesh* mMesh;//mesh used to display
 	ePickUpType mType;//type of pickup
@@ -51,6 +52,7 @@ protected:
 class PickUpManager
 {
 public:
+	~PickUpManager();
 	list<PickUp*>& getPickUps() { return mPickUps; }
 	void addPickUp(PickUp* _pickup) { mPickUps.push_back(_pickup); }
 	void update(float _dt);
