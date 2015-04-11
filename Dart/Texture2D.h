@@ -13,7 +13,7 @@ public:
 		float _sizeScreenX, float _sizeScreenY, D3DCOLOR _color = D3DCOLOR_ARGB(255, 255, 255, 255));
 	~Texture2D();
 	//draw with global sprite object
-	virtual void draw(ID3DXSprite* _sprite);
+	virtual void draw();
 	virtual void onLostDevice();
 	virtual void onResetDevice();
 	//textures will only appear when processing, not all buttons will use this

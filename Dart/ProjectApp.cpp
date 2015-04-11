@@ -14,6 +14,9 @@
 using std::rand;
 using std::srand;
 using std::time;
+
+ID3DXSprite* gD3DSprite = NULL;
+
 //initialize program, create window and app, and run app
 int WINAPI WinMain(HINSTANCE _hInstance, HINSTANCE _prevInstance, PSTR _cmdLine, int _showCmd)
 {
@@ -48,7 +51,7 @@ ProjectApp::ProjectApp(HINSTANCE _hInstance, LPCWSTR _winCaption, D3DDEVTYPE _de
 		PostQuitMessage(0);
 	}
 	//create sprite to be used for draw2d events
-	D3DXCreateSprite(gD3DDevice, &mD3DSprite);
+	D3DXCreateSprite(gD3DDevice, &gD3DSprite);
 	//create vertex that can be used
 	InitAllVertexDeclarations();
 	//init game components not covered by state machine beginEvents, run before initStateMachine
@@ -68,7 +71,7 @@ void ProjectApp::CleanUp()
 	gStateMachine->endState();//play end state of final state
 	DestroyAllVertexDeclarations();//destroy vertex info
 	delete gStateMachine;//delete state machine
-	SAFE_RELEASE(mD3DSprite);//delete sprite
+	SAFE_RELEASE(gD3DSprite);//delete sprite
 	D3DApp::CleanUp();//run D3DApp's
 }
 
@@ -94,7 +97,7 @@ bool ProjectApp::checkDeviceCaps()
 
 void ProjectApp::onLostDevice()
 {
-	mD3DSprite->OnLostDevice();
+	gD3DSprite->OnLostDevice();
 	gDInput->onLostDevice();
 #if defined(DEBUG) | defined(_DEBUG)
 	mFrameStats.onLostDevice();
@@ -104,7 +107,7 @@ void ProjectApp::onLostDevice()
 
 void ProjectApp::onResetDevice()
 {
-	mD3DSprite->OnResetDevice();
+	gD3DSprite->OnResetDevice();
 	gDInput->onResetDevice();
 #if defined(DEBUG) | defined(_DEBUG)
 	mFrameStats.onResetDevice();
@@ -142,14 +145,14 @@ void ProjectApp::drawScene()
 
 
 	//process 2d sprites as well
-	HR(mD3DSprite->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_SORT_DEPTH_FRONTTOBACK));
+	HR(gD3DSprite->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_SORT_DEPTH_FRONTTOBACK));
 	//call 2ddrawing events for current state
-	gStateMachine->drawState2D(mD3DSprite);
+	gStateMachine->drawState2D();
 
 	//draw mouse cursor
-	gDInput->drawMouse(mD3DSprite);
+	gDInput->drawMouse();
 
-	HR(mD3DSprite->End());
+	HR(gD3DSprite->End());
 
 	//display text; if it's not drawn after sprites it will be covered up
 	gStateMachine->drawStateText();
@@ -256,6 +259,13 @@ void ProjectApp::initStateMachine()
 	EventDisplayMenuStory* eStory = new EventDisplayMenuStory();
 	sIntro->addEvent(eStory);
 	gStateMachine->addState(sIntro);
+	/*******************************************************************
+	Loading Screen
+	*******************************************************************/
+	State* sLoading = new State();
+	EventDisplayMenuLoading* eLoading = new EventDisplayMenuLoading();
+	sLoading->addEvent(eLoading);
+	gStateMachine->addState(sLoading);
 
 	//start state machine
 	gStateMachine->turnOn();

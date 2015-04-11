@@ -72,15 +72,15 @@ void Menu::update(float _dt)
 	}
 }
 //draw background and buttons
-void Menu::draw(ID3DXSprite* _sprite)
+void Menu::draw()
 {
-	Texture2D::draw(_sprite);//background
+	Texture2D::draw();//background
 	//button
 	for (Button* B : mButtons)
-		B->draw(_sprite);
+		B->draw();
 	//other images
 	for (Texture2D* T : mTextures)
-		T->draw(_sprite);
+		T->draw();
 
 }
 

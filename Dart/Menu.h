@@ -16,7 +16,7 @@ public:
 		float _sizeScreenX, float _sizeScreenY, D3DCOLOR _color = D3DCOLOR_ARGB(255, 255, 255, 255));
 	~Menu();
 	void update(float _dt);//check if any buttons are clicked
-	void draw(ID3DXSprite* _sprite);//draw background and buttons
+	void draw();//draw background and buttons
 	void drawText();//draw text
 	void onLostDevice();
 	void onResetDevice();

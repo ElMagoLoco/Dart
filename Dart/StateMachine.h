@@ -24,7 +24,7 @@ enum eState
 	STATE_LOSE,
 	STATE_WIN,
 	STATE_INTRO,
-	STATE_INPUTNAME
+	STATE_LOADING
 };
 
 #define LEVEL_INDEX 0//which event the level load event is in the play state
@@ -40,7 +40,7 @@ public:
 	virtual void endEvent()							{}//do this as you leave the state
 	virtual void updateEvent(float _dt)				{}//do this during state update
 	virtual void drawEvent3D()						{}//do this during 3d drawing
-	virtual void drawEvent2D(ID3DXSprite* _sprite)	{}//do this during sprite drawing
+	virtual void drawEvent2D()						{}//do this during sprite drawing
 	virtual void drawEventText()					{}//draw text on screen
 	virtual void onLostDevice()						{}//do this on lost device
 	virtual void onResetDevice()					{}//do this on reset device
@@ -59,7 +59,7 @@ public:
 	void	endState();							//run all event.endState
 	void	updateState(float _dt);				//etc
 	void	drawState3D();
-	void	drawState2D(ID3DXSprite* _sprite);
+	void	drawState2D();
 	void    drawStateText();
 	void	onLostDevice();
 	void	onResetDevice();
@@ -83,7 +83,7 @@ public:
 	void	endState();							//run all state.endState
 	void	updateState(float _dt);				//etc
 	void	drawState3D();
-	void	drawState2D(ID3DXSprite* _sprite);
+	void	drawState2D();
 	void	drawStateText();
 	void	onLostDevice();
 	void	onResetDevice();
@@ -105,9 +105,28 @@ private:
 	vector<State*>	mStates;
 	eState			mCurrentState;
 	bool			bReset;
+	Texture2D*		mLoadingScreen;
 };
 
 extern StateMachine* gStateMachine;
+
+class EventDisplayMenuLoading : public Event
+{
+public:
+	void beginEvent();
+	void endEvent()							{ delete mMenu; }
+	void updateEvent(float _dt)				{ mMenu->update(_dt); }
+	void drawEvent2D()	{ 
+		mMenu->draw();
+		gStateMachine->transitionState(STATE_PLAY);
+	}
+	void drawEventText()					{ mMenu->drawText(); }
+	void onLostDevice()						{ mMenu->onLostDevice(); }
+	void onResetDevice()					{ mMenu->onResetDevice(); }
+private:
+	Menu* mMenu;
+};
+
 
 class EventDisplayMenuLoss : public Event
 {
@@ -115,7 +134,7 @@ public:
 	void beginEvent();
 	void endEvent()							{ delete mMenu; }
 	void updateEvent(float _dt)				{ mMenu->update(_dt); }
-	void drawEvent2D(ID3DXSprite* _sprite)	{ mMenu->draw(_sprite); }
+	void drawEvent2D()						{ mMenu->draw(); }
 	void drawEventText()					{ mMenu->drawText(); }
 	void onLostDevice()						{ mMenu->onLostDevice(); }
 	void onResetDevice()					{ mMenu->onResetDevice(); }
@@ -130,7 +149,7 @@ public:
 	void beginEvent();
 	void endEvent()							{ delete mMenu; }
 	void updateEvent(float _dt)				{ mMenu->update(_dt); }
-	void drawEvent2D(ID3DXSprite* _sprite)	{ mMenu->draw(_sprite); }
+	void drawEvent2D()						{ mMenu->draw(); }
 	void drawEventText()					{ mMenu->drawText(); }
 	void onLostDevice()						{ mMenu->onLostDevice(); }
 	void onResetDevice()					{ mMenu->onResetDevice(); }
@@ -145,7 +164,7 @@ public:
 	void beginEvent();
 	void endEvent()							{ delete mMenu; }
 	void updateEvent(float _dt)				{ mMenu->update(_dt); }
-	void drawEvent2D(ID3DXSprite* _sprite)	{ mMenu->draw(_sprite); }
+	void drawEvent2D()						{ mMenu->draw(); }
 	void drawEventText()					{ mMenu->drawText(); }
 	void onLostDevice()						{ mMenu->onLostDevice(); }
 	void onResetDevice()					{ mMenu->onResetDevice(); }
@@ -159,7 +178,7 @@ public:
 	void beginEvent();
 	void endEvent()							{ delete mMenu; }
 	void updateEvent(float _dt)				{ mMenu->update(_dt); }
-	void drawEvent2D(ID3DXSprite* _sprite)	{ mMenu->draw(_sprite); }
+	void drawEvent2D()						{ mMenu->draw(); }
 	void drawEventText()					{ mMenu->drawText(); }
 	void onLostDevice()						{ mMenu->onLostDevice(); }
 	void onResetDevice()					{ mMenu->onResetDevice(); }
@@ -173,7 +192,7 @@ public:
 	void beginEvent();
 	void endEvent()							{ delete mMenu; }
 	void updateEvent(float _dt)				{ mMenu->update(_dt); }
-	void drawEvent2D(ID3DXSprite* _sprite)	{ mMenu->draw(_sprite); }
+	void drawEvent2D()						{ mMenu->draw(); }
 	void drawEventText()					{ mMenu->drawText(); }
 	void onLostDevice()						{ mMenu->onLostDevice(); }
 	void onResetDevice()					{ mMenu->onResetDevice(); }
@@ -188,7 +207,7 @@ public:
 	void beginEvent();
 	void endEvent()							{ delete mInterface; }
 	void updateEvent(float _dt);			
-	void drawEvent2D(ID3DXSprite* _sprite)	{ mInterface->draw(_sprite); }
+	void drawEvent2D()						{ mInterface->draw(); }
 	void drawEventText()					{ mInterface->drawText(); }
 	void onLostDevice()						{ mInterface->onLostDevice(); }
 	void onResetDevice()					{ mInterface->onResetDevice(); }

@@ -114,3 +114,13 @@ public:
 private:
 
 };
+
+class ButtonViewLoading : public Button
+{
+public:
+	ButtonViewLoading(LPCWSTR _texture, float _positionX, float _positionY, int _sizeOX, int _sizeOY,
+		float _sizeSX, float _sizeSY, D3DCOLOR _color = D3DCOLOR_ARGB(255, 255, 255, 255));
+	void onClickLeft();
+private:
+
+};

@@ -23,7 +23,7 @@ public:
 		_color), mType(_type), mOrigScreenSizeX(_sizeScreenX)
 		{}
 	void update(float _dt);
-	void draw(ID3DXSprite* _sprite);
+	void draw();
 private:
 	eStatBar mType;
 	float mPercentFull;
@@ -37,7 +37,7 @@ class UserInterface : public Menu
 public:
 	UserInterface(LPCWSTR _name, float _positionX, float _positionY, int _sizeOrigX, int _sizeOrigY,
 		float _sizeScreenX, float _sizeScreenY, D3DCOLOR color = D3DCOLOR_ARGB(255, 255, 255, 255));
-	void draw(ID3DXSprite* _sprite);
+	void draw();
 	void update(float _dt);
 	void addStatBar(StatBar* _stat) { mStatBars.push_back(_stat); }
 private:

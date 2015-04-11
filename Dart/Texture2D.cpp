@@ -39,7 +39,7 @@ Texture2D::~Texture2D()
 {
 	onLostDevice();
 }
-void Texture2D::draw(ID3DXSprite* _sprite)
+void Texture2D::draw()
 {
 	if (bProcess)
 	{
@@ -55,8 +55,8 @@ void Texture2D::draw(ID3DXSprite* _sprite)
 		//must multiply in this order
 		D3DXMatrixMultiply(&transMat, &scaleMat, &transMat);
 		//set transform and draw
-		HR(_sprite->SetTransform(&transMat));
-		HR(_sprite->Draw(mTexture, 0, &D3DXVECTOR3(0.0f, 0.0f, 0.0f),
+		HR(gD3DSprite->SetTransform(&transMat));
+		HR(gD3DSprite->Draw(mTexture, 0, &D3DXVECTOR3(0.0f, 0.0f, 0.0f),
 			&D3DXVECTOR3(0.0f, 0.0f, 0.0f), mColor));
 	}
 }

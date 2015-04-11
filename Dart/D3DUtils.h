@@ -39,6 +39,7 @@ extern D3DApp*				gD3DApp;
 extern IDirect3DDevice9*	gD3DDevice;
 extern UINT					gWindowWidth;
 extern UINT					gWindowHeight;
+extern ID3DXSprite*			gD3DSprite;
 
 #include "D3DApp.h"
 

@@ -27,9 +27,9 @@ void StatBar::update(float _dt)
 	}
 }
 
-void StatBar::draw(ID3DXSprite* _sprite)
+void StatBar::draw()
 {
-	Texture2D::draw(_sprite);
+	Texture2D::draw();
 }
 
 UserInterface::UserInterface(LPCWSTR _name, float _positionX, float _positionY, int _sizeOrigX,
@@ -52,17 +52,17 @@ void UserInterface::update(float _dt)
 	Menu::update(_dt);
 }
 
-void UserInterface::draw(ID3DXSprite* _sprite)
+void UserInterface::draw()
 {
-	Texture2D::draw(_sprite);//background
+	Texture2D::draw();//background
 	//button
 	for (Button* B : mButtons)
-		B->draw(_sprite);
+		B->draw();
 	//stat bars
 	for (StatBar* S : mStatBars)
-		S->draw(_sprite);
+		S->draw();
 	//other images
 	for (Texture2D* T : mTextures)
-		T->draw(_sprite);
+		T->draw();
 	mScoreText->draw();
 }

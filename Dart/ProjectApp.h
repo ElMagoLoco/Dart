@@ -27,11 +27,11 @@ public:
 	void initGameComponents();
 	void initStateMachine();//initialize state machine
 private:
-	ID3DXSprite*	mD3DSprite;//passed to all the draw2d events for textures
 #if defined(DEBUG) | defined(_DEBUG)
 	FrameStats		mFrameStats;
 #endif
 };
+
 
 
 

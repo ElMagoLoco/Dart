@@ -30,7 +30,7 @@ public:
 
 	void updateMouse(float _dt);
 	//draw the mouse cursor and keep track of position
-	void drawMouse(ID3DXSprite* _D3DSprite);
+	void drawMouse();
 	D3DXVECTOR2				mCursorPos2D;
 
 private:

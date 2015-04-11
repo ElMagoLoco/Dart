@@ -196,9 +196,25 @@ ButtonViewStory::ButtonViewStory(LPCWSTR _texture, float _positionX, float _posi
 	Button(_texture, _positionX, _positionY, _sizeOX, _sizeOY, _sizeSX, _sizeSY, _color)
 {
 }
-//go to the options menu
+
 void ButtonViewStory::onClickLeft()
 {
 	Button::onClickLeft();
 	gStateMachine->transitionState(STATE_INTRO);
+}
+
+/***********************************************************
+View Loading Screen
+***********************************************************/
+//call parent constructor
+ButtonViewLoading::ButtonViewLoading(LPCWSTR _texture, float _positionX, float _positionY, int _sizeOX, int _sizeOY,
+	float _sizeSX, float _sizeSY, D3DCOLOR _color) :
+	Button(_texture, _positionX, _positionY, _sizeOX, _sizeOY, _sizeSX, _sizeSY, _color)
+{
+}
+
+void ButtonViewLoading::onClickLeft()
+{
+	Button::onClickLeft();
+	gStateMachine->transitionState(STATE_LOADING);
 }

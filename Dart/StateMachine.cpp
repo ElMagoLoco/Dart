@@ -6,6 +6,8 @@ StateMachine* gStateMachine = 0;
 StateMachine::StateMachine()
 {
 	bReset = false;
+	mLoadingScreen = new Texture2D(L"Content/Textures/background_loading.png", 0.0f, 0.0f,
+		1024, 1024, 1.0f, 1.0f);
 }
 //destructor
 StateMachine::~StateMachine()
@@ -13,6 +15,7 @@ StateMachine::~StateMachine()
 	for (State* S : mStates)
 		delete S;
 	vector<State*>().swap(mStates);
+	delete mLoadingScreen;
 }
 //don't turn it on until you've added at least one state
 void StateMachine::turnOn()
@@ -51,9 +54,9 @@ void StateMachine::drawState3D()
 	mStates[mCurrentState]->drawState3D();
 }
 
-void StateMachine::drawState2D(ID3DXSprite* _sprite)
+void StateMachine::drawState2D()
 {
-	mStates[mCurrentState]->drawState2D(_sprite);
+	mStates[mCurrentState]->drawState2D();
 }
 
 void StateMachine::drawStateText()
@@ -129,12 +132,12 @@ void State::drawState3D()
 		E->drawEvent3D();
 }
 
-void State::drawState2D(ID3DXSprite* sprite)
+void State::drawState2D()
 {
 	if (bTransitioning)
 		return;
 	for (Event* E : mEvents)
-		E->drawEvent2D(sprite);
+		E->drawEvent2D();
 }
 
 void State::drawStateText()
@@ -161,6 +164,18 @@ void State::addEvent(Event* _newEvent)
 {
 	mEvents.push_back(_newEvent);
 }
+
+/*******************************************************************
+Loading Menu
+*******************************************************************/
+void EventDisplayMenuLoading::beginEvent()
+{
+	mMenu = new Menu(L"Content/Textures/background_menu.png", 0.0f, 0.0f, 1024, 1024, 1.0f, 1.0f);
+	ButtonNewGame* bStartGame = new ButtonNewGame(L"Content/Textures/background_loading.png",
+		0.0f, 0.0f, 1024, 1024, 1.0f, 1.0f);
+	mMenu->addButton(bStartGame);
+}
+
 /*******************************************************************
 Loss Menu
 *******************************************************************/
@@ -225,7 +240,7 @@ Story Screen
 void EventDisplayMenuStory::beginEvent()
 {
 	mMenu = new Menu(L"Content/Textures/background_menu.png", 0.0f, 0.0f, 1024, 1024, 1.0f, 1.0f);
-	ButtonNewGame* bStartGame = new ButtonNewGame(L"Content/Textures/background_story.png",
+	ButtonViewLoading* bStartGame = new ButtonViewLoading(L"Content/Textures/background_story.png",
 		0.0f, 0.0f, 1024, 1024, 1.0f, 1.0f);
 	mMenu->addButton(bStartGame);
 }
@@ -357,6 +372,16 @@ void EventProcessLevel::beginEvent()
 //use "" if there is no level after
 void StateMachine::changeLevel(wchar_t* _newNextFile)
 {
+	HR(gD3DDevice->BeginScene());
+	//clear screen with blue
+	HR(gD3DDevice->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL,
+		0x222255CC, 1.0f, 0));
+	HR(gD3DSprite->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_SORT_DEPTH_FRONTTOBACK));
+	mLoadingScreen->draw();
+	HR(gD3DSprite->End());
+	HR(gD3DDevice->EndScene());
+	// Present the back buffer.
+	HR(gD3DDevice->Present(0, 0, 0, 0));
 	mStates[STATE_PLAY]->getEvent(LEVEL_INDEX)->setLevel(_newNextFile);
 	mStates[STATE_PLAY]->getEvent(LEVEL_INDEX)->beginEvent();
 }

@@ -125,11 +125,11 @@ void DirectInput::updateMouse(float _dt)
 	else if (mCursorPos2D.y >(float)gWindowHeight)	mCursorPos2D.y = (float)gWindowHeight;
 }
 //draw the mouse cursor
-void DirectInput::drawMouse(ID3DXSprite* _D3DSprite)
+void DirectInput::drawMouse()
 {
 	D3DXMATRIX transMat;
 	D3DXMatrixIdentity(&transMat);
 	D3DXMatrixTranslation(&transMat, mCursorPos2D.x, mCursorPos2D.y, 0);
-	HR(_D3DSprite->SetTransform(&transMat));
-	HR(_D3DSprite->Draw(mCursorTex, 0, &D3DXVECTOR3(8, 8, 0), 0, D3DCOLOR_ARGB(255, 255, 255, 255)));
+	HR(gD3DSprite->SetTransform(&transMat));
+	HR(gD3DSprite->Draw(mCursorTex, 0, &D3DXVECTOR3(8, 8, 0), 0, D3DCOLOR_ARGB(255, 255, 255, 255)));
 }
