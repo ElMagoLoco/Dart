@@ -19,8 +19,9 @@ Level::~Level()
 	for (Mesh* M : mGround)
 		delete M;
 	vector<Mesh*>().swap(mGround);
-	for (Mesh* M : mObstacle)
-		delete M;
+	//for (Mesh* M : mObstacle)
+	//	SAFE_DELETE(M);
+	delete mObstacle[0];
 	vector<Mesh*>().swap(mObstacle);
 	vector<D3DXVECTOR2>().swap(mFleePoints);
 	delete mPaths;
