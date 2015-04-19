@@ -204,8 +204,8 @@ void ProjectApp::initStateMachine()
 	State* sPlay = new State();
 	//Always process level first!!
 	//level////////////////////////////////////////////////////////////
-	EventProcessLevel* eLevel = new EventProcessLevel(L"Content/Levels/NewGoalTest.dlvl",
-		L"Content/Levels/FinalLevelV1.dlvl", 1);
+	EventProcessLevel* eLevel = new EventProcessLevel(L"Content/Levels/FinalLevelV1.dlvl",
+		L"Content/Levels/Level2V0.dlvl", 1);
 	sPlay->addEvent(eLevel);
 	//user interface///////////////////////////////////////////////////
 	//Always process user interface before player so we'll know if they
