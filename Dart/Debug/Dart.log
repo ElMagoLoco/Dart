@@ -1,5 +1,2 @@
-﻿  Enemy.cpp
-d:\dart\dart\dart\dart\enemy.cpp(582): warning C4800: 'float' : forcing value to bool 'true' or 'false' (performance warning)
-d:\dart\dart\dart\dart\enemy.cpp(608): warning C4800: 'float' : forcing value to bool 'true' or 'false' (performance warning)
-d:\dart\dart\dart\dart\enemy.cpp(611): warning C4244: 'argument' : conversion from 'float' to 'UINT', possible loss of data
-  Dart.vcxproj -> D:\Dart\Dart\Dart\Debug\Dart.exe
+﻿  LevelImporter.cpp
+  Dart.vcxproj -> D:\Dart\Debug\Dart.exe

@@ -265,7 +265,7 @@ public:
 	EventProcessLevel(wchar_t* _fileName, wchar_t* _nextFile, UINT _levelNum): 
 		mLevelName(_fileName), mNextLevelName(_nextFile), mLevelNumber(_levelNum){}
 	void beginEvent();
-	void updateEvent(float _dt)				{ gCurrentLevel->update(_dt); }
+	void updateEvent(float  _dt)				{ gCurrentLevel->update(_dt); }
 	void drawEvent3D()						{ gCurrentLevel->draw(); }
 	void onLostDevice()						{ gCurrentLevel->onLostDevice(); }
 	void onResetDevice()					{ gCurrentLevel->onResetDevice(); }
@@ -286,7 +286,7 @@ class EventProcessPlayer : public Event
 	void beginEvent(){
 		gPlayer = new Player(L"Content/Models/DartFinal.x", L"Content/Textures/Tiny_skin.dds",
 			L"Content/Textures/Tiny_skin_n.dds", g_levelImp->getDart().getPos()/*D3DXVECTOR3(0.0f, 50.0f, 0.0f)*/,
-			100, 40.0f, D3DXVECTOR3(0.25, 0.25f, 0.25f));
+			100, 40.0f, D3DXVECTOR3(1.25, 1.25f, 1.25f));
 	}
 	void updateEvent(float _dt)	{ gPlayer->update(_dt); }
 	void drawEvent3D()			{ gPlayer->draw(); }

@@ -436,10 +436,10 @@ void LevelImporter::makeLevel()
 		case EditorPawn::PawnType::PT_EnemySeedSpawnLocale:
 		{
 			gCurrentLevel->getSpawner()->addEnemy(new EnemySeeds(
-				L"Content/Models/BeeZFinal.X", L"Content/Textures/tex_bee.dds",
+				L"Content/Models/NewTestAnt.X", L"Content/Textures/tex_bee.dds",
 				L"Content/Textures/tex_bee_n.dds", "Content/Audio/sndEnemy1Attack.wav",
 				"Content/Audio/sndEnemy1Death.wav", "Content/Audio/sndEnemy1GetHit.wav",
-				g_levelImp->getEnemyList()[i].getPos(), 30.0f, 40.0f, D3DXVECTOR3(1.50f, 1.50f, 1.50f)));
+				g_levelImp->getEnemyList()[i].getPos(), 30.0f, 40.0f, D3DXVECTOR3(2.50f, 2.50f, 2.50f)));
 			break;
 		}
 		case EditorPawn::PawnType::PT_EnemyFireSpawnLocale:
