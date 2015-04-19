@@ -249,7 +249,7 @@ class EventProcessFollower : public Event
 {
 public:
 	void beginEvent(){
-		gFollower = new Follower(L"Content/Models/tiny.x", L"Content/Textures/Tiny_skin.dds",
+		gFollower = new Follower(L"Content/Models/DartFinal.x", L"Content/Textures/Tiny_skin.dds",
 			L"Content/Textures/Tiny_skin_n.dds", g_levelImp->getBart().getPos()/*D3DXVECTOR3(1000.0f, 50.0f, 0.0f)*/, 100, 32.0f, D3DXVECTOR3(0.25, 0.25f, 0.25f));
 	}
 	void endEvent()				{ delete gFollower;  }
@@ -284,7 +284,7 @@ private:
 class EventProcessPlayer : public Event
 {
 	void beginEvent(){
-		gPlayer = new Player(L"Content/Models/tiny.x", L"Content/Textures/Tiny_skin.dds",
+		gPlayer = new Player(L"Content/Models/DartFinal.x", L"Content/Textures/Tiny_skin.dds",
 			L"Content/Textures/Tiny_skin_n.dds", g_levelImp->getDart().getPos()/*D3DXVECTOR3(0.0f, 50.0f, 0.0f)*/,
 			100, 40.0f, D3DXVECTOR3(0.25, 0.25f, 0.25f));
 	}
