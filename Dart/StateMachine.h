@@ -250,7 +250,7 @@ class EventProcessFollower : public Event
 public:
 	void beginEvent(){
 		gFollower = new Follower(L"Content/Models/DartFinal.x", L"Content/Textures/Tiny_skin.dds",
-			L"Content/Textures/Tiny_skin_n.dds", g_levelImp->getBart().getPos()/*D3DXVECTOR3(1000.0f, 50.0f, 0.0f)*/, 100, 32.0f, D3DXVECTOR3(0.25, 0.25f, 0.25f));
+			L"Content/Textures/Tiny_skin_n.dds", g_levelImp->getBart().getPos()/*D3DXVECTOR3(1000.0f, 50.0f, 0.0f)*/, 100, 32.0f/*, D3DXVECTOR3(0.25, 0.25f, 0.25f)*/);
 	}
 	void endEvent()				{ delete gFollower;  }
 	void updateEvent(float _dt)	{ gFollower->update(_dt); }
